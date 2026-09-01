@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  const API = 'https://wilayah.web.id/api';
+  const API = 'https://wilayah.id/api';
 
   // 38 provinsi Indonesia. Kode mengikuti kode wilayah Kemendagri.
   const provinces = [
@@ -107,7 +107,7 @@
       setLoading(regency, 'Semua Kabupaten/Kota');
       setLoading(district, 'Semua Kecamatan');
       try {
-        const items = normalize(await getRegions(API + '/regencies/' + encodeURIComponent(code) + '?limit=100'));
+        const items = normalize(await getRegions(API + '/regencies/' + encodeURIComponent(code) + '.json'));
         setOptions(regency, items, 'Semua Kabupaten/Kota');
         regency.disabled = false;
         if (keepSelection) regency.value = keepSelection;
@@ -128,7 +128,7 @@
       }
       setLoading(district, 'Semua Kecamatan');
       try {
-        const items = normalize(await getRegions(API + '/districts/' + encodeURIComponent(code) + '?limit=1000'));
+        const items = normalize(await getRegions(API + '/districts/' + encodeURIComponent(code) + '.json'));
         setOptions(district, items, 'Semua Kecamatan');
         district.disabled = false;
       } catch (error) {
