@@ -1,6 +1,6 @@
   // Wilayah menggunakan sumber yang SAMA dengan Direktori UMKM.
   // Jangan menggunakan sumber/API lain agar kode Provinsi -> Kabupaten/Kota -> Kecamatan konsisten.
-  const REGION_API='https://wilayah.id/api';
+  const REGION_API='https://api.kodewilayah.web.id';
   const provinces=[['11','Aceh'],['12','Sumatera Utara'],['13','Sumatera Barat'],['14','Riau'],['15','Jambi'],['16','Sumatera Selatan'],['17','Bengkulu'],['18','Lampung'],['19','Kepulauan Bangka Belitung'],['21','Kepulauan Riau'],['31','DKI Jakarta'],['32','Jawa Barat'],['33','Jawa Tengah'],['34','Daerah Istimewa Yogyakarta'],['35','Jawa Timur'],['36','Banten'],['51','Bali'],['52','Nusa Tenggara Barat'],['53','Nusa Tenggara Timur'],['61','Kalimantan Barat'],['62','Kalimantan Tengah'],['63','Kalimantan Selatan'],['64','Kalimantan Timur'],['65','Kalimantan Utara'],['71','Sulawesi Utara'],['72','Sulawesi Tengah'],['73','Sulawesi Selatan'],['74','Sulawesi Tenggara'],['75','Gorontalo'],['76','Sulawesi Barat'],['81','Maluku'],['82','Maluku Utara'],['91','Papua'],['92','Papua Barat'],['93','Papua Selatan'],['94','Papua Tengah'],['95','Papua Pegunungan'],['96','Papua Barat Daya']];
   const categories=['Kuliner & Makanan','Minuman','Fashion','Kerajinan','Pertanian','Perkebunan','Peternakan','Perikanan','Jasa','Perdagangan','Otomotif','Teknologi & Digital','Kesehatan','Kecantikan','Pendidikan','Pariwisata','Homestay & Penginapan','Industri','Konveksi','Furniture','Properti','Transportasi','Ekonomi Kreatif','Elektronik','Percetakan','Agribisnis','Bahan Bangunan','Energi','Logistik','Lainnya'];
   const $=id=>document.getElementById(id);
@@ -8,13 +8,13 @@
   function loading(el,text){el.innerHTML='<option value="">'+text+'</option>';el.disabled=true}
   async function getList(level,code){
     const path=level==='regencies'?'regencies':'districts';
-    const url=REGION_API+'/'+path+'/'+encodeURIComponent(code)+'.json';
+    const url=REGION_API+'/'+path+'/'+encodeURIComponent(code);
     const r=await fetch(url,{headers:{Accept:'application/json'},cache:'no-store'});
     if(!r.ok) throw new Error('HTTP '+r.status+' '+url);
     const j=await r.json();
-    const raw=Array.isArray(j.data)?j.data:[];
-    const items=raw.map(x=>({code:String(x.code||''),name:String(x.name||'')})).filter(x=>x.code&&x.name);
-    if(!items.length) throw new Error('Data wilayah kosong: '+url);
+    const raw=j && j.success && Array.isArray(j.data)?j.data:[];
+    const items=raw.map(x=>({code:String(x.code||x.id||''),name:String(x.name||'' )})).filter(x=>x.code&&x.name);
+    if(!items.length) throw new Error((j&&j.message)||('Data wilayah kosong: '+url));
     return items;
   }
   let regionRequest=0;
@@ -81,10 +81,18 @@
     });
   }
   document.addEventListener('DOMContentLoaded',()=>{
-    options($('province'),provinces.map(p=>({code:p[0],name:p[1]})),'Pilih Provinsi');
+    const province=$('province');
+    const regency=$('regency');
+    const district=$('district');
+    if(!province||!regency||!district)return;
+    const previousProvince=province.value;
+    options(province,provinces.map(p=>({code:p[0],name:p[1]})),'Pilih Provinsi');
+    if(previousProvince) province.value=previousProvince;
     const cat=$('category');categories.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;cat.appendChild(o)});
     $('province').addEventListener('change',e=>loadRegencies(e.target.value));
     $('regency').addEventListener('change',e=>loadDistricts(e.target.value));
+    if(province.value) loadRegencies(province.value);
+    else { regency.disabled=true; district.disabled=true; }
     initLogo();initForm();initMap();
   });
 })();
