@@ -789,3 +789,119 @@ width:100%
 }
 
 }
+
+
+/* =========================================================
+   INFO UMKM — BRANDING PATCH
+   Header: logo + INFO UMKM
+   Footer: transparent logo, no white box
+   ========================================================= */
+
+/* Header brand */
+.brand{
+    gap:10px;
+    min-width:max-content;
+}
+
+.brand::after{
+    content:"INFO UMKM";
+    display:inline-flex;
+    align-items:center;
+    color:var(--navy);
+    font-size:18px;
+    font-weight:800;
+    line-height:1;
+    letter-spacing:-.025em;
+    white-space:nowrap;
+}
+
+/* Keep the logo clean and balanced */
+.brand img{
+    height:46px;
+    max-width:92px;
+    object-fit:contain;
+}
+
+/* Footer brand block */
+.footer-grid > div:first-child{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+/* Override the old inline white background/padding */
+footer .footer-grid > div:first-child > img{
+    width:82px !important;
+    height:82px !important;
+    max-width:none !important;
+    padding:0 !important;
+    margin:0 0 10px 0 !important;
+    background:transparent !important;
+    border-radius:0 !important;
+    object-fit:contain;
+    display:block;
+}
+
+/* If footer uses the newer .footer-brand structure */
+.footer-brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:12px;
+}
+
+.footer-brand img{
+    width:58px !important;
+    height:58px !important;
+    padding:0 !important;
+    margin:0 !important;
+    background:transparent !important;
+    border-radius:0 !important;
+    object-fit:contain;
+    display:block;
+}
+
+.footer-brand span{
+    color:#fff;
+    font-size:20px;
+    font-weight:800;
+    line-height:1.1;
+    letter-spacing:-.02em;
+}
+
+/* Better footer first-column typography */
+footer .footer-grid > div:first-child p{
+    max-width:360px;
+    line-height:1.7;
+    margin-top:4px;
+}
+
+/* Mobile */
+@media(max-width:600px){
+    .brand{
+        gap:8px;
+    }
+
+    .brand img{
+        height:40px;
+        max-width:78px;
+    }
+
+    .brand::after{
+        font-size:16px;
+    }
+
+    footer .footer-grid > div:first-child > img{
+        width:70px !important;
+        height:70px !important;
+    }
+
+    .footer-brand img{
+        width:52px !important;
+        height:52px !important;
+    }
+
+    .footer-brand span{
+        font-size:18px;
+    }
+}
