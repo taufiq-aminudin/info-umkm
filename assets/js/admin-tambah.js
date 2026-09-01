@@ -1,44 +1,22 @@
-(function(){
-  'use strict';
-  // Data wilayah memakai endpoint statis wilayah.id agar dropdown Kabupaten/Kota
-  // dan Kecamatan konsisten dengan kode wilayah yang sudah digunakan di Direktori.
-  // Sumber wilayah publik: 2025/38 provinsi + fallback static API.
-  const REGION_SOURCES=[
-    'https://wilayah.web.id/api',
-    'https://wilayah.id/api',
-    'https://emsifa.github.io/api-wilayah-indonesia/api'
-  ];
+  // Wilayah menggunakan sumber yang SAMA dengan Direktori UMKM.
+  // Jangan menggunakan sumber/API lain agar kode Provinsi -> Kabupaten/Kota -> Kecamatan konsisten.
+  const REGION_API='https://wilayah.id/api';
   const provinces=[['11','Aceh'],['12','Sumatera Utara'],['13','Sumatera Barat'],['14','Riau'],['15','Jambi'],['16','Sumatera Selatan'],['17','Bengkulu'],['18','Lampung'],['19','Kepulauan Bangka Belitung'],['21','Kepulauan Riau'],['31','DKI Jakarta'],['32','Jawa Barat'],['33','Jawa Tengah'],['34','Daerah Istimewa Yogyakarta'],['35','Jawa Timur'],['36','Banten'],['51','Bali'],['52','Nusa Tenggara Barat'],['53','Nusa Tenggara Timur'],['61','Kalimantan Barat'],['62','Kalimantan Tengah'],['63','Kalimantan Selatan'],['64','Kalimantan Timur'],['65','Kalimantan Utara'],['71','Sulawesi Utara'],['72','Sulawesi Tengah'],['73','Sulawesi Selatan'],['74','Sulawesi Tenggara'],['75','Gorontalo'],['76','Sulawesi Barat'],['81','Maluku'],['82','Maluku Utara'],['91','Papua'],['92','Papua Barat'],['93','Papua Selatan'],['94','Papua Tengah'],['95','Papua Pegunungan'],['96','Papua Barat Daya']];
   const categories=['Kuliner & Makanan','Minuman','Fashion','Kerajinan','Pertanian','Perkebunan','Peternakan','Perikanan','Jasa','Perdagangan','Otomotif','Teknologi & Digital','Kesehatan','Kecantikan','Pendidikan','Pariwisata','Homestay & Penginapan','Industri','Konveksi','Furniture','Properti','Transportasi','Ekonomi Kreatif','Elektronik','Percetakan','Agribisnis','Bahan Bangunan','Energi','Logistik','Lainnya'];
   const $=id=>document.getElementById(id);
-  function options(el,items,placeholder){el.innerHTML='<option value=\"\">'+placeholder+'</option>';items.forEach(x=>{const o=document.createElement('option');o.value=x.code;o.textContent=x.name;el.appendChild(o)});el.disabled=false}
-  function loading(el,text){el.innerHTML='<option value=\"\">'+text+'</option>';el.disabled=true}
-  async function getList(level,code){
-    const urls=[];
-    if(level==='regencies'){
-      urls.push(REGION_SOURCES[0]+'/regencies/'+encodeURIComponent(code)+'?limit=1000');
-      urls.push(REGION_SOURCES[1]+'/regencies/'+encodeURIComponent(code)+'.json');
-      urls.push(REGION_SOURCES[2]+'/regencies/'+encodeURIComponent(code)+'.json');
-    }else{
-      urls.push(REGION_SOURCES[0]+'/districts/'+encodeURIComponent(code)+'?limit=1000');
-      urls.push(REGION_SOURCES[1]+'/districts/'+encodeURIComponent(code)+'.json');
-      urls.push(REGION_SOURCES[2]+'/districts/'+encodeURIComponent(code)+'.json');
-    }
-    let lastError=null;
-    for(const url of urls){
-      try{
-        const r=await fetch(url,{headers:{Accept:'application/json'},cache:'no-store'});
-        if(!r.ok) throw new Error('HTTP '+r.status);
-        const j=await r.json();
-        const raw=Array.isArray(j)?j:(Array.isArray(j.data)?j.data:[]);
-        const items=raw.map(x=>({code:String(x.code||x.id||x.kode_wilayah||''),name:String(x.name||x.value||x.nama_wilayah||'')})).filter(x=>x.code&&x.name);
-        if(items.length) return items;
-        throw new Error('Respons kosong');
-      }catch(e){lastError=e;}
-    }
-    throw lastError||new Error('Semua sumber wilayah gagal');
-  }
+  function options(el,items,placeholder){el.innerHTML='<option value="">'+placeholder+'</option>';items.forEach(x=>{const o=document.createElement('option');o.value=x.code;o.textContent=x.name;el.appendChild(o)});el.disabled=false}
   function loading(el,text){el.innerHTML='<option value="">'+text+'</option>';el.disabled=true}
+  async function getList(level,code){
+    const path=level==='regencies'?'regencies':'districts';
+    const url=REGION_API+'/'+path+'/'+encodeURIComponent(code)+'.json';
+    const r=await fetch(url,{headers:{Accept:'application/json'},cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status+' '+url);
+    const j=await r.json();
+    const raw=Array.isArray(j.data)?j.data:[];
+    const items=raw.map(x=>({code:String(x.code||''),name:String(x.name||'')})).filter(x=>x.code&&x.name);
+    if(!items.length) throw new Error('Data wilayah kosong: '+url);
+    return items;
+  }
   let regionRequest=0;
   async function loadRegencies(code){
     const requestId=++regionRequest;
