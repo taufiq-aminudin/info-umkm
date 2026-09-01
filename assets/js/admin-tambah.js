@@ -1,3 +1,6 @@
+(function () {
+  'use strict';
+
   // Wilayah menggunakan sumber yang SAMA dengan Direktori UMKM.
   // Jangan menggunakan sumber/API lain agar kode Provinsi -> Kabupaten/Kota -> Kecamatan konsisten.
   const REGION_API='https://api.kodewilayah.web.id';
