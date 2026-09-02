@@ -1,151 +1,382 @@
-/* INFO UMKM - Wilayah Indonesia
- * Penambahan terisolasi untuk filter Provinsi -> Kabupaten/Kota -> Kecamatan.
- * Tidak mengubah app.js atau data UMKM yang sudah ada.
- */
+/* =========================================================
+   INFO UMKM - FILTER WILAYAH INDONESIA
+   Provinsi -> Kabupaten/Kota -> Kecamatan
+
+   File baru / terisolasi.
+   Tidak mengubah app.js, kategori, data UMKM, atau map.
+   ========================================================= */
+
 (function () {
   'use strict';
 
   const API = 'https://wilayah.id/api';
 
-  // 38 provinsi Indonesia. Kode mengikuti kode wilayah Kemendagri.
-  const provinces = [
-    ['11','Aceh'],
-    ['12','Sumatera Utara'],
-    ['13','Sumatera Barat'],
-    ['14','Riau'],
-    ['15','Jambi'],
-    ['16','Sumatera Selatan'],
-    ['17','Bengkulu'],
-    ['18','Lampung'],
-    ['19','Kepulauan Bangka Belitung'],
-    ['21','Kepulauan Riau'],
-    ['31','DKI Jakarta'],
-    ['32','Jawa Barat'],
-    ['33','Jawa Tengah'],
-    ['34','Daerah Istimewa Yogyakarta'],
-    ['35','Jawa Timur'],
-    ['36','Banten'],
-    ['51','Bali'],
-    ['52','Nusa Tenggara Barat'],
-    ['53','Nusa Tenggara Timur'],
-    ['61','Kalimantan Barat'],
-    ['62','Kalimantan Tengah'],
-    ['63','Kalimantan Selatan'],
-    ['64','Kalimantan Timur'],
-    ['65','Kalimantan Utara'],
-    ['71','Sulawesi Utara'],
-    ['72','Sulawesi Tengah'],
-    ['73','Sulawesi Selatan'],
-    ['74','Sulawesi Tenggara'],
-    ['75','Gorontalo'],
-    ['76','Sulawesi Barat'],
-    ['81','Maluku'],
-    ['82','Maluku Utara'],
-    ['91','Papua'],
-    ['92','Papua Barat'],
-    ['93','Papua Selatan'],
-    ['94','Papua Tengah'],
-    ['95','Papua Pegunungan'],
-    ['96','Papua Barat Daya']
+  /* =========================================================
+     38 PROVINSI INDONESIA
+     ========================================================= */
+
+  const PROVINCES = [
+    ['11', 'Aceh'],
+    ['12', 'Sumatera Utara'],
+    ['13', 'Sumatera Barat'],
+    ['14', 'Riau'],
+    ['15', 'Jambi'],
+    ['16', 'Sumatera Selatan'],
+    ['17', 'Bengkulu'],
+    ['18', 'Lampung'],
+    ['19', 'Kepulauan Bangka Belitung'],
+    ['21', 'Kepulauan Riau'],
+    ['31', 'DKI Jakarta'],
+    ['32', 'Jawa Barat'],
+    ['33', 'Jawa Tengah'],
+    ['34', 'Daerah Istimewa Yogyakarta'],
+    ['35', 'Jawa Timur'],
+    ['36', 'Banten'],
+    ['51', 'Bali'],
+    ['52', 'Nusa Tenggara Barat'],
+    ['53', 'Nusa Tenggara Timur'],
+    ['61', 'Kalimantan Barat'],
+    ['62', 'Kalimantan Tengah'],
+    ['63', 'Kalimantan Selatan'],
+    ['64', 'Kalimantan Timur'],
+    ['65', 'Kalimantan Utara'],
+    ['71', 'Sulawesi Utara'],
+    ['72', 'Sulawesi Tengah'],
+    ['73', 'Sulawesi Selatan'],
+    ['74', 'Sulawesi Tenggara'],
+    ['75', 'Gorontalo'],
+    ['76', 'Sulawesi Barat'],
+    ['81', 'Maluku'],
+    ['82', 'Maluku Utara'],
+    ['91', 'Papua'],
+    ['92', 'Papua Barat'],
+    ['93', 'Papua Selatan'],
+    ['94', 'Papua Tengah'],
+    ['95', 'Papua Pegunungan'],
+    ['96', 'Papua Barat Daya']
   ];
 
-  function setOptions(select, items, placeholder) {
+  /* =========================================================
+     ELEMENT
+     ========================================================= */
+
+  const province = document.getElementById('filterProvince');
+  const regency = document.getElementById('filterRegency');
+  const district = document.getElementById('filterDistrict');
+
+  if (!province || !regency || !district) {
+    return;
+  }
+
+  /* =========================================================
+     HELPER
+     ========================================================= */
+
+  function clearSelect(select, text, disabled) {
     select.innerHTML = '';
+
+    const option = document.createElement('option');
+    option.value = '';
+    option.textContent = text;
+
+    select.appendChild(option);
+    select.disabled = disabled;
+  }
+
+  function fillSelect(select, data, placeholder) {
+    select.innerHTML = '';
+
     const first = document.createElement('option');
     first.value = '';
     first.textContent = placeholder;
     select.appendChild(first);
-    items.forEach(function (item) {
+
+    data.forEach(function (item) {
       const option = document.createElement('option');
-      option.value = item.code;
-      option.textContent = item.name;
+
+      option.value = String(item.code);
+      option.textContent = String(item.name);
+
       select.appendChild(option);
     });
+
+    select.disabled = false;
   }
 
-  function setLoading(select, placeholder) {
-    select.innerHTML = '';
-    const option = document.createElement('option');
-    option.value = '';
-    option.textContent = 'Memuat data...';
-    select.appendChild(option);
-    select.disabled = true;
+  function loading(select, text) {
+    clearSelect(select, text, true);
   }
 
-  async function getRegions(url) {
-    const response = await fetch(url, { headers: { 'Accept': 'application/json' } });
-    if (!response.ok) throw new Error('HTTP ' + response.status);
+  function normalize(data) {
+    if (!Array.isArray(data)) {
+      return [];
+    }
+
+    return data
+      .map(function (item) {
+        return {
+          code: String(item.code || item.id || '').trim(),
+          name: String(item.name || '').trim()
+        };
+      })
+      .filter(function (item) {
+        return item.code && item.name;
+      });
+  }
+
+  function sortByName(items) {
+    return items.sort(function (a, b) {
+      return a.name.localeCompare(
+        b.name,
+        'id',
+        {
+          sensitivity: 'base',
+          numeric: true
+        }
+      );
+    });
+  }
+
+  /* =========================================================
+     API
+     ========================================================= */
+
+  async function request(url) {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      },
+      cache: 'no-store'
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        'HTTP ' + response.status + ' - ' + url
+      );
+    }
+
     const json = await response.json();
-    return Array.isArray(json.data) ? json.data : [];
+
+    if (!json || !Array.isArray(json.data)) {
+      throw new Error(
+        'Format response wilayah tidak valid'
+      );
+    }
+
+    return normalize(json.data);
   }
 
-  function normalize(items) {
-    return items.map(function (item) {
-      return { code: String(item.code || item.id || ''), name: String(item.name || '') };
-    }).filter(function (item) { return item.code && item.name; });
-  }
+  /* =========================================================
+     LOAD PROVINSI
+     ========================================================= */
 
-  document.addEventListener('DOMContentLoaded', function () {
-    const province = document.getElementById('filterProvince');
-    const regency = document.getElementById('filterRegency');
-    const district = document.getElementById('filterDistrict');
-    if (!province || !regency || !district) return;
+  function loadProvinces() {
 
-    setOptions(province, provinces.map(function (p) { return { code: p[0], name: p[1] }; }), 'Semua Provinsi');
+    const data = PROVINCES.map(function (item) {
+      return {
+        code: item[0],
+        name: item[1]
+      };
+    });
 
-    // Pertahankan tampilan awal website: Jawa Tengah.
+    fillSelect(
+      province,
+      data,
+      'Semua Provinsi'
+    );
+
+    /*
+     * Tampilan awal tetap Jawa Tengah
+     */
     province.value = '33';
 
-    async function loadRegencies(code, keepSelection) {
-      if (!code) {
-        setOptions(regency, [], 'Semua Kabupaten/Kota');
-        regency.disabled = true;
-        setOptions(district, [], 'Semua Kecamatan');
-        district.disabled = true;
-        return;
-      }
-      setLoading(regency, 'Semua Kabupaten/Kota');
-      setLoading(district, 'Semua Kecamatan');
-      try {
-        const items = normalize(await getRegions(API + '/regencies/' + encodeURIComponent(code) + '.json'));
-        setOptions(regency, items, 'Semua Kabupaten/Kota');
-        regency.disabled = false;
-        if (keepSelection) regency.value = keepSelection;
-      } catch (error) {
-        setOptions(regency, [], 'Data kabupaten/kota gagal dimuat');
-        regency.disabled = true;
-        console.error('INFO UMKM wilayah:', error);
-      }
-      district.disabled = true;
-      district.innerHTML = '<option value="">Pilih Kabupaten/Kota terlebih dahulu</option>';
+    loadRegencies('33');
+  }
+
+  /* =========================================================
+     LOAD KABUPATEN / KOTA
+     ========================================================= */
+
+  async function loadRegencies(provinceCode) {
+
+    clearSelect(
+      regency,
+      'Memuat Kabupaten/Kota...',
+      true
+    );
+
+    clearSelect(
+      district,
+      'Pilih Kabupaten/Kota terlebih dahulu',
+      true
+    );
+
+    if (!provinceCode) {
+      clearSelect(
+        regency,
+        'Pilih Provinsi terlebih dahulu',
+        true
+      );
+
+      return;
     }
 
-    async function loadDistricts(code) {
-      if (!code) {
-        setOptions(district, [], 'Semua Kecamatan');
-        district.disabled = true;
-        return;
+    try {
+
+      const url =
+        API +
+        '/regencies/' +
+        encodeURIComponent(provinceCode) +
+        '.json';
+
+      const data = sortByName(
+        await request(url)
+      );
+
+      if (!data.length) {
+        throw new Error(
+          'Kabupaten/Kota tidak ditemukan'
+        );
       }
-      setLoading(district, 'Semua Kecamatan');
-      try {
-        const items = normalize(await getRegions(API + '/districts/' + encodeURIComponent(code) + '.json'));
-        setOptions(district, items, 'Semua Kecamatan');
-        district.disabled = false;
-      } catch (error) {
-        setOptions(district, [], 'Data kecamatan gagal dimuat');
-        district.disabled = true;
-        console.error('INFO UMKM wilayah:', error);
-      }
+
+      fillSelect(
+        regency,
+        data,
+        'Semua Kabupaten/Kota'
+      );
+
+      console.info(
+        'INFO UMKM:',
+        data.length,
+        'Kabupaten/Kota untuk provinsi',
+        provinceCode
+      );
+
+    } catch (error) {
+
+      clearSelect(
+        regency,
+        'Data Kabupaten/Kota gagal dimuat',
+        true
+      );
+
+      console.error(
+        'INFO UMKM - Kabupaten/Kota:',
+        error
+      );
+    }
+  }
+
+  /* =========================================================
+     LOAD KECAMATAN
+     ========================================================= */
+
+  async function loadDistricts(regencyCode) {
+
+    clearSelect(
+      district,
+      'Memuat Kecamatan...',
+      true
+    );
+
+    if (!regencyCode) {
+
+      clearSelect(
+        district,
+        'Pilih Kabupaten/Kota terlebih dahulu',
+        true
+      );
+
+      return;
     }
 
-    province.addEventListener('change', function () {
-      loadRegencies(this.value, '');
-    });
+    try {
 
-    regency.addEventListener('change', function () {
-      loadDistricts(this.value);
-    });
+      /*
+       * PENTING:
+       * Mengambil Kecamatan berdasarkan kode
+       * Kabupaten/Kota yang dipilih.
+       */
+      const url =
+        API +
+        '/districts/' +
+        encodeURIComponent(regencyCode) +
+        '.json';
 
-    loadRegencies(province.value, '');
-  });
+      const data = sortByName(
+        await request(url)
+      );
+
+      if (!data.length) {
+        throw new Error(
+          'Kecamatan tidak ditemukan untuk ' +
+          regencyCode
+        );
+      }
+
+      fillSelect(
+        district,
+        data,
+        'Semua Kecamatan'
+      );
+
+      console.info(
+        'INFO UMKM:',
+        data.length,
+        'Kecamatan untuk Kabupaten/Kota',
+        regencyCode
+      );
+
+    } catch (error) {
+
+      clearSelect(
+        district,
+        'Data Kecamatan gagal dimuat',
+        true
+      );
+
+      console.error(
+        'INFO UMKM - Kecamatan:',
+        error
+      );
+    }
+  }
+
+  /* =========================================================
+     EVENT PROVINSI
+     ========================================================= */
+
+  province.addEventListener(
+    'change',
+    function () {
+
+      loadRegencies(
+        this.value
+      );
+
+    }
+  );
+
+  /* =========================================================
+     EVENT KABUPATEN / KOTA
+     ========================================================= */
+
+  regency.addEventListener(
+    'change',
+    function () {
+
+      loadDistricts(
+        this.value
+      );
+
+    }
+  );
+
+  /* =========================================================
+     START
+     ========================================================= */
+
+  loadProvinces();
+
 })();
