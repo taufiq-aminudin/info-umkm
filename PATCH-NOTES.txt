@@ -1,23 +1,20 @@
-PATCH INFO UMKM — DAFTAR UMKM
+PATCH KECIL — DIREKTORI WILAYAH INDONESIA
 
-Perubahan:
-1. Kategori diperluas menjadi 21 kategori.
-2. Provinsi Indonesia dimuat otomatis dari Wilayah.id.
-3. Kabupaten/Kota dimuat sesuai provinsi.
-4. Kecamatan dimuat sesuai kabupaten/kota.
-5. Desa/Kelurahan juga dimuat sesuai kecamatan.
-6. Ditambahkan peta interaktif Leaflet + OpenStreetMap.
-7. Pengguna dapat klik/geser pin untuk menentukan lokasi usaha.
-8. Ditambahkan tombol Gunakan Lokasi Saya.
-9. Latitude dan Longitude menjadi wajib.
-10. Upload KK tetap dihapus; hanya KTP yang wajib.
+Hanya memperbaiki:
+- Provinsi
+- Kabupaten/Kota
+- Kecamatan
+- Desa/Kelurahan
 
-File utama yang diganti:
-daftar.html
+Tidak mengubah kategori usaha.
+Tidak mengubah kode/tampilan maps.
+Tidak mengubah struktur form lainnya.
 
-File JS baru:
-assets/js/daftar-wilayah-map.js
-
-Catatan:
-- API wilayah menggunakan Wilayah.id, yang menyediakan endpoint provinsi, kabupaten/kota, kecamatan, dan desa/kelurahan. Data tersebut diperbarui 4 Juli 2025 berdasarkan Kepmendagri No. 300.2.2-2138 Tahun 2025.
-- Peta menggunakan Leaflet dan tile OpenStreetMap sehingga tidak memerlukan Google Maps API key untuk fitur pemilihan titik dasar.
+Perubahan teknis:
+- Sumber wilayah diganti ke API Kode Wilayah Indonesia (Kemendesa) dengan data 2025.
+- Provinsi diambil dari endpoint /latest/provinsi.
+- Kabupaten/Kota diambil dari /latest/kabupaten lalu difilter berdasarkan kode provinsi.
+- Kecamatan diambil dari /latest/kecamatan lalu difilter berdasarkan kode kabupaten/kota.
+- Desa/Kelurahan diambil dari /latest/desa lalu difilter berdasarkan kode kecamatan.
+- Data diurutkan berdasarkan nama.
+- Ada cache untuk kabupaten dan kecamatan agar tidak mengunduh ulang setiap pilihan.
