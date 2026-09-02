@@ -1,10 +1,10 @@
-# INFO UMKM — Superadmin Clickable Patch v3
+# INFO UMKM — Superadmin Clickable Patch v4
 
-Perbaikan layout dari screenshot:
-- Sidebar tidak lagi overlap/menimpa footer.
-- Sidebar tetap berada di dalam area admin.
-- Footer berada setelah area admin.
-- Header/footer master tetap dipertahankan.
-- Patch layout terisolasi; JS dan database tidak diubah.
+Patch v4 memperbaiki hasil screenshot terbaru:
+- Menghapus **header yang tampil dua kali**.
+- Menyisakan satu header master INFO UMKM.
+- Link header `UMKM`, `Kategori`, `Peta`, `Berita`, dan `Artikel` tetap menuju tujuan yang benar.
+- Tidak mengubah data atau JavaScript utama.
+- Patch layout/sidebar dari v3 tetap dipertahankan.
 
-Pertahankan folder `assets/css/` saat upload ke GitHub.
+Upload isi ZIP ke repository GitHub.
