@@ -1,10 +1,8 @@
-# INFO UMKM — Superadmin Clickable Patch v4
+# INFO UMKM — Superadmin Clickable Patch v5
 
-Patch v4 memperbaiki hasil screenshot terbaru:
-- Menghapus **header yang tampil dua kali**.
-- Menyisakan satu header master INFO UMKM.
-- Link header `UMKM`, `Kategori`, `Peta`, `Berita`, dan `Artikel` tetap menuju tujuan yang benar.
-- Tidak mengubah data atau JavaScript utama.
-- Patch layout/sidebar dari v3 tetap dipertahankan.
-
-Upload isi ZIP ke repository GitHub.
+Perbaikan khusus dari screenshot terbaru:
+- Sidebar admin dipaksa menjadi bagian dari `.admin-shell`, bukan elemen fixed yang menimpa footer.
+- Footer dipaksa berada setelah `.admin-shell`.
+- Footer tetap full-width dan struktur master tetap dipertahankan.
+- Patch hanya CSS terisolasi; tidak mengubah database atau JavaScript utama.
+- Patch v3 dan v4 tetap dibawa sebagai bagian dari versi sebelumnya.
