@@ -1,0 +1,66 @@
+
+/* INFO UMKM - Admin layout patch v3
+   Fix: sidebar stays inside admin-shell and never overlaps footer.
+*/
+html, body { min-height: 100%; }
+
+body.admin-body,
+body:has(.admin-shell) {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-shell {
+  position: relative !important;
+  display: flex !important;
+  flex: 1 0 auto !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.admin-shell > .admin-sidebar,
+.admin-shell > .sidebar {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  align-self: stretch !important;
+  flex: 0 0 236px !important;
+  z-index: 1 !important;
+}
+
+.admin-shell > .admin-main {
+  position: relative !important;
+  z-index: 2 !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+
+body > footer {
+  position: relative !important;
+  z-index: 5 !important;
+  clear: both !important;
+  width: 100% !important;
+  flex: 0 0 auto !important;
+}
+
+footer .container {
+  position: relative;
+  z-index: 6;
+}
+
+@media (max-width: 800px) {
+  .admin-shell { display: block !important; }
+  .admin-shell > .admin-sidebar,
+  .admin-shell > .sidebar {
+    width: 100% !important;
+    max-width: none !important;
+    flex-basis: auto !important;
+  }
+}
