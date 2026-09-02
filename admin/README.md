@@ -1,17 +1,10 @@
-# INFO UMKM — Admin Clickable Patch v1
+# INFO UMKM — Superadmin Clickable Patch v3
 
-Patch ini mempertahankan struktur halaman yang diberikan dan memperbaiki navigasi admin
-yang sebelumnya masih memakai `href="#"`/placeholder.
+Perbaikan layout dari screenshot:
+- Sidebar tidak lagi overlap/menimpa footer.
+- Sidebar tetap berada di dalam area admin.
+- Footer berada setelah area admin.
+- Header/footer master tetap dipertahankan.
+- Patch layout terisolasi; JS dan database tidak diubah.
 
-File:
-- `index.html` — dashboard admin
-- `umkm.html` — semua UMKM
-- `pending.html` — approval
-- `detail.html` — detail UMKM
-- `tambah.html` — tambah UMKM
-- `login.html` — login admin
-
-Catatan:
-- File JS/CSS existing tidak disertakan karena tidak tersedia pada upload ini.
-- Dashboard diberi navigasi nyata untuk menu yang sudah memiliki halaman sumber.
-- Menu yang belum memiliki halaman sumber tidak diarahkan ke halaman fiktif.
+Pertahankan folder `assets/css/` saat upload ke GitHub.

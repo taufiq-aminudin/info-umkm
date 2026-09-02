@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Semua UMKM | INFO UMKM</title>
+<title>Activity Log | INFO UMKM</title>
 <link rel="icon" href="../assets/img/favicon.svg">
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="stylesheet" href="../assets/css/admin.css">
@@ -34,7 +34,7 @@
   <div class="admin-brand">INFO UMKM <small style="display:block;font-weight:500;opacity:.7">SUPERADMIN</small></div>
   <nav class="side">
     <a href="index.html">▦ Dashboard</a>
-    <a class="active" href="umkm.html">◉ Semua UMKM</a>
+    <a href="umkm.html">◉ Semua UMKM</a>
     <a href="pending.html">⏳ Menunggu Approval</a>
     <a href="umkm.html?status=approved">✓ Terverifikasi</a>
     <a href="umkm.html?status=rejected">✕ Ditolak</a>
@@ -47,7 +47,7 @@
     <a href="users.html">♙ Users</a>
     <a href="laporan.html">◴ Laporan</a>
     <a href="settings.html">⚙ Settings</a>
-    <a href="activity-log.html">◌ Activity Log</a>
+    <a class="active" href="activity-log.html">◌ Activity Log</a>
     <br>
     <a href="../index.html">↗ Website Publik</a>
     <a href="login.html" onclick="try{logout();}catch(e){}">⇥ Logout</a>
@@ -55,8 +55,17 @@
 </aside>
 
 <main class="admin-main">
-<div class="admin-top"><div><div class="muted">Superadmin / UMKM</div><h1>Semua UMKM</h1></div></div>
-<main class="admin-main"><div class="admin-top"><div><div class="muted">Superadmin / UMKM</div><h1>Semua UMKM</h1></div><a class="btn btn-primary" href="tambah.html">+ Tambah UMKM</a></div><div class="admin-panel"><div class="admin-search"><input id="searchInput" placeholder="Cari nama, pemilik, kota, kategori..."><select id="statusFilter"><option value="">Semua Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>UMKM</th><th>Pemilik</th><th>Lokasi</th><th>Kategori</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="umkmTable"></tbody></table></div></div></main>
+<div class="admin-top"><div><div class="muted">Superadmin / Activity Log</div><h1>Activity Log</h1></div></div>
+
+<div class="admin-panel">
+  <h2>Activity Log</h2><p class="muted">Aktivitas admin terbaru.</p>
+  <div class="admin-table-wrap"><table class="admin-table">
+  <thead><tr><th>Aktivitas</th><th>Waktu</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>Dashboard dibuka</td><td>Terbaru</td><td>Info</td></tr>
+    <tr><td>Modul approval siap digunakan</td><td>Terbaru</td><td>Info</td></tr>
+  </tbody></table></div>
+</div>
 </main>
 </div>
 
