@@ -23,89 +23,109 @@
   const category = $('category');
   if(category) category.innerHTML = '<option value="">Pilih kategori</option>' + categories.map(c=>`<option>${c}</option>`).join('');
 
-  // Wilayah Indonesia: Provinsi -> Kabupaten/Kota -> Kecamatan -> Desa/Kelurahan.
-  // Menggunakan endpoint per-parent agar setiap level mengambil data lengkap
-  // untuk wilayah yang dipilih, bukan memuat daftar global yang dapat terpotong.
+  // Wilayah Indonesia: gunakan API yang SAMA dengan patch Superadmin.
+  // Hanya blok wilayah yang diperbaiki; kategori, maps, dan form lainnya tetap.
+  const REGION_API = 'https://api.kodewilayah.web.id';
+  const provinces = [
+    ['11','Aceh'],['12','Sumatera Utara'],['13','Sumatera Barat'],['14','Riau'],['15','Jambi'],['16','Sumatera Selatan'],['17','Bengkulu'],['18','Lampung'],['19','Kepulauan Bangka Belitung'],['21','Kepulauan Riau'],
+    ['31','DKI Jakarta'],['32','Jawa Barat'],['33','Jawa Tengah'],['34','Daerah Istimewa Yogyakarta'],['35','Jawa Timur'],['36','Banten'],
+    ['51','Bali'],['52','Nusa Tenggara Barat'],['53','Nusa Tenggara Timur'],['61','Kalimantan Barat'],['62','Kalimantan Tengah'],['63','Kalimantan Selatan'],['64','Kalimantan Timur'],['65','Kalimantan Utara'],
+    ['71','Sulawesi Utara'],['72','Sulawesi Tengah'],['73','Sulawesi Selatan'],['74','Sulawesi Tenggara'],['75','Gorontalo'],['76','Sulawesi Barat'],['81','Maluku'],['82','Maluku Utara'],
+    ['91','Papua'],['92','Papua Barat'],['93','Papua Selatan'],['94','Papua Tengah'],['95','Papua Pegunungan'],['96','Papua Barat Daya']
+  ];
+
   const province = $('province'), regency = $('regency'), district = $('district'), village = $('village');
 
-  const regionApi = async (level, parentCode = '') => {
-    let url;
-    if(level === 'provinsi') url = `${WILAYAH_ID}/provinces.json`;
-    else if(level === 'kabupaten') url = `${WILAYAH_ID}/regencies/${encodeURIComponent(parentCode)}.json`;
-    else if(level === 'kecamatan') url = `${WILAYAH_ID}/districts/${encodeURIComponent(parentCode)}.json`;
-    else if(level === 'desa') url = `${WILAYAH_ID}/villages/${encodeURIComponent(parentCode)}.json`;
-    else throw new Error('Level wilayah tidak dikenal');
-
-    const r = await fetch(url, {
-      method: 'GET',
-      headers: { 'Accept': 'application/json' },
-      cache: 'no-store'
+  const options = (el, items, placeholder) => {
+    el.innerHTML = '<option value="">'+placeholder+'</option>';
+    items.forEach(x => {
+      const o = document.createElement('option');
+      o.value = String(x.code);
+      o.textContent = String(x.name);
+      el.appendChild(o);
     });
-    if(!r.ok) throw new Error('HTTP ' + r.status);
+    el.disabled = false;
+  };
+  const loading = (el, text) => {
+    if(!el) return;
+    el.innerHTML = '<option value="">'+text+'</option>';
+    el.disabled = true;
+  };
+
+  async function getList(level, code){
+    const path = level === 'regencies' ? 'regencies' : level === 'districts' ? 'districts' : 'villages';
+    const url = REGION_API + '/' + path + '/' + encodeURIComponent(code);
+    const r = await fetch(url, {headers:{Accept:'application/json'}, cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status+' '+url);
     const j = await r.json();
-    if(!j || !Array.isArray(j.data)) throw new Error('Format data wilayah tidak valid');
-    return j.data;
-  };
-
-  const failText = (level, err) => {
-    console.error('Wilayah:', level, err);
-    return 'Gagal memuat ' + level;
-  };
-
-  if(province){
-    setLoading(province,'Memuat provinsi...');
-    regionApi('provinsi')
-      .then(items => {
-        items.sort((a,b)=>String(a.name).localeCompare(String(b.name),'id'));
-        setOptions(province,items,'Pilih Provinsi');
-      })
-      .catch(err => setLoading(province,failText('provinsi',err)));
+    const raw = j && j.success && Array.isArray(j.data) ? j.data : [];
+    const items = raw.map(x => ({
+      code: String(x.code || x.id || ''),
+      name: String(x.name || '')
+    })).filter(x => x.code && x.name);
+    if(!items.length) throw new Error((j && j.message) || ('Data wilayah kosong: '+url));
+    items.sort((a,b) => a.name.localeCompare(b.name,'id'));
+    return items;
   }
 
-  province?.addEventListener('change', async function(){
-    setLoading(regency,'Memuat Kabupaten/Kota...');
-    setLoading(district,'Pilih Kabupaten/Kota terlebih dahulu');
-    setLoading(village,'Pilih Kecamatan terlebih dahulu');
-    if(!this.value){
-      setLoading(regency,'Pilih Provinsi terlebih dahulu');
-      return;
-    }
-    try{
-      const items = await regionApi('kabupaten', this.value);
-      items.sort((a,b)=>String(a.name).localeCompare(String(b.name),'id'));
-      if(!items.length) throw new Error('Kabupaten/Kota tidak ditemukan untuk provinsi ' + this.value);
-      setOptions(regency,items,'Pilih Kabupaten/Kota');
-    }catch(err){ setLoading(regency,failText('Kabupaten/Kota',err)); }
-  });
+  // Province memakai daftar kode yang sama dengan Superadmin agar parent code konsisten.
+  options(province, provinces.map(p => ({code:p[0], name:p[1]})), 'Pilih Provinsi');
+  loading(regency, 'Pilih Provinsi terlebih dahulu');
+  loading(district, 'Pilih Kabupaten/Kota terlebih dahulu');
+  loading(village, 'Pilih Kecamatan terlebih dahulu');
 
-  regency?.addEventListener('change', async function(){
-    setLoading(district,'Memuat Kecamatan...');
-    setLoading(village,'Pilih Kecamatan terlebih dahulu');
-    if(!this.value){
-      setLoading(district,'Pilih Kabupaten/Kota terlebih dahulu');
-      return;
-    }
+  let regionRequest = 0;
+  async function loadRegencies(code){
+    const requestId = ++regionRequest;
+    loading(regency, 'Memuat Kabupaten/Kota...');
+    loading(district, 'Pilih Kabupaten/Kota terlebih dahulu');
+    loading(village, 'Pilih Kecamatan terlebih dahulu');
+    if(!code) return;
     try{
-      const items = await regionApi('kecamatan', this.value);
-      items.sort((a,b)=>String(a.name).localeCompare(String(b.name),'id'));
-      if(!items.length) throw new Error('Kecamatan tidak ditemukan untuk kabupaten/kota ' + this.value);
-      setOptions(district,items,'Pilih Kecamatan');
-    }catch(err){ setLoading(district,failText('Kecamatan',err)); }
-  });
+      const items = await getList('regencies', code);
+      if(requestId !== regionRequest) return;
+      options(regency, items, 'Pilih Kabupaten/Kota');
+    }catch(e){
+      if(requestId !== regionRequest) return;
+      loading(regency, 'Gagal memuat Kabupaten/Kota');
+      console.error('INFO UMKM wilayah:', e);
+    }
+  }
 
-  district?.addEventListener('change', async function(){
-    setLoading(village,'Memuat Desa/Kelurahan...');
-    if(!this.value){
-      setLoading(village,'Pilih Kecamatan terlebih dahulu');
-      return;
-    }
+  async function loadDistricts(code){
+    const requestId = ++regionRequest;
+    loading(district, 'Memuat Kecamatan...');
+    loading(village, 'Pilih Kecamatan terlebih dahulu');
+    if(!code) return;
     try{
-      const items = await regionApi('desa', this.value);
-      items.sort((a,b)=>String(a.name).localeCompare(String(b.name),'id'));
-      if(!items.length) throw new Error('Desa/Kelurahan tidak ditemukan');
-      setOptions(village,items,'Pilih Desa/Kelurahan');
-    }catch(err){ setLoading(village,failText('Desa/Kelurahan',err)); }
-  });
+      const items = await getList('districts', code);
+      if(requestId !== regionRequest) return;
+      options(district, items, 'Pilih Kecamatan');
+    }catch(e){
+      if(requestId !== regionRequest) return;
+      loading(district, 'Gagal memuat Kecamatan');
+      console.error('INFO UMKM wilayah:', e);
+    }
+  }
+
+  async function loadVillages(code){
+    const requestId = ++regionRequest;
+    loading(village, 'Memuat Desa/Kelurahan...');
+    if(!code) return;
+    try{
+      const items = await getList('villages', code);
+      if(requestId !== regionRequest) return;
+      options(village, items, 'Pilih Desa/Kelurahan');
+    }catch(e){
+      if(requestId !== regionRequest) return;
+      loading(village, 'Gagal memuat Desa/Kelurahan');
+      console.error('INFO UMKM wilayah:', e);
+    }
+  }
+
+  province?.addEventListener('change', e => loadRegencies(e.target.value));
+  regency?.addEventListener('change', e => loadDistricts(e.target.value));
+  district?.addEventListener('change', e => loadVillages(e.target.value));
 
   // Leaflet + OpenStreetMap: tidak membutuhkan Google Maps API key.
   const mapEl = $('mapPicker');
