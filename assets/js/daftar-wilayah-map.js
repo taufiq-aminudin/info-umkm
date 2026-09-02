@@ -1,5 +1,5 @@
 (function(){
-  const WILAYAH = 'https://wilayah.id/api';
+  const WILAYAH_APIS = ['https://wilayah.web.id/api', 'https://wilayah.id/api'];
   const categories = [
     'Kuliner','Fashion','Pertanian','Perkebunan','Peternakan','Perikanan','Kehutanan',
     'Kerajinan','Jasa','Perdagangan','Manufaktur','Otomotif','Kecantikan','Kesehatan',
@@ -12,37 +12,89 @@
     el.disabled = false;
   };
   const setLoading = (el, text) => { el.innerHTML = `<option value="">${text}</option>`; el.disabled = true; };
-  const api = async url => {
+  async function fetchJson(url){
     const r = await fetch(url, {headers:{'Accept':'application/json'}});
-    if(!r.ok) throw new Error('Gagal mengambil data wilayah');
+    if(!r.ok) throw new Error('HTTP '+r.status);
     const j = await r.json();
-    return j.data || [];
-  };
+    return j || {};
+  }
+
+  async function api(path){
+    let lastError;
+    for(const base of WILAYAH_APIS){
+      try {
+        // wilayah.web.id uses pagination; wilayah.id returns the whole list.
+        const resolvedPath = base.includes('wilayah.web.id') ? path.replace(/\.json$/, '') : (path.endsWith('.json') ? path : path + '.json');
+        const first = await fetchJson(base + resolvedPath);
+        let data = Array.isArray(first.data) ? first.data : [];
+        if(first.meta && first.meta.totalPages && first.meta.totalPages > 1){
+          const pages=[];
+          for(let page=2; page<=first.meta.totalPages; page++){
+            pages.push(fetchJson(base + resolvedPath + (resolvedPath.includes('?')?'&':'?') + 'page=' + page + '&limit=100'));
+          }
+          const more=await Promise.all(pages);
+          more.forEach(x=>{ if(Array.isArray(x.data)) data=data.concat(x.data); });
+        }
+        return data;
+      } catch(e){ lastError=e; }
+    }
+    throw lastError || new Error('Gagal mengambil data wilayah');
+  }
 
   // Kategori lengkap di sisi frontend; dapat diperluas tanpa mengubah layout.
   const category = $('category');
   if(category) category.innerHTML = '<option value="">Pilih kategori</option>' + categories.map(c=>`<option>${c}</option>`).join('');
 
-  // Wilayah Indonesia: Provinsi -> Kabupaten/Kota -> Kecamatan -> Desa/Kelurahan.
+  // PATCH: Direktori wilayah Indonesia lengkap dan bertingkat.
   const province = $('province'), regency = $('regency'), district = $('district'), village = $('village');
-  api(WILAYAH + '/provinces.json').then(items=>setOptions(province,items,'Pilih Provinsi')).catch(()=>setLoading(province,'Gagal memuat provinsi'));
+  const normalize = items => (items || []).map(x => ({code: String(x.code ?? x.id ?? ''), name: String(x.name ?? x.value ?? '')}))
+    .filter(x => x.code && x.name)
+    .sort((a,b)=>a.name.localeCompare(b.name,'id'));
+
+  function setRegionOptions(el, items, placeholder){ setOptions(el, normalize(items), placeholder); }
+
+  (async()=>{
+    try {
+      setLoading(province,'Memuat Provinsi Indonesia...');
+      const items = await api('/provinces' + (WILAYAH_APIS[0].includes('web.id') ? '' : '.json'));
+      setRegionOptions(province,items,'Pilih Provinsi');
+    } catch(e){ setLoading(province,'Gagal memuat provinsi'); }
+  })();
+
   province?.addEventListener('change', async function(){
-    setLoading(regency,'Memuat Kabupaten/Kota...'); setLoading(district,'Pilih Kabupaten/Kota terlebih dahulu'); setLoading(village,'Pilih Kecamatan terlebih dahulu');
+    setLoading(regency,'Memuat Kabupaten/Kota...');
+    setLoading(district,'Pilih Kabupaten/Kota terlebih dahulu');
+    setLoading(village,'Pilih Kecamatan terlebih dahulu');
     if(!this.value) { setLoading(regency,'Pilih Provinsi terlebih dahulu'); return; }
-    try { setOptions(regency, await api(WILAYAH + '/regencies/' + encodeURIComponent(this.value) + '.json'),'Pilih Kabupaten/Kota'); }
-    catch(e){ setLoading(regency,'Gagal memuat Kabupaten/Kota'); }
+    try {
+      const path = WILAYAH_APIS[0].includes('web.id')
+        ? '/regencies/' + encodeURIComponent(this.value)
+        : '/regencies/' + encodeURIComponent(this.value) + '.json';
+      setRegionOptions(regency, await api(path),'Pilih Kabupaten/Kota');
+    } catch(e){ setLoading(regency,'Gagal memuat Kabupaten/Kota'); }
   });
+
   regency?.addEventListener('change', async function(){
-    setLoading(district,'Memuat Kecamatan...'); setLoading(village,'Pilih Kecamatan terlebih dahulu');
+    setLoading(district,'Memuat Kecamatan...');
+    setLoading(village,'Pilih Kecamatan terlebih dahulu');
     if(!this.value) { setLoading(district,'Pilih Kabupaten/Kota terlebih dahulu'); return; }
-    try { setOptions(district, await api(WILAYAH + '/districts/' + encodeURIComponent(this.value) + '.json'),'Pilih Kecamatan'); }
-    catch(e){ setLoading(district,'Gagal memuat Kecamatan'); }
+    try {
+      const path = WILAYAH_APIS[0].includes('web.id')
+        ? '/districts/' + encodeURIComponent(this.value)
+        : '/districts/' + encodeURIComponent(this.value) + '.json';
+      setRegionOptions(district, await api(path),'Pilih Kecamatan');
+    } catch(e){ setLoading(district,'Gagal memuat Kecamatan'); }
   });
+
   district?.addEventListener('change', async function(){
     setLoading(village,'Memuat Desa/Kelurahan...');
     if(!this.value) { setLoading(village,'Pilih Kecamatan terlebih dahulu'); return; }
-    try { setOptions(village, await api(WILAYAH + '/villages/' + encodeURIComponent(this.value) + '.json'),'Pilih Desa/Kelurahan'); }
-    catch(e){ setLoading(village,'Gagal memuat Desa/Kelurahan'); }
+    try {
+      const path = WILAYAH_APIS[0].includes('web.id')
+        ? '/villages/' + encodeURIComponent(this.value)
+        : '/villages/' + encodeURIComponent(this.value) + '.json';
+      setRegionOptions(village, await api(path),'Pilih Desa/Kelurahan');
+    } catch(e){ setLoading(village,'Gagal memuat Desa/Kelurahan'); }
   });
 
   // Leaflet + OpenStreetMap: tidak membutuhkan Google Maps API key.
