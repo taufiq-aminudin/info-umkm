@@ -1,5 +1,5 @@
 (function(){
-  const WILAYAH = 'https://api.kemendesa.link/kode-wilayah/api/wilayah/latest';
+  const WILAYAH_ID = 'https://wilayah.id/api';
   const categories = [
     'Kuliner','Fashion','Pertanian','Perkebunan','Peternakan','Perikanan','Kehutanan',
     'Kerajinan','Jasa','Perdagangan','Manufaktur','Otomotif','Kecantikan','Kesehatan',
@@ -24,17 +24,22 @@
   if(category) category.innerHTML = '<option value="">Pilih kategori</option>' + categories.map(c=>`<option>${c}</option>`).join('');
 
   // Wilayah Indonesia: Provinsi -> Kabupaten/Kota -> Kecamatan -> Desa/Kelurahan.
-  // Sumber alternatif yang stabil dan mengikuti data Kepmendagri 2025.
-  // Data kabupaten/kecamatan diambil sekali lalu difilter berdasarkan kode induknya.
+  // Menggunakan endpoint per-parent agar setiap level mengambil data lengkap
+  // untuk wilayah yang dipilih, bukan memuat daftar global yang dapat terpotong.
   const province = $('province'), regency = $('regency'), district = $('district'), village = $('village');
-  let allRegencies = null;
-  let allDistricts = null;
 
-  const regionApi = async (level) => {
-    const r = await fetch(WILAYAH + '/' + level, {
+  const regionApi = async (level, parentCode = '') => {
+    let url;
+    if(level === 'provinsi') url = `${WILAYAH_ID}/provinces.json`;
+    else if(level === 'kabupaten') url = `${WILAYAH_ID}/regencies/${encodeURIComponent(parentCode)}.json`;
+    else if(level === 'kecamatan') url = `${WILAYAH_ID}/districts/${encodeURIComponent(parentCode)}.json`;
+    else if(level === 'desa') url = `${WILAYAH_ID}/villages/${encodeURIComponent(parentCode)}.json`;
+    else throw new Error('Level wilayah tidak dikenal');
+
+    const r = await fetch(url, {
       method: 'GET',
       headers: { 'Accept': 'application/json' },
-      cache: 'default'
+      cache: 'no-store'
     });
     if(!r.ok) throw new Error('HTTP ' + r.status);
     const j = await r.json();
@@ -51,7 +56,7 @@
     setLoading(province,'Memuat provinsi...');
     regionApi('provinsi')
       .then(items => {
-        items.sort((a,b)=>a.name.localeCompare(b.name,'id'));
+        items.sort((a,b)=>String(a.name).localeCompare(String(b.name),'id'));
         setOptions(province,items,'Pilih Provinsi');
       })
       .catch(err => setLoading(province,failText('provinsi',err)));
@@ -66,11 +71,8 @@
       return;
     }
     try{
-      if(!allRegencies) allRegencies = await regionApi('kabupaten');
-      const prefix = this.value + '.';
-      const items = allRegencies
-        .filter(x => String(x.code).startsWith(prefix))
-        .sort((a,b)=>a.name.localeCompare(b.name,'id'));
+      const items = await regionApi('kabupaten', this.value);
+      items.sort((a,b)=>String(a.name).localeCompare(String(b.name),'id'));
       if(!items.length) throw new Error('Kabupaten/Kota tidak ditemukan untuk provinsi ' + this.value);
       setOptions(regency,items,'Pilih Kabupaten/Kota');
     }catch(err){ setLoading(regency,failText('Kabupaten/Kota',err)); }
@@ -84,11 +86,8 @@
       return;
     }
     try{
-      if(!allDistricts) allDistricts = await regionApi('kecamatan');
-      const prefix = this.value + '.';
-      const items = allDistricts
-        .filter(x => String(x.code).startsWith(prefix))
-        .sort((a,b)=>a.name.localeCompare(b.name,'id'));
+      const items = await regionApi('kecamatan', this.value);
+      items.sort((a,b)=>String(a.name).localeCompare(String(b.name),'id'));
       if(!items.length) throw new Error('Kecamatan tidak ditemukan untuk kabupaten/kota ' + this.value);
       setOptions(district,items,'Pilih Kecamatan');
     }catch(err){ setLoading(district,failText('Kecamatan',err)); }
@@ -101,13 +100,10 @@
       return;
     }
     try{
-      const items = await regionApi('desa');
-      const prefix = this.value + '.';
-      const filtered = items
-        .filter(x => String(x.code).startsWith(prefix))
-        .sort((a,b)=>a.name.localeCompare(b.name,'id'));
-      if(!filtered.length) throw new Error('Desa/Kelurahan tidak ditemukan');
-      setOptions(village,filtered,'Pilih Desa/Kelurahan');
+      const items = await regionApi('desa', this.value);
+      items.sort((a,b)=>String(a.name).localeCompare(String(b.name),'id'));
+      if(!items.length) throw new Error('Desa/Kelurahan tidak ditemukan');
+      setOptions(village,items,'Pilih Desa/Kelurahan');
     }catch(err){ setLoading(village,failText('Desa/Kelurahan',err)); }
   });
 
