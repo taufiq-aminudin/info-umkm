@@ -1,0 +1,7 @@
+/* Isolated Superadmin Edit UMKM patch */
+.edit-note{margin-top:8px;font-size:12px}
+#businessStatus{font-weight:600}
+#existingGalleryPreview{margin-top:12px}
+#existingGalleryPreview img{opacity:.92}
+.edit-private-note{padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#f7fbff;font-size:13px;color:#526579}
+@media(max-width:700px){.edit-note{font-size:11px}}
