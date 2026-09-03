@@ -7,6 +7,7 @@
 <link rel="icon" href="../assets/img/favicon.svg">
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="stylesheet" href="../assets/css/admin-tambah.css">
+<link rel="stylesheet" href="../assets/css/admin-gallery-patch.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
@@ -39,7 +40,15 @@
     </section>
 
     <section class="form-section">
-      <div class="section-title"><span>03</span><div><h2>Lokasi Usaha</h2><p>Pilih titik lokasi usaha pada peta. Titik lokasi wajib diisi.</p></div></div>
+      <div class="section-title"><span>03</span><div><h2>Gallery Foto Usaha &amp; Produk</h2><p>Tambahkan foto usaha, produk, atau layanan agar tampil menarik di halaman publik.</p></div></div>
+      <div class="upload-area">
+        <div class="upload-copy"><label for="gallery" class="upload-label">Foto Gallery</label><p>Maksimal 8 foto. JPG, PNG atau WEBP. Maksimal 1,5 MB per foto.</p><label for="gallery" class="btn btn-outline upload-button">Pilih Foto Gallery</label><input id="gallery" type="file" accept="image/png,image/jpeg,image/webp" multiple></div>
+      </div>
+      <div id="galleryPreview" class="gallery-preview"></div>
+    </section>
+
+    <section class="form-section">
+      <div class="section-title"><span>04</span><div><h2>Lokasi Usaha</h2><p>Pilih titik lokasi usaha pada peta. Titik lokasi wajib diisi.</p></div></div>
       <div id="businessMap" class="map-wrap"></div>
       <div class="map-actions"><button type="button" id="setLocation" class="btn btn-outline">📍 Gunakan Lokasi Saya</button><span>Klik langsung pada peta untuk menentukan titik lokasi.</span></div>
       <div class="map-coords">
