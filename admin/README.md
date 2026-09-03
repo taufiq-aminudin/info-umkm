@@ -1,14 +1,19 @@
-# INFO UMKM — Superadmin Clickable Patch v8
+# INFO UMKM — Tambah UMKM Layout Patch v1
 
-Perbaikan dari screenshot terbaru.
-
-Penyebab utama:
-- `index.html` dashboard sebelumnya **tidak memuat `admin-layout-patch.css`**, sehingga CSS layout tidak pernah diterapkan pada dashboard.
-- Akibatnya sidebar lama tetap menempel/fixed dan terlihat menimpa footer.
+Patch khusus halaman `tambah.html`.
 
 Perbaikan:
-- Satu file layout saja: `assets/css/admin-layout-patch.css`
-- Patch sekarang dimuat langsung pada semua halaman admin non-login.
-- Dashboard tidak lagi memiliki wrapper `</div>` berlebih sebelum footer.
-- Sidebar tetap normal-flow dan footer berada setelah area admin.
-- Tidak membuat patch CSS v3/v5/v6 baru.
+- Form kembali menjadi layout 2 kolom yang rapi.
+- Input/select/textarea mengikuti lebar kolom.
+- Alamat dan deskripsi memakai full width.
+- Logo upload dan preview ditata kembali.
+- Area peta dan koordinat ditata rapi.
+- Tombol bawah form dirapikan.
+- Responsive untuk layar kecil.
+- `admin-tambah.js` asli tetap dipakai agar fungsi wilayah, peta, upload logo, dan submit tidak hilang.
+- CSS seluruhnya scoped pada halaman Tambah UMKM.
+
+Upload file sesuai struktur folder:
+- `tambah.html`
+- `assets/css/admin-tambah.css`
+- `assets/js/admin-tambah.js`
