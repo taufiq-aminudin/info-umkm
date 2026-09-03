@@ -1,0 +1,100 @@
+/* INFO UMKM — Admin Layout Patch
+   Consolidated from previous v3/v5/v6 layout fixes.
+   Keep this as the single admin layout override.
+*/
+
+/* Admin page document flow */
+body:has(.admin-shell) {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar + content are one normal-flow admin area */
+body > .admin-shell {
+  position: static !important;
+  display: grid !important;
+  grid-template-columns: 236px minmax(0, 1fr) !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  flex: 1 0 auto !important;
+  align-items: stretch !important;
+}
+
+/* Admin sidebar — never fixed, never overlays footer */
+body > .admin-shell > .sidebar,
+body > .admin-shell > .admin-sidebar {
+  position: static !important;
+  inset: auto !important;
+  float: none !important;
+  width: 236px !important;
+  min-width: 236px !important;
+  max-width: 236px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  transform: none !important;
+  align-self: stretch !important;
+  z-index: 1 !important;
+}
+
+/* Admin content */
+body > .admin-shell > .admin-main {
+  position: static !important;
+  width: auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding-left: 30px;
+  padding-right: 30px;
+  z-index: 2 !important;
+}
+
+/* Master footer stays below admin area */
+body > footer {
+  position: static !important;
+  inset: auto !important;
+  float: none !important;
+  clear: both !important;
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 auto !important;
+  z-index: 10 !important;
+}
+
+body > footer .container {
+  position: static !important;
+  max-width: 1180px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Mobile */
+@media (max-width: 800px) {
+  body > .admin-shell {
+    display: block !important;
+  }
+
+  body > .admin-shell > .sidebar,
+  body > .admin-shell > .admin-sidebar {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    flex: none !important;
+  }
+
+  body > .admin-shell > .admin-main {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
