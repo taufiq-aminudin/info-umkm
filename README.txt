@@ -1,16 +1,18 @@
-INFO UMKM — Filter Wilayah Patch
+INFO UMKM — Filter Wilayah Patch v2
 
-Perbaikan:
-- Provinsi dapat dibuka dan dimuat dari wilayah.id.
-- Kabupaten/Kota otomatis terbuka setelah Provinsi dipilih.
-- Kecamatan otomatis terbuka setelah Kabupaten/Kota dipilih.
-- Status loading/error dibuat jelas.
-- Filter pencarian dan kategori tetap berjalan.
-- Tidak mengubah nama file menjadi nama acak.
+Perbaikan utama:
+- Menggunakan API yang sama dengan referensi patch Wilayah Superadmin:
+  https://api.kodewilayah.web.id
+- Provinsi -> Kabupaten/Kota -> Kecamatan.
+- Response diproses dengan format success + data.
+- Kode wilayah mengikuti kode BPS/Kemendagri yang digunakan API.
+- Tidak mengubah nama file utama.
+- Tidak menyentuh halaman admin.
 
-Struktur:
+File:
 umkm/index.html
 assets/css/style.css
 assets/css/umkm-filter-patch.css
 assets/js/app.js
 assets/js/regions.js
+README.txt
