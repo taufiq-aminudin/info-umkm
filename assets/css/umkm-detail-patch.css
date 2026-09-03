@@ -1,0 +1,33 @@
+/* INFO UMKM - Public Detail Patch v5 */
+.detail-wrap{max-width:980px;margin:34px auto}
+.detail-card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.detail-cover{height:250px;background:#edf5fc;display:flex;align-items:center;justify-content:center;padding:18px;overflow:hidden}
+.detail-cover img{width:100%;height:100%;object-fit:contain;display:block}
+.detail-body{padding:28px 30px 32px}
+.detail-body h1{margin:8px 0 10px;font-size:34px;line-height:1.15}
+.detail-body>.badge{position:static;display:inline-block}
+.detail-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}
+.detail-item{padding:15px;border:1px solid var(--line);border-radius:12px;background:#fbfdff}
+.detail-item small{display:block;color:var(--muted);margin-bottom:6px}
+.detail-item b{display:block;line-height:1.5}
+.detail-description{line-height:1.75;color:#53657b}
+.detail-section{margin-top:28px}
+.detail-section h2{margin:0 0 14px;font-size:22px}
+.detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.detail-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.detail-gallery button{border:1px solid var(--line);border-radius:12px;padding:0;overflow:hidden;background:#edf5fc;cursor:pointer;aspect-ratio:1/1}
+.detail-gallery button:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(22,65,112,.12)}
+.detail-gallery img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-empty{padding:22px;border:1px dashed #cbd9e8;border-radius:12px;background:#f8fbff;color:var(--muted)}
+.detail-map{height:340px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#edf5fc}
+.detail-map-note{margin:9px 0 0;color:var(--muted);font-size:13px}
+.detail-map-note a{color:var(--blue);font-weight:750}
+@media(max-width:700px){
+ .detail-wrap{margin:20px auto}
+ .detail-cover{height:210px;padding:12px}
+ .detail-body{padding:22px 18px 26px}
+ .detail-body h1{font-size:28px}
+ .detail-meta{grid-template-columns:1fr}
+ .detail-gallery{grid-template-columns:repeat(2,1fr)}
+ .detail-map{height:280px}
+}
