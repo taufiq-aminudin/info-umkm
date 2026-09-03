@@ -70,17 +70,71 @@
       const r=new FileReader();r.onload=()=>{$('logoPreview').src=r.result;$('logoPreview').style.display='block';$('logoPlaceholder').style.display='none'};r.readAsDataURL(f);
     });
   }
-  function initForm(){
+  function compressImage(file,maxWidth=1280,quality=.78){
+    return new Promise((resolve,reject)=>{
+      const reader=new FileReader();
+      reader.onerror=()=>reject(reader.error||new Error('Gagal membaca foto.'));
+      reader.onload=()=>{
+        const img=new Image();
+        img.onload=()=>{
+          const scale=Math.min(1,maxWidth/img.width);
+          const canvas=document.createElement('canvas');
+          canvas.width=Math.max(1,Math.round(img.width*scale));
+          canvas.height=Math.max(1,Math.round(img.height*scale));
+          const ctx=canvas.getContext('2d');
+          ctx.drawImage(img,0,0,canvas.width,canvas.height);
+          resolve(canvas.toDataURL('image/jpeg',quality));
+        };
+        img.onerror=()=>reject(new Error('Foto tidak valid.'));
+        img.src=reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  function initGallery(){
+    const input=$('gallery'),preview=$('galleryPreview');
+    if(!input||!preview)return;
+    input.addEventListener('change',async()=>{
+      const files=Array.from(input.files||[]).slice(0,8);
+      if(input.files.length>8)alert('Maksimal 8 foto gallery. Hanya 8 foto pertama yang digunakan.');
+      preview.innerHTML='';
+      for(const file of files){
+        if(file.size>1.5*1024*1024){alert('Foto '+file.name+' melebihi 1,5 MB dan dilewati.');continue}
+        if(!/^image\/(png|jpeg|webp)$/.test(file.type)){alert('Foto '+file.name+' harus JPG, PNG, atau WEBP.');continue}
+        try{const src=await compressImage(file);const img=document.createElement('img');img.src=src;img.alt='Preview foto usaha';preview.appendChild(img)}catch(e){console.error(e)}
+      }
+    });
+  }
+  async function readGallery(){
+    const input=$('gallery');if(!input)return[];
+    const files=Array.from(input.files||[]).slice(0,8);const out=[];
+    for(const file of files){
+      if(file.size>1.5*1024*1024||!/^image\/(png|jpeg|webp)$/.test(file.type))continue;
+      try{out.push(await compressImage(file))}catch(e){console.error(e)}
+    }
+    return out;
+  }
+  async function initForm(){
     const form=$('manualForm');
-    form.addEventListener('submit',e=>{
+    form.addEventListener('submit',async e=>{
       e.preventDefault();
       if(!form.checkValidity()){form.reportValidity();return}
       if(!$('latitude').value||!$('longitude').value){alert('Silakan tentukan titik lokasi usaha pada peta.');return}
       if(!$('logo').files.length){alert('Logo usaha wajib diunggah.');return}
-      const fd=new FormData(form);const data=Object.fromEntries(fd.entries());
-      data.status='approved';data.source='admin';data.createdAt=new Date().toISOString();data.id='ADM-'+Date.now();data.logo=$('logoPreview').src||'';
-      const list=JSON.parse(localStorage.getItem('infoUmkmAdminData')||'[]');list.push(data);localStorage.setItem('infoUmkmAdminData',JSON.stringify(list));
-      alert('UMKM berhasil ditambahkan dan berstatus Approved.');window.location.href='index.html';
+      const submit=form.querySelector('button[type="submit"]');
+      if(submit){submit.disabled=true;submit.textContent='Menyimpan...'}
+      try{
+        const fd=new FormData(form);const data=Object.fromEntries(fd.entries());
+        const province=$('province'),regency=$('regency'),district=$('district');
+        data.provinceName=province.options[province.selectedIndex]?.text||'';
+        data.regencyName=regency.options[regency.selectedIndex]?.text||'';
+        data.districtName=district.options[district.selectedIndex]?.text||'';
+        data.status='approved';data.source='admin';data.createdAt=new Date().toISOString();data.id='ADM-'+Date.now();data.logo=$('logoPreview').src||'';
+        data.gallery=await readGallery();
+        delete data.logoFile;
+        const list=JSON.parse(localStorage.getItem('infoUmkmAdminData')||'[]');list.push(data);localStorage.setItem('infoUmkmAdminData',JSON.stringify(list));
+        alert('UMKM berhasil ditambahkan dan berstatus Approved.');window.location.href='index.html';
+      }catch(err){console.error(err);alert('Gagal menyimpan UMKM. Silakan coba lagi.');if(submit){submit.disabled=false;submit.textContent='Simpan & Terbitkan'}}
     });
   }
   document.addEventListener('DOMContentLoaded',()=>{
@@ -96,6 +150,6 @@
     $('regency').addEventListener('change',e=>loadDistricts(e.target.value));
     if(province.value) loadRegencies(province.value);
     else { regency.disabled=true; district.disabled=true; }
-    initLogo();initForm();initMap();
+    initLogo();initGallery();initForm();initMap();
   });
 })();
