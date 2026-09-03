@@ -1,35 +1,20 @@
-# INFO UMKM — info-umkm.my.id
+INFO UMKM — Superadmin Edit UMKM Patch
 
-Starter project modern untuk portal direktori UMKM Indonesia.
+Isi ZIP:
+- admin/umkm.html — Kelola UMKM dengan tombol Detail + Edit dan filter status usaha.
+- admin/edit.html — Form edit UMKM.
+- assets/js/admin-edit.js — Simpan perubahan ke localStorage.infoUmkmAdminData.
+- assets/js/admin-kelola-umkm.js — Tabel Kelola UMKM.
+- assets/css/admin-edit-patch.css — CSS tambahan kecil.
 
-## Cakupan UI
-- Homepage / landing page
-- Direktori UMKM nasional
-- Filter provinsi, kabupaten/kota, kecamatan, kategori
-- Detail UMKM
-- Peta/lokasi usaha
-- Media sosial & kontak
-- Form pendaftaran UMKM
-- Upload KTP & KK (UI prototype; penyimpanan aman belum diaktifkan)
-- Dashboard Superadmin
-- Approval UMKM
-- CMS postingan
-- Statistik dan activity log
-- Responsive desktop/mobile
+Fitur:
+- Edit nama usaha, pemilik, HP, email, NIK/KK internal, kategori, wilayah, alamat, deskripsi.
+- Edit titik lokasi pada peta.
+- Ganti logo dan gallery.
+- Status usaha: Aktif / Pindah Lokasi / Tutup.
+- Saat lokasi berubah, lokasi lama disimpan ke locationHistory.
+- Saat status Tutup, closedAt dicatat.
+- Data NIK/KK hanya berada di storage Superadmin dan tidak dirender pada halaman publik.
 
-## Catatan keamanan
-KTP, KK, NIK, nomor KK, dan data pribadi tidak boleh disimpan di repository GitHub atau public storage.
-Implementasi produksi harus memakai backend, database, private object storage, authentication, role/permission, validation upload, audit log, encryption/backup, dan HTTPS.
-
-## Struktur
-- `index.html` — homepage
-- `umkm/index.html` — direktori
-- `umkm/detail.html` — detail UMKM
-- `daftar.html` — pendaftaran UMKM
-- `admin/index.html` — dashboard superadmin
-- `assets/css/style.css` — desain global
-- `assets/js/app.js` — data/demo interaction
-- `docs/ARCHITECTURE.md` — rancangan backend & database
-
-## Next step
-Prototype ini sengaja dibuat sebagai fondasi UI/UX. Tahap berikutnya dapat diubah menjadi aplikasi Laravel + MySQL dengan API, authentication, approval workflow, dan private document storage.
+Catatan penting:
+Sistem saat ini menggunakan localStorage.infoUmkmAdminData. Jadi data hanya tersimpan pada browser/origin yang sama. Ini belum merupakan database server bersama.
