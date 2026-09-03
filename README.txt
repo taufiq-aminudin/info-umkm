@@ -1,12 +1,16 @@
-INFO UMKM — UMKM Clickable Patch
+INFO UMKM — Filter Wilayah Patch
 
-Struktur upload:
-- umkm/index.html
-- assets/css/style.css
-- assets/js/app.js
+Perbaikan:
+- Provinsi dapat dibuka dan dimuat dari wilayah.id.
+- Kabupaten/Kota otomatis terbuka setelah Provinsi dipilih.
+- Kecamatan otomatis terbuka setelah Kabupaten/Kota dipilih.
+- Status loading/error dibuat jelas.
+- Filter pencarian dan kategori tetap berjalan.
+- Tidak mengubah nama file menjadi nama acak.
 
-Filename dibuat bersih:
-index.html, style.css, app.js.
-
-Patch ini memakai HTML dan CSS yang diberikan, serta app.js dari kode yang diberikan.
-Tidak mengubah file admin atau halaman lain.
+Struktur:
+umkm/index.html
+assets/css/style.css
+assets/css/umkm-filter-patch.css
+assets/js/app.js
+assets/js/regions.js
