@@ -1,11 +1,14 @@
-# INFO UMKM — Superadmin Clickable Patch v6
+# INFO UMKM — Superadmin Clickable Patch v8
 
-Perbaikan final berdasarkan screenshot terbaru:
-- Sidebar dibuat `static` dan menjadi kolom grid admin.
-- Sidebar tidak mungkin lagi menutupi area footer.
-- Footer dipisahkan secara tegas dari `.admin-shell`.
-- Stray closing wrapper pada `index.html` dihapus.
-- Header/footer master tetap dipertahankan.
-- Tidak mengubah database atau JavaScript utama.
+Perbaikan dari screenshot terbaru.
 
-Gunakan v6 sebagai versi patch terbaru.
+Penyebab utama:
+- `index.html` dashboard sebelumnya **tidak memuat `admin-layout-patch.css`**, sehingga CSS layout tidak pernah diterapkan pada dashboard.
+- Akibatnya sidebar lama tetap menempel/fixed dan terlihat menimpa footer.
+
+Perbaikan:
+- Satu file layout saja: `assets/css/admin-layout-patch.css`
+- Patch sekarang dimuat langsung pada semua halaman admin non-login.
+- Dashboard tidak lagi memiliki wrapper `</div>` berlebih sebelum footer.
+- Sidebar tetap normal-flow dan footer berada setelah area admin.
+- Tidak membuat patch CSS v3/v5/v6 baru.
