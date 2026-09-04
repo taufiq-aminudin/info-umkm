@@ -1,8 +1,60 @@
 <!doctype html>
 <html lang="id">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tambah UMKM Manual | INFO UMKM</title><link rel="icon" href="../assets/img/favicon.svg"><link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="../assets/css/admin-tambah.css"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></head>
-<body><header><div class="container nav"><a class="brand" href="../index.html"><img src="../assets/img/logo.svg" alt="INFO UMKM"></a><nav class="navlinks"><a href="../index.html">Beranda</a><a href="index.html">Admin</a><a class="btn btn-primary" href="../umkm/index.html">Direktori UMKM</a></nav></div></header><main class="admin-main manual-page"><div class="manual-heading"><div><div class="muted">Superadmin / UMKM</div><h1>Tambah UMKM Manual</h1><p>Lengkapi seluruh data usaha sebelum menerbitkan UMKM.</p></div><a class="btn btn-outline" href="index.html">Kembali</a></div><div class="manual-notice">UMKM yang ditambahkan oleh admin akan langsung berstatus <b>Approved</b>. Data ini terpisah dari antrean pendaftaran publik.</div>
-<form id="manualForm" class="manual-form panel" novalidate><section class="form-section"><div class="section-title"><span>01</span><div><h2>Informasi Usaha</h2><p>Data utama usaha dan pemilik.</p></div></div><div class="form-grid"><div class="field"><label for="businessName">Nama UMKM <b>*</b></label><input id="businessName" name="businessName" required placeholder="Nama usaha" autocomplete="organization"></div><div class="field"><label for="ownerName">Nama Pemilik <b>*</b></label><input id="ownerName" name="ownerName" required placeholder="Nama pemilik" autocomplete="name"></div><div class="field"><label for="category">Kategori <b>*</b></label><select id="category" name="category" required><option value="">Pilih kategori</option></select></div><div class="field"><label for="phone">Nomor WhatsApp/Telepon <b>*</b></label><input id="phone" name="phone" required placeholder="08xxxxxxxxxx" inputmode="tel" autocomplete="tel"></div><div class="field"><label for="province">Provinsi <b>*</b></label><select id="province" name="province" required><option value="">Pilih Provinsi</option></select></div><div class="field"><label for="regency">Kabupaten/Kota <b>*</b></label><select id="regency" name="regency" required disabled><option value="">Pilih Kabupaten/Kota</option></select></div><div class="field"><label for="district">Kecamatan <b>*</b></label><select id="district" name="district" required disabled><option value="">Pilih Kecamatan</option></select></div><div class="field field-full"><label for="address">Alamat Lengkap <b>*</b></label><textarea id="address" name="address" required rows="3" placeholder="Alamat lengkap usaha"></textarea></div><div class="field field-full"><label for="description">Deskripsi Usaha <b>*</b></label><textarea id="description" name="description" required rows="5" placeholder="Deskripsikan usaha, produk atau layanan yang ditawarkan..."></textarea></div></div></section>
-<section class="form-section"><div class="section-title"><span>02</span><div><h2>Logo Usaha</h2><p>Gunakan logo resmi usaha agar mudah dikenali di direktori.</p></div></div><div class="upload-area"><div class="logo-preview-wrap"><img id="logoPreview" class="logo-preview" alt="Preview logo usaha"><div id="logoPlaceholder" class="logo-placeholder">LOGO</div></div><div class="upload-copy"><label for="logo" class="upload-label">Logo Usaha <b>*</b></label><p>Format JPG, PNG, WEBP atau SVG. Maksimal 2 MB.</p><label for="logo" class="btn btn-outline upload-button">Pilih Logo</label><input id="logo" name="logoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" required></div></div></section>
-<section class="form-section"><div class="section-title"><span>03</span><div><h2>Lokasi Usaha</h2><p>Pilih titik lokasi usaha pada peta. Titik lokasi wajib diisi.</p></div></div><div id="businessMap" class="map-wrap"></div><div class="map-actions"><button type="button" id="setLocation" class="btn btn-outline">📍 Gunakan Lokasi Saya</button><span>Klik langsung pada peta untuk menentukan titik lokasi.</span></div><div class="map-coords"><div class="field"><label for="latitude">Latitude <b>*</b></label><input id="latitude" name="latitude" required readonly placeholder="Pilih titik pada peta"></div><div class="field"><label for="longitude">Longitude <b>*</b></label><input id="longitude" name="longitude" required readonly placeholder="Pilih titik pada peta"></div></div></section>
-<div class="form-footer"><div class="required-note"><b>*</b> Semua isian wajib diisi</div><div class="form-actions"><a class="btn btn-outline" href="index.html">Batal</a><button class="btn btn-primary" type="submit">Simpan &amp; Terbitkan</button></div></div></form></main><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="../assets/js/admin-tambah.js"></script></body></html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tambah UMKM Manual | INFO UMKM</title>
+<link rel="icon" href="../assets/img/favicon.svg">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/admin-tambah.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+<header><div class="container nav"><a class="brand" href="../index.html"><img src="../assets/img/logo.svg" alt="INFO UMKM"></a><nav class="navlinks"><a href="../index.html">Beranda</a><a href="../umkm/index.html">UMKM</a><a href="../index.html#kategori">Kategori</a><a href="../index.html#peta">Peta</a><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a><a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a><a class="btn btn-primary" href="../daftar.html">Daftarkan UMKM</a></nav><span class="mobile">☰</span></div></header>
+<main class="admin-main manual-page">
+  <div class="manual-heading"><div><div class="muted">Superadmin / UMKM</div><h1>Tambah UMKM Manual</h1><p>Lengkapi seluruh data usaha sebelum menerbitkan UMKM.</p></div><a class="btn btn-outline" href="index.html">Kembali</a></div>
+  <div class="manual-notice">UMKM yang ditambahkan oleh admin akan langsung berstatus <b>Approved</b>. Data ini terpisah dari antrean pendaftaran publik.</div>
+  <form id="manualForm" class="manual-form panel" novalidate>
+    <section class="form-section">
+      <div class="section-title"><span>01</span><div><h2>Informasi Usaha</h2><p>Data utama usaha dan pemilik.</p></div></div>
+      <div class="form-grid">
+        <div class="field"><label for="businessName">Nama UMKM <b>*</b></label><input id="businessName" name="businessName" required placeholder="Nama usaha" autocomplete="organization"></div>
+        <div class="field"><label for="ownerName">Nama Pemilik <b>*</b></label><input id="ownerName" name="ownerName" required placeholder="Nama pemilik" autocomplete="name"></div>
+        <div class="field"><label for="category">Kategori <b>*</b></label><select id="category" name="category" required><option value="">Pilih kategori</option></select></div>
+        <div class="field"><label for="phone">Nomor WhatsApp/Telepon <b>*</b></label><input id="phone" name="phone" required placeholder="08xxxxxxxxxx" inputmode="tel" autocomplete="tel"></div>
+        <div class="field"><label for="province">Provinsi <b>*</b></label><select id="province" name="province" required><option value="">Pilih Provinsi</option></select></div>
+        <div class="field"><label for="regency">Kabupaten/Kota <b>*</b></label><select id="regency" name="regency" required disabled><option value="">Pilih Kabupaten/Kota</option></select></div>
+        <div class="field"><label for="district">Kecamatan <b>*</b></label><select id="district" name="district" required disabled><option value="">Pilih Kecamatan</option></select></div>
+        <div class="field field-full"><label for="address">Alamat Lengkap <b>*</b></label><textarea id="address" name="address" required rows="3" placeholder="Alamat lengkap usaha"></textarea></div>
+        <div class="field field-full"><label for="description">Deskripsi Usaha <b>*</b></label><textarea id="description" name="description" required rows="5" placeholder="Deskripsikan usaha, produk atau layanan yang ditawarkan..."></textarea></div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="section-title"><span>02</span><div><h2>Logo Usaha</h2><p>Gunakan logo resmi usaha agar mudah dikenali di direktori.</p></div></div>
+      <div class="upload-area">
+        <div class="logo-preview-wrap"><img id="logoPreview" class="logo-preview" alt="Preview logo usaha"><div id="logoPlaceholder" class="logo-placeholder">LOGO</div></div>
+        <div class="upload-copy"><label for="logo" class="upload-label">Logo Usaha <b>*</b></label><p>Format JPG, PNG, WEBP atau SVG. Maksimal 2 MB.</p><label for="logo" class="btn btn-outline upload-button">Pilih Logo</label><input id="logo" name="logoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" required></div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="section-title"><span>03</span><div><h2>Lokasi Usaha</h2><p>Pilih titik lokasi usaha pada peta. Titik lokasi wajib diisi.</p></div></div>
+      <div id="businessMap" class="map-wrap"></div>
+      <div class="map-actions"><button type="button" id="setLocation" class="btn btn-outline">📍 Gunakan Lokasi Saya</button><span>Klik langsung pada peta untuk menentukan titik lokasi.</span></div>
+      <div class="map-coords">
+        <div class="field"><label for="latitude">Latitude <b>*</b></label><input id="latitude" name="latitude" required readonly placeholder="Pilih titik pada peta"></div>
+        <div class="field"><label for="longitude">Longitude <b>*</b></label><input id="longitude" name="longitude" required readonly placeholder="Pilih titik pada peta"></div>
+      </div>
+    </section>
+
+    <div class="form-footer"><div class="required-note"><b>*</b> Semua isian wajib diisi</div><div class="form-actions"><a class="btn btn-outline" href="index.html">Batal</a><button class="btn btn-primary" type="submit">Simpan &amp; Terbitkan</button></div></div>
+  </form>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../assets/js/admin-tambah.js"></script>
+
+<footer id="kontak"><div class="container"><div class="footer-grid"><div><img src="../assets/img/logo.svg" style="width:190px;background:#fff;border-radius:8px;padding:5px"><p>Direktori UMKM Indonesia untuk menemukan, mengenal, dan mendukung usaha lokal dari seluruh wilayah Indonesia.</p></div><div><h4>Direktori</h4><a href="../umkm/index.html">Semua UMKM</a><a href="../umkm/index.html">Provinsi</a><a href="../umkm/index.html">Kabupaten/Kota</a><a href="../umkm/index.html">Kategori</a></div><div><h4>Informasi</h4><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a><a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a></div><div><h4>Kontak</h4><p>📍 Indonesia</p><p>📞 +62 878-6723-6774</p><p>✉️ info@info-umkm.my.id</p></div></div><div class="copyright">© <span id="year"></span> INFO UMKM. Platform Direktori UMKM Indonesia.</div></div></footer>
+<script>document.getElementById("year").textContent=new Date().getFullYear();</script>
+</body>
+</html>
