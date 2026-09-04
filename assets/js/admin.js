@@ -1,4 +1,3 @@
-
 const ADMIN_KEY="infoUmkmAdminSession";
 const UMKM_KEY="infoUmkmRecords";
 const seed=[
