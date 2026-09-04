@@ -1,18 +1,15 @@
-INFO UMKM — Filter Wilayah Patch v2
+INFO UMKM — MASTER PUBLIC PAGES
 
-Perbaikan utama:
-- Menggunakan API yang sama dengan referensi patch Wilayah Superadmin:
-  https://api.kodewilayah.web.id
-- Provinsi -> Kabupaten/Kota -> Kecamatan.
-- Response diproses dengan format success + data.
-- Kode wilayah mengikuti kode BPS/Kemendagri yang digunakan API.
-- Tidak mengubah nama file utama.
-- Tidak menyentuh halaman admin.
+Paket ini membuat navigasi publik menjadi halaman terpisah:
+- index.html        = Beranda
+- umkm/index.html   = Direktori UMKM
+- kategori.html     = Kategori
+- peta.html         = Peta
+- berita.html       = Berita
+- artikel.html      = Artikel
+- tentang.html      = Tentang Kami
+- kontak.html       = Kontak
+- daftar.html       = Daftarkan UMKM
 
-File:
-umkm/index.html
-assets/css/style.css
-assets/css/umkm-filter-patch.css
-assets/js/app.js
-assets/js/regions.js
-README.txt
+Semua halaman publik memakai master header dan master footer yang sama.
+assets/css/style.css dipertahankan dari sumber yang ada; tidak dibuat ulang.
