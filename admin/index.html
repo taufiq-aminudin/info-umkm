@@ -1,15 +1,279 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Superadmin Dashboard | INFO UMKM</title><link rel="icon" href="../assets/img/favicon.svg"><link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="../assets/css/admin-layout-patch.css"></head><body>
-<header><div class="container nav"><a class="brand" href="../index.html"><img src="../assets/img/logo.svg" alt="INFO UMKM"><span class="brand-text"><strong>INFO UMKM</strong><small>Bersama UMKM Kuat, Ekonomi Lokal Hebat.</small></span></a><nav class="navlinks"><a href="../index.html">Beranda</a><a href="../umkm/index.html">UMKM</a><a href="../index.html#kategori">Kategori</a><a href="../index.html#peta">Peta</a><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a><a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a><a class="btn btn-primary" href="../daftar.html">Daftarkan UMKM</a></nav><span class="mobile">☰</span></div></header>
-<div class="admin-shell"><aside class="sidebar"><div class="admin-brand">INFO UMKM <small style="display:block;font-weight:500;opacity:.7">SUPERADMIN</small></div><nav class="side">
-<a class="active" href="index.html">▦ Dashboard</a><a href="umkm.html">◉ Semua UMKM</a><a href="pending.html">⏳ Menunggu Approval</a><a href="umkm.html?status=approved">✓ Terverifikasi</a><a href="umkm.html?status=rejected">✕ Ditolak</a><a href="tambah.html">＋ Tambah UMKM</a><br><a href="wilayah.html">⌖ Wilayah</a><a href="kategori.html">▣ Kategori</a><a href="postingan.html">✎ Postingan</a><a href="media.html">▤ Media</a><a href="users.html">♙ Users</a><a href="laporan.html">◴ Laporan</a><a href="settings.html">⚙ Settings</a><a href="activity-log.html">◌ Activity Log</a><br><a href="../index.html">↗ Website Publik</a><a href="login.html" onclick="try{logout();}catch(e){}">⇥ Logout</a></nav></aside>
-<main class="admin-main"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div class="muted">Superadmin / Dashboard</div><h1 style="margin:4px 0">Dashboard</h1></div><a class="btn btn-primary" href="tambah.html">+ Tambah UMKM</a></div>
-<div class="kpis"><div class="kpi"><small>Total UMKM</small><b>12.580</b><span style="color:var(--green)">↑ 12% bulan ini</span></div><div class="kpi"><small>Menunggu Approval</small><b>128</b><span style="color:var(--orange)">Perlu review</span></div><div class="kpi"><small>Terverifikasi</small><b>11.950</b><span style="color:var(--green)">↑ 145 bulan ini</span></div><div class="kpi"><small>Ditolak</small><b>502</b><span style="color:var(--red)">↓ 2% bulan ini</span></div></div>
-<section class="section" style="padding:28px 0"><div class="feature" style="margin-bottom:22px"><div class="feature-grid"><div><div class="eyebrow" style="color:#9fd5ff">NATIONAL UMKM DIRECTORY</div><h2 style="font-size:34px">Kelola ekosistem UMKM Indonesia dari satu dashboard.</h2><p style="opacity:.82">Approval, konten, wilayah, kategori, laporan, dan aktivitas admin terpusat.</p></div><div><div class="panel" style="color:var(--ink)"><b>Prioritas hari ini</b><h2>128</h2><p class="muted">pendaftaran menunggu review</p><a class="btn btn-primary" href="pending.html">Review Sekarang</a></div></div></div></div>
-<div class="panel"><div class="section-head"><div><h2>Pendaftaran Terbaru</h2><p class="muted">UMKM yang baru masuk ke sistem</p></div><a class="btn btn-outline" href="umkm.html">Lihat Semua</a></div><div class="tablewrap"><table class="table"><thead><tr><th>UMKM</th><th>Pemilik</th><th>Lokasi</th><th>Kategori</th><th>Status</th><th>Aksi</th></tr></thead><tbody>
-<tr><td><b>Warung Sumber Rejeki</b></td><td>Budi Santoso</td><td>Temanggung</td><td>Kuliner</td><td><span class="status pending">Pending</span></td><td><a class="btn btn-outline" style="padding:6px 10px" href="pending.html">Review</a></td></tr>
-<tr><td><b>Batik Modern</b></td><td>Siti Rahayu</td><td>Sleman</td><td>Fashion</td><td><span class="status pending">Pending</span></td><td><a class="btn btn-outline" style="padding:6px 10px" href="pending.html">Review</a></td></tr>
-<tr><td><b>Tani Makmur</b></td><td>Agus Purwanto</td><td>Bandung</td><td>Pertanian</td><td><span class="status approved">Approved</span></td><td><a class="btn btn-outline" style="padding:6px 10px" href="detail.html">Detail</a></td></tr>
-<tr><td><b>Kerajinan Rotan</b></td><td>Rina Lestari</td><td>Denpasar</td><td>Kerajinan</td><td><span class="status pending">Pending</span></td><td><a class="btn btn-outline" style="padding:6px 10px" href="pending.html">Review</a></td></tr>
-</tbody></table></div></div></section></main></div>
-<footer style="background:var(--bg);color:var(--ink);border-top:1px solid var(--line);padding:48px 0 25px"><div class="container"><div class="footer-grid"><div><div class="footer-brand"><img src="../assets/img/logo.svg" alt="INFO UMKM"><div><strong>INFO UMKM</strong><small>Bersama UMKM Kuat, Ekonomi Lokal Hebat.</small></div></div><p style="color:var(--muted)">Direktori UMKM Indonesia untuk menemukan, mengenal, dan mendukung usaha lokal dari seluruh wilayah Indonesia.</p></div><div><h4>Direktori</h4><a href="../umkm/index.html">Semua UMKM</a><a href="../umkm/index.html">Provinsi</a><a href="../umkm/index.html">Kabupaten/Kota</a><a href="../kategori.html">Kategori</a></div><div><h4>Informasi</h4><a href="../berita.html">Berita</a><a href="../artikel.html">Artikel</a><a href="../tentang.html">Tentang Kami</a><a href="../kontak.html">Kontak</a></div><div><h4>Kontak</h4><p style="color:var(--muted)">📍 Indonesia</p><p style="color:var(--muted)">📞 +62 878-6723-6774</p><p style="color:var(--muted)">✉️ info@info-umkm.my.id</p></div></div><div class="copyright" style="color:var(--muted);border-top:1px solid var(--line)">© <span id="year"></span> INFO UMKM. Bersama UMKM Kuat, Ekonomi Lokal Hebat.</div></div></footer>
-<script src="../assets/js/admin.js"></script><script>const y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();</script></body></html>
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Superadmin Dashboard | INFO UMKM</title>
+<link rel="icon" href="../assets/img/favicon.svg">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/admin-layout-patch.css">
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="brand" href="../index.html">
+      <img src="../assets/img/logo.svg" alt="INFO UMKM">
+      <span class="brand-text">
+        <strong>INFO UMKM</strong>
+        <small>Bersama UMKM Kuat, Ekonomi Lokal Hebat.</small>
+      </span>
+    </a>
+  </div>
+</header>
+
+<div class="admin-shell">
+<aside class="sidebar">
+  <div class="admin-brand">
+    INFO UMKM
+    <small style="display:block;font-weight:500;opacity:.7">SUPERADMIN</small>
+  </div>
+
+  <nav class="side">
+    <a class="active" href="index.html">▦ Dashboard</a>
+    <a href="umkm.html">◉ Semua UMKM</a>
+    <a href="pending.html">⏳ Menunggu Approval</a>
+    <a href="umkm.html?status=approved">✓ Terverifikasi</a>
+    <a href="umkm.html?status=rejected">✕ Ditolak</a>
+    <a href="tambah.html">＋ Tambah UMKM</a>
+    <br>
+    <a href="wilayah.html">⌖ Wilayah</a>
+    <a href="kategori.html">▣ Kategori</a>
+    <a href="postingan.html">✎ Postingan</a>
+    <a href="media.html">▤ Media</a>
+    <a href="users.html">♙ Users</a>
+    <a href="laporan.html">◴ Laporan</a>
+    <a href="settings.html">⚙ Settings</a>
+    <a href="activity-log.html">◌ Activity Log</a>
+    <br>
+    <a href="../index.html">↗ Website Publik</a>
+    <a href="login.html" onclick="try{logout();}catch(e){}">⇥ Logout</a>
+  </nav>
+</aside>
+
+<main class="admin-main">
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px">
+    <div>
+      <div class="muted">Superadmin / Dashboard</div>
+      <h1 style="margin:4px 0">Dashboard</h1>
+    </div>
+    <a class="btn btn-primary" href="tambah.html">+ Tambah UMKM</a>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi">
+      <small>Total UMKM</small>
+      <b>12.580</b>
+      <span style="color:var(--green)">↑ 12% bulan ini</span>
+    </div>
+
+    <div class="kpi">
+      <small>Menunggu Approval</small>
+      <b>128</b>
+      <span style="color:var(--orange)">Perlu review</span>
+    </div>
+
+    <div class="kpi">
+      <small>Terverifikasi</small>
+      <b>11.950</b>
+      <span style="color:var(--green)">↑ 145 bulan ini</span>
+    </div>
+
+    <div class="kpi">
+      <small>Ditolak</small>
+      <b>502</b>
+      <span style="color:var(--red)">↓ 2% bulan ini</span>
+    </div>
+  </div>
+
+  <section class="section" style="padding:28px 0">
+
+    <div class="feature" style="margin-bottom:22px">
+      <div class="feature-grid">
+
+        <div>
+          <div class="eyebrow" style="color:#9fd5ff">
+            NATIONAL UMKM DIRECTORY
+          </div>
+
+          <h2 style="font-size:34px">
+            Kelola ekosistem UMKM Indonesia dari satu dashboard.
+          </h2>
+
+          <p style="opacity:.82">
+            Approval, konten, wilayah, kategori, laporan, dan aktivitas admin terpusat.
+          </p>
+        </div>
+
+        <div>
+          <div class="panel" style="color:var(--ink)">
+            <b>Prioritas hari ini</b>
+            <h2>128</h2>
+            <p class="muted">pendaftaran menunggu review</p>
+            <a class="btn btn-primary" href="pending.html">
+              Review Sekarang
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel">
+
+      <div class="section-head">
+        <div>
+          <h2>Pendaftaran Terbaru</h2>
+          <p class="muted">UMKM yang baru masuk ke sistem</p>
+        </div>
+
+        <a class="btn btn-outline" href="umkm.html">
+          Lihat Semua
+        </a>
+      </div>
+
+      <div class="tablewrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>UMKM</th>
+              <th>Pemilik</th>
+              <th>Lokasi</th>
+              <th>Kategori</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td><b>Warung Sumber Rejeki</b></td>
+              <td>Budi Santoso</td>
+              <td>Temanggung</td>
+              <td>Kuliner</td>
+              <td>
+                <span class="status pending">Pending</span>
+              </td>
+              <td>
+                <a class="btn btn-outline" style="padding:6px 10px" href="pending.html">
+                  Review
+                </a>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>Batik Modern</b></td>
+              <td>Siti Rahayu</td>
+              <td>Sleman</td>
+              <td>Fashion</td>
+              <td>
+                <span class="status pending">Pending</span>
+              </td>
+              <td>
+                <a class="btn btn-outline" style="padding:6px 10px" href="pending.html">
+                  Review
+                </a>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>Tani Makmur</b></td>
+              <td>Agus Purwanto</td>
+              <td>Bandung</td>
+              <td>Pertanian</td>
+              <td>
+                <span class="status approved">Approved</span>
+              </td>
+              <td>
+                <a class="btn btn-outline" style="padding:6px 10px" href="detail.html">
+                  Detail
+                </a>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>Kerajinan Rotan</b></td>
+              <td>Rina Lestari</td>
+              <td>Denpasar</td>
+              <td>Kerajinan</td>
+              <td>
+                <span class="status pending">Pending</span>
+              </td>
+              <td>
+                <a class="btn btn-outline" style="padding:6px 10px" href="pending.html">
+                  Review
+                </a>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</div>
+
+<footer style="background:var(--bg);color:var(--ink);border-top:1px solid var(--line);padding:48px 0 25px">
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div>
+        <div class="footer-brand">
+          <img src="../assets/img/logo.svg" alt="INFO UMKM">
+          <div>
+            <strong>INFO UMKM</strong>
+            <small>Bersama UMKM Kuat, Ekonomi Lokal Hebat.</small>
+          </div>
+        </div>
+
+        <p style="color:var(--muted)">
+          Direktori UMKM Indonesia untuk menemukan, mengenal, dan mendukung usaha lokal dari seluruh wilayah Indonesia.
+        </p>
+      </div>
+
+      <div>
+        <h4>Direktori</h4>
+        <a href="../umkm/index.html">Semua UMKM</a>
+        <a href="../umkm/index.html">Provinsi</a>
+        <a href="../umkm/index.html">Kabupaten/Kota</a>
+        <a href="../kategori.html">Kategori</a>
+      </div>
+
+      <div>
+        <h4>Informasi</h4>
+        <a href="../berita.html">Berita</a>
+        <a href="../artikel.html">Artikel</a>
+        <a href="../tentang.html">Tentang Kami</a>
+        <a href="../kontak.html">Kontak</a>
+      </div>
+
+      <div>
+        <h4>Kontak</h4>
+        <p style="color:var(--muted)">📍 Indonesia</p>
+        <p style="color:var(--muted)">📞 +62 878-6723-6774</p>
+        <p style="color:var(--muted)">✉️ info@info-umkm.my.id</p>
+      </div>
+
+    </div>
+
+    <div class="copyright" style="color:var(--muted);border-top:1px solid var(--line)">
+      © <span id="year"></span> INFO UMKM. Bersama UMKM Kuat, Ekonomi Lokal Hebat.
+    </div>
+
+  </div>
+</footer>
+
+<script src="../assets/js/admin.js"></script>
+<script>
+const y=document.getElementById('year');
+if(y)y.textContent=new Date().getFullYear();
+</script>
+
+</body>
+</html>
