@@ -1,15 +1,18 @@
-INFO UMKM — Homepage Patch
-============================
+INFO UMKM — MASTER HEADER FIX
 
-Source:
-https://github.com/taufiq-aminudin/info-umkm
+Sumber: repository GitHub taufiq-aminudin/info-umkm, branch main.
 
-Patch:
-- Replaces root index.html with the supplied homepage.
-- Homepage reads approved UMKM from localStorage key: infoUmkmRecords.
-- Keeps existing Admin/Admin-Tambah data flow intact.
-- No admin.js or admin-tambah.js are replaced.
-- Duplicate closing HTML tags in the supplied paste were cleaned.
+Patch ini memperbaiki kesalahan ZIP sebelumnya dan menjadikan header Beranda sebagai master untuk halaman publik yang dipatch.
 
-Upload:
-Extract this ZIP into the INFO UMKM project root and replace index.html.
+Isi:
+- index.html
+- assets/css/style.css
+- umkm/index.html
+- umkm/detail.html
+
+PENTING:
+- style.css adalah file CSS, bukan index.html.
+- umkm/index.html tidak kosong.
+- Struktur header publik memakai pola master Beranda: .container.nav > .brand + .navlinks + .mobile.
+- Tidak mengubah JS admin, filter, detail, atau aset gambar.
+- File lama dengan nama yang sama boleh ditimpa sesuai struktur folder.
