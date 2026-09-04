@@ -6,27 +6,23 @@
 <title>Detail UMKM | INFO UMKM</title>
 <link rel="icon" href="../assets/img/favicon.svg">
 <link rel="stylesheet" href="../assets/css/style.css">
-<link rel="stylesheet" href="../assets/css/umkm-detail-patch.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+.detail-wrap{max-width:900px;margin:40px auto}.detail-card{background:#fff;border:1px solid #dfe8f1;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.06)}.detail-cover{height:320px;background:#eaf3fb}.detail-cover img{width:100%;height:100%;object-fit:cover}.detail-body{padding:28px}.detail-body h1{margin:0 0 8px}.detail-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}.detail-item{padding:15px;border:1px solid #e2eaf2;border-radius:12px}.detail-item small{display:block;color:#718096;margin-bottom:5px}.detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}@media(max-width:700px){.detail-meta{grid-template-columns:1fr}.detail-cover{height:220px}.detail-wrap{margin:20px auto}}
+</style>
 </head>
 <body>
 <header><div class="container nav">
-  <a class="brand" href="../index.html">
-    <img src="../assets/img/logo.svg" alt="INFO UMKM">
-    <span class="brand-text"><strong><span class="brand-info">INFO</span> <span class="brand-umkm">UMKM</span></strong><small>Bersama UMKM Kuat, Ekonomi Lokal Hebat.</small></span>
-  </a>
-  <nav class="navlinks">
-    <a href="../index.html">Beranda</a><a href="index.html">UMKM</a><a href="index.html#kategori">Kategori</a><a href="index.html#peta">Peta</a><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a><a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a><a class="btn btn-primary" href="../daftar.html">Daftarkan UMKM</a>
-  </nav><span class="mobile">☰</span>
+<a class="brand" href="../index.html"><img src="../assets/img/logo.svg" alt="INFO UMKM"></a>
+<nav class="navlinks"><a href="../index.html">Beranda</a><a href="index.html">UMKM</a><a href="index.html#kategori">Kategori</a><a href="index.html#peta">Peta</a><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a><a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a><a class="btn btn-primary" href="../daftar.html">Daftarkan UMKM</a></nav><span class="mobile">☰</span>
 </div></header>
 <section class="pagehead"><div class="container"><div class="crumb"><a href="index.html">UMKM</a> / Detail</div><h1>Detail UMKM</h1><p class="muted">Informasi usaha dari Direktori UMKM Indonesia.</p></div></section>
 <section class="section"><div class="container detail-wrap" id="detailContent"></div></section>
 <footer><div class="container"><div class="footer-grid">
-  <div><div class="footer-brand"><img src="../assets/img/logo.svg" alt="INFO UMKM"><div><strong>INFO UMKM</strong><small>Bersama UMKM Kuat, Ekonomi Lokal Hebat.</small></div></div><p>Direktori UMKM Indonesia untuk menemukan, mengenal, dan mendukung usaha lokal dari seluruh wilayah Indonesia.</p></div>
-  <div><h4>Direktori</h4><a href="index.html">Semua UMKM</a><a href="index.html">Provinsi</a><a href="index.html">Kabupaten/Kota</a><a href="index.html">Kategori</a></div>
-  <div><h4>Informasi</h4><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a><a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a></div>
-  <div><h4>Kontak</h4><p>📍 Indonesia</p><p>📞 +62 878-6723-6774</p><p>✉️ info@info-umkm.my.id</p></div>
+<div><img src="../assets/img/logo.svg" style="width:190px;background:#fff;border-radius:8px;padding:5px"><p>Direktori UMKM Indonesia untuk menemukan, mengenal, dan mendukung usaha lokal dari seluruh wilayah Indonesia.</p></div>
+<div><h4>Direktori</h4><a href="index.html">Semua UMKM</a><a href="index.html">Provinsi</a><a href="index.html">Kabupaten/Kota</a><a href="index.html">Kategori</a></div>
+<div><h4>Informasi</h4><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a><a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a></div>
+<div><h4>Kontak</h4><p>📍 Indonesia</p><p>📞 +62 878-6723-6774</p><p>✉️ info@info-umkm.my.id</p></div>
 </div><div class="copyright">© <span id="year"></span> INFO UMKM. Platform Direktori UMKM Indonesia.</div></div></footer>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="../assets/js/umkm-detail.js"></script>
-</body></html>
+<script src="../assets/js/app.js"></script>
+</body>
+</html>
