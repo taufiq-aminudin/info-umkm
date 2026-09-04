@@ -1,0 +1,16 @@
+/* INFO UMKM — isolated admin header/footer master patch */
+body > header .brand{display:flex;align-items:center;gap:10px}
+body > header .brand img{width:54px;height:54px;object-fit:contain}
+body > header .brand-text{display:flex;flex-direction:column;line-height:1.12}
+body > header .brand-text strong{font-size:18px;color:var(--ink);font-weight:800}
+body > header .brand-text small{font-size:10px;color:var(--muted);font-weight:600;margin-top:3px;white-space:nowrap}
+body > footer.admin-master-footer{background:var(--bg)!important;color:var(--ink)!important;border-top:1px solid var(--line);padding:42px 0 22px!important}
+body > footer.admin-master-footer .footer-brand{display:flex;align-items:center;gap:10px}
+body > footer.admin-master-footer .footer-brand img{width:54px!important;height:54px;object-fit:contain;background:transparent!important;border-radius:0!important;padding:0!important}
+body > footer.admin-master-footer .footer-brand div{display:flex;flex-direction:column;line-height:1.15}
+body > footer.admin-master-footer .footer-brand strong{font-size:18px;color:var(--ink)}
+body > footer.admin-master-footer .footer-brand small{font-size:10px;color:var(--muted);font-weight:600;margin-top:3px}
+body > footer.admin-master-footer .footer-grid h4{color:var(--ink)!important}
+body > footer.admin-master-footer .footer-grid p,body > footer.admin-master-footer .footer-grid a{color:var(--muted)!important}
+body > footer.admin-master-footer .copyright{color:var(--muted)!important;border-top:1px solid var(--line)!important}
+@media(max-width:600px){body > header .brand img{width:48px;height:48px}body > header .brand-text strong{font-size:16px}body > header .brand-text small{font-size:9px}}
