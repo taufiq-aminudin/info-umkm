@@ -1,92 +1,12 @@
-<!doctype html>
-<html lang="id">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Daftar UMKM | INFO UMKM</title>
-<link rel="icon" href="../assets/img/favicon.svg">
-<link rel="stylesheet" href="../assets/css/style.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
-<style>
-  #mapPicker{height:380px;border-radius:14px;overflow:hidden;border:1px solid rgba(15,23,42,.12);margin-top:10px}
-  .map-help{margin:.5rem 0 0;color:#64748b;font-size:.9rem}
-  .coord-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-  .location-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-  .btn-secondary{display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(15,23,42,.12);background:#fff;color:#1f2937;border-radius:10px;padding:.7rem 1rem;cursor:pointer}
-  .form-status{display:none;margin:.75rem 0;padding:.7rem .9rem;border-radius:10px;background:#eff6ff;color:#1d4ed8}
-  @media(max-width:700px){#mapPicker{height:300px}.coord-grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<header><div class="container nav">
-<a class="brand" href="../index.html"><img src="../assets/img/logo.svg" alt="INFO UMKM"></a>
-<nav class="navlinks">
-<a href="../index.html">Beranda</a><a href="index.html">UMKM</a><a href="index.html#kategori">Kategori</a>
-<a href="index.html#peta">Peta</a><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a>
-<a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a><a class="btn btn-primary" href="../daftar.html">Daftarkan UMKM</a>
-</nav><span class="mobile">☰</span>
-</div></header>
-
-<section class="pagehead"><div class="container"><div class="crumb">Beranda / Daftar UMKM</div><h1>Daftarkan UMKM Anda</h1><p class="muted">Lengkapi seluruh data usaha. Pendaftaran akan melalui proses verifikasi sebelum dipublikasikan.</p></div></section>
-
-<section class="section"><div class="container form-layout"><main class="panel">
-<div class="steps"><div class="step active"><b>1</b>Data Pemilik</div><div class="step"><b>2</b>Data UMKM</div><div class="step"><b>3</b>Lokasi</div><div class="step"><b>4</b>Media Sosial</div><div class="step"><b>5</b>Dokumen</div></div>
-
-<form class="form" id="umkmForm">
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Daftar UMKM | INFO UMKM</title><link rel="icon" href="../assets/img/favicon.svg"><link rel="stylesheet" href="../assets/css/style.css"></head><body><header><div class="container nav"><a class="brand" href="../index.html"><img src="../assets/img/logo.svg" alt="INFO UMKM"></a><nav class="navlinks"><a href="../index.html">Beranda</a><a href="../umkm/index.html">UMKM</a><a href="../index.html#kategori">Kategori</a><a href="../index.html#peta">Peta</a><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a><a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a><a class="btn btn-primary" href="../daftar.html">Daftarkan UMKM</a></nav><span class="mobile">☰</span></div></header>
+<section class="pagehead"><div class="container"><div class="crumb">Beranda / Daftar UMKM</div><h1>Daftarkan UMKM Anda</h1><p class="muted">Lengkapi data usaha. Pendaftaran akan melalui proses verifikasi sebelum dipublikasikan.</p></div></section>
+<section class="section"><div class="container form-layout"><main class="panel"><div class="steps"><div class="step active"><b>1</b>Data Pemilik</div><div class="step"><b>2</b>Data UMKM</div><div class="step"><b>3</b>Lokasi</div><div class="step"><b>4</b>Media Sosial</div><div class="step"><b>5</b>Dokumen</div></div>
+<form class="form" onsubmit="event.preventDefault();alert('Pendaftaran demo berhasil dikirim. Pada versi produksi data akan masuk ke antrean approval Superadmin.');">
 <div><h2>Data Pemilik</h2><p class="muted">Data ini digunakan untuk verifikasi dan tidak ditampilkan kepada publik.</p></div>
-<div class="form-grid">
-<div class="form-group"><label>Nama Lengkap *</label><input type="text" name="owner_name" required placeholder="Nama sesuai KTP"></div>
-<div class="form-group"><label>Nomor HP *</label><input type="tel" name="phone" required placeholder="08xxxxxxxxxx"></div>
-<div class="form-group"><label>Email *</label><input type="email" name="email" required placeholder="email@contoh.com"></div>
-<div class="form-group"><label>NIK *</label><input type="text" name="nik" required minlength="16" maxlength="16" inputmode="numeric" pattern="[0-9]{16}" placeholder="16 digit NIK"></div>
-<div class="form-group"><label>Nomor KK *</label><input type="text" name="kk" required minlength="16" maxlength="16" inputmode="numeric" pattern="[0-9]{16}" placeholder="16 digit nomor KK"></div>
-</div>
-
-<h2>Data UMKM</h2>
-<div class="form-grid">
-<div class="form-group"><label>Nama UMKM *</label><input type="text" name="business_name" required placeholder="Nama usaha"></div>
-<div class="form-group"><label>Kategori *</label><select id="category" name="category" required><option value="">Memuat kategori...</option></select></div>
-</div>
-<div class="form-group"><label>Deskripsi Usaha *</label><textarea name="description" rows="4" required placeholder="Jelaskan usaha Anda"></textarea></div>
-
-<h2>Lokasi</h2>
-<div class="form-grid">
-<div class="form-group"><label>Provinsi *</label><select id="province" name="province" required><option value="">Memuat provinsi...</option></select></div>
-<div class="form-group"><label>Kabupaten/Kota *</label><select id="regency" name="regency" required disabled><option value="">Pilih Provinsi terlebih dahulu</option></select></div>
-<div class="form-group"><label>Kecamatan *</label><select id="district" name="district" required disabled><option value="">Pilih Kabupaten/Kota terlebih dahulu</option></select></div>
-<div class="form-group"><label>Desa/Kelurahan *</label><select id="village" name="village" required disabled><option value="">Pilih Kecamatan terlebih dahulu</option></select></div>
-</div>
-<div class="form-group"><label>Alamat Lengkap *</label><textarea id="address" name="address" rows="3" required placeholder="Alamat lengkap tempat usaha"></textarea></div>
-
-<div class="form-group"><label>Titik Lokasi Usaha *</label>
-<div id="mapPicker" aria-label="Peta untuk memilih titik lokasi usaha"></div>
-<p class="map-help">Klik pada peta atau geser pin merah ke lokasi usaha. Koordinat akan terisi otomatis.</p>
-<div class="location-actions"><button type="button" class="btn-secondary" id="useMyLocation">📍 Gunakan Lokasi Saya</button><button type="button" class="btn-secondary" id="centerIndonesia">🇮🇩 Kembali ke Indonesia</button></div>
-<div class="coord-grid">
-<div class="form-group"><label>Latitude *</label><input id="latitude" name="latitude" type="number" step="any" required readonly placeholder="Contoh: -7.0051"></div>
-<div class="form-group"><label>Longitude *</label><input id="longitude" name="longitude" type="number" step="any" required readonly placeholder="Contoh: 110.4381"></div>
-</div>
-</div>
-
-<h2>Dokumen Verifikasi</h2>
-<p class="muted">Dalam versi produksi, file KTP akan disimpan di private storage dan hanya dapat diakses petugas berwenang.</p>
-<div class="form-grid"><div class="form-group"><label>KTP *</label><div class="upload">🔐<br><b>Upload KTP</b><br><small>JPG, PNG, PDF • Maks. 2MB</small><input name="ktp" type="file" required accept=".jpg,.jpeg,.png,.pdf" style="margin-top:12px"></div></div></div>
-<div id="formStatus" class="form-status"></div>
-<button class="btn btn-primary" type="submit">Kirim Pendaftaran →</button>
-</form></main>
-
-<aside><div class="panel"><h3>Proses Verifikasi</h3><p>1. Isi formulir</p><p>2. Upload dokumen KTP</p><p>3. Tim melakukan review</p><p>4. UMKM disetujui</p><p>5. Profil tampil di direktori</p><hr><b>Privasi</b><p class="muted">Dokumen identitas tidak dipublikasikan dan hanya digunakan untuk proses verifikasi.</p></div></aside>
-</div></section>
-
-<footer><div class="container"><div class="footer-grid">
-<div><img src="../assets/img/logo.svg" style="width:190px;background:#fff;border-radius:8px;padding:5px" alt="INFO UMKM"><p>Direktori UMKM Indonesia untuk menemukan, mengenal, dan mendukung usaha lokal dari seluruh wilayah Indonesia.</p></div>
-<div><h4>Direktori</h4><a href="index.html">Semua UMKM</a><a href="index.html">Provinsi</a><a href="index.html">Kabupaten/Kota</a><a href="index.html">Kategori</a></div>
-<div><h4>Informasi</h4><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a><a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a></div>
-<div><h4>Kontak</h4><p>📍 Indonesia</p><p>📞 +62 878-6723-6774</p><p>✉️ info@info-umkm.my.id</p></div>
-</div><div class="copyright">© <span id="year"></span> INFO UMKM. Platform Direktori UMKM Indonesia.</div></div></footer>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-<script src="../assets/js/app.js"></script>
-<script src="../assets/js/daftar-wilayah-map.js"></script>
-</body>
-</html>
+<div class="form-grid"><div class="form-group"><label>Nama Lengkap *</label><input required placeholder="Nama sesuai KTP"></div><div class="form-group"><label>Nomor HP *</label><input required placeholder="08xxxxxxxxxx"></div><div class="form-group"><label>Email</label><input type="email" placeholder="email@contoh.com"></div><div class="form-group"><label>NIK *</label><input required placeholder="16 digit NIK"></div><div class="form-group"><label>Nomor KK *</label><input required placeholder="16 digit nomor KK"></div></div>
+<h2>Data UMKM</h2><div class="form-grid"><div class="form-group"><label>Nama UMKM *</label><input required placeholder="Nama usaha"></div><div class="form-group"><label>Kategori *</label><select required><option value="">Pilih kategori</option><option>Kuliner</option><option>Fashion</option><option>Pertanian</option><option>Perkebunan</option><option>Kerajinan</option><option>Jasa</option></select></div></div><div class="form-group"><label>Deskripsi Usaha *</label><textarea rows="4" required placeholder="Jelaskan usaha Anda"></textarea></div>
+<h2>Lokasi</h2><div class="form-grid"><div class="form-group"><label>Provinsi *</label><select required><option>Jawa Tengah</option><option>Jawa Barat</option><option>Jawa Timur</option></select></div><div class="form-group"><label>Kabupaten/Kota *</label><select required><option>Temanggung</option></select></div><div class="form-group"><label>Kecamatan *</label><select required><option>Pilih Kecamatan</option></select></div><div class="form-group"><label>Desa/Kelurahan</label><input></div></div><div class="form-group"><label>Alamat Lengkap</label><textarea rows="3"></textarea></div>
+<h2>Dokumen Verifikasi</h2><p class="muted">Dalam versi produksi, file KTP dan KK akan disimpan di private storage dan hanya dapat diakses petugas berwenang.</p><div class="form-grid"><div class="form-group"><label>KTP *</label><div class="upload">🔐<br><b>Upload KTP</b><br><small>JPG, PNG, PDF • Maks. 2MB</small><input type="file" style="margin-top:12px"></div></div><div class="form-group"><label>KK *</label><div class="upload">🔐<br><b>Upload KK</b><br><small>JPG, PNG, PDF • Maks. 2MB</small><input type="file" style="margin-top:12px"></div></div></div>
+<button class="btn btn-primary" type="submit">Kirim Pendaftaran →</button></form></main>
+<aside><div class="panel"><h3>Proses Verifikasi</h3><p>1. Isi formulir</p><p>2. Upload dokumen</p><p>3. Tim melakukan review</p><p>4. UMKM disetujui</p><p>5. Profil tampil di direktori</p><hr><b>Privasi</b><p class="muted">Dokumen identitas tidak dipublikasikan.</p></div></aside></div></section>
+<footer id="kontak"><div class="container"><div class="footer-grid"><div><img src="../assets/img/logo.svg" style="width:190px;background:#fff;border-radius:8px;padding:5px"><p>Direktori UMKM Indonesia untuk menemukan, mengenal, dan mendukung usaha lokal dari seluruh wilayah Indonesia.</p></div><div><h4>Direktori</h4><a href="../umkm/index.html">Semua UMKM</a><a href="../umkm/index.html">Provinsi</a><a href="../umkm/index.html">Kabupaten/Kota</a><a href="../umkm/index.html">Kategori</a></div><div><h4>Informasi</h4><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a><a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a></div><div><h4>Kontak</h4><p>📍 Indonesia</p><p>📞 +62 878-6723-6774</p><p>✉️ info@info-umkm.my.id</p></div></div><div class="copyright">© <span id="year"></span> INFO UMKM. Platform Direktori UMKM Indonesia.</div></div></footer><script src="../assets/js/app.js"></script></body></html>

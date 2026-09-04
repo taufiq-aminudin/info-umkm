@@ -1,15 +1,25 @@
-INFO UMKM — MASTER HEADER FINAL
+INFO UMKM — MASTER HEADER & FOOTER PATCH
 
-File yang diganti:
-assets/css/style.css
+Acuan master:
+- Header: Beranda (index.html)
+- Footer: Beranda (index.html)
 
-Tujuan:
-- Mengembalikan style.css sebagai stylesheet, bukan HTML.
-- Menjadikan struktur header Beranda sebagai master visual untuk halaman yang memakai style.css.
-- Tidak mengubah layout isi, JavaScript, data UMKM, atau fungsi admin.
-- Header desktop tetap putih/sticky.
-- Pada layar kecil, navigasi disembunyikan dan tombol menu ditampilkan.
-- Konflik branding CSS lama yang menyebabkan header tidak konsisten dihapus.
+Perubahan:
+- Header seluruh halaman pada patch ini disamakan dengan header Beranda.
+- Footer seluruh halaman pada patch ini disamakan dengan footer Beranda.
+- Tidak mengubah assets/css/style.css.
+- Isi/fungsi halaman selain markup header/footer dipertahankan.
+- Link/aset pada folder umkm/ dan admin/ disesuaikan agar tetap menunjuk ke lokasi yang benar.
 
-Upload/replace:
-assets/css/style.css
+Patch files:
+umkm/index.html
+umkm/detail.html
+daftar.html
+admin/index.html
+admin/tambah.html
+admin/pending.html
+admin/detail.html
+admin/umkm.html
+admin/login.html
+
+index.html Beranda tetap sebagai master dan tidak diganti.
