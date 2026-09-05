@@ -1,7 +1,292 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Direktori UMKM | INFO UMKM</title><link rel="icon" href="../assets/img/favicon.svg"><link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="../assets/css/umkm-filter-patch.css"></head><body><header><div class="container nav"><a class="brand" href="../index.html"><img src="../assets/img/logo.svg" alt="INFO UMKM"><span class="brand-text"><strong>INFO UMKM</strong><small>Bersama UMKM Kuat, Ekonomi Lokal Hebat.</small></span></a><nav class="navlinks"><a href="../index.html">Beranda</a><a href="../umkm/index.html">UMKM</a><a href="../kategori.html">Kategori</a><a href="../peta.html">Peta</a><a href="../berita.html">Berita</a><a href="../artikel.html">Artikel</a><a href="../tentang.html">Tentang Kami</a><a href="../kontak.html">Kontak</a><a class="btn btn-primary" href="../daftar.html">Daftarkan UMKM</a></nav><span class="mobile">☰</span></div></header>
-<section class="pagehead"><div class="container"><div class="crumb">Beranda / UMKM</div><h1>Direktori UMKM Indonesia</h1><p class="muted">Temukan UMKM berdasarkan wilayah, kategori, produk, dan lokasi.</p></div></section>
-<section class="section"><div class="container directory">
-<aside class="filters"><b>Filter UMKM</b><label>Cari</label><input id="filterSearch" type="search" placeholder="Nama UMKM / produk"><label>Provinsi</label><select id="filterProvince"><option value="">Semua Provinsi</option></select><label>Kabupaten/Kota</label><select id="filterRegency" disabled><option value="">Semua Kabupaten/Kota</option></select><label>Kecamatan</label><select id="filterDistrict" disabled><option value="">Semua Kecamatan</option></select><label>Kategori</label><select id="filterCategory"><option>Semua Kategori</option><option>Kuliner</option><option>Fashion</option><option>Pertanian</option><option>Perkebunan</option><option>Kerajinan</option><option>Jasa</option></select><button class="btn btn-primary" style="width:100%;margin-top:18px" data-demo-alert>Terapkan Filter</button></aside>
-<main><div class="resultsbar"><b>12.580 UMKM ditemukan</b><select style="padding:8px;border:1px solid #d6e2ee;border-radius:9px"><option>Terpopuler</option><option>Terbaru</option></select></div><div class="cards" id="listId"></div></main>
-</div></section>
-<footer id="kontak"><div class="container"><div class="footer-grid"><div><div class="footer-brand"><img src="../assets/img/logo.svg" alt="INFO UMKM"><div><strong>INFO UMKM</strong><small>Bersama UMKM Kuat, Ekonomi Lokal Hebat.</small></div></div><p>Direktori UMKM Indonesia untuk menemukan, mengenal, dan mendukung usaha lokal dari seluruh wilayah Indonesia.</p></div><div><h4>Direktori</h4><a href="index.html">Semua UMKM</a><a href="index.html">Provinsi</a><a href="index.html">Kabupaten/Kota</a><a href="../kategori.html">Kategori</a></div><div><h4>Informasi</h4><a href="../berita.html">Berita</a><a href="../artikel.html">Artikel</a><a href="../tentang.html">Tentang Kami</a><a href="../kontak.html">Kontak</a></div><div><h4>Kontak</h4><p>📍 Indonesia</p><p>📞 +62 878-6723-6774</p><p>✉️ info@info-umkm.my.id</p></div></div><div class="copyright">© <span id="year"></span> INFO UMKM. Platform Direktori UMKM Indonesia.</div></div></footer><script src="../assets/js/app.js"></script><script src="../assets/js/regions.js"></script></body></html>
+<!doctype html>
+
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Direktori UMKM Indonesia | Cari UMKM Lokal & Usaha Terdekat | INFO UMKM</title>
+
+<meta name="description" content="Temukan UMKM Indonesia berdasarkan provinsi, kabupaten/kota, kecamatan, kategori, produk, dan lokasi. Jelajahi direktori usaha lokal dan dukung UMKM Indonesia melalui INFO UMKM.">
+
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+<link rel="canonical" href="https://info-umkm.my.id/umkm/">
+
+<meta name="keywords" content="direktori UMKM Indonesia, daftar UMKM Indonesia, cari UMKM, UMKM lokal, usaha lokal Indonesia, bisnis lokal, produk UMKM, usaha kecil menengah, UMKM terdekat">
+
+<meta name="author" content="INFO UMKM">
+
+<!-- Open Graph -->
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Direktori UMKM Indonesia | INFO UMKM">
+<meta property="og:description" content="Temukan UMKM Indonesia berdasarkan wilayah, kategori, produk, dan lokasi. Dukung usaha lokal dari seluruh Indonesia.">
+<meta property="og:url" content="https://info-umkm.my.id/umkm/">
+<meta property="og:site_name" content="INFO UMKM">
+<meta property="og:locale" content="id_ID">
+<meta property="og:image" content="https://info-umkm.my.id/assets/img/logo.svg">
+<meta property="og:image:alt" content="INFO UMKM - Direktori UMKM Indonesia">
+
+<!-- Twitter / X -->
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Direktori UMKM Indonesia | INFO UMKM">
+<meta name="twitter:description" content="Temukan UMKM berdasarkan wilayah, kategori, produk, dan lokasi di seluruh Indonesia.">
+<meta name="twitter:image" content="https://info-umkm.my.id/assets/img/logo.svg">
+
+<link rel="icon" href="../assets/img/favicon.svg">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/umkm-filter-patch.css">
+
+<!-- Structured Data: WebPage -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Direktori UMKM Indonesia",
+  "url": "https://info-umkm.my.id/umkm/",
+  "description": "Direktori UMKM Indonesia untuk menemukan usaha lokal berdasarkan wilayah, kategori, produk, dan lokasi.",
+  "inLanguage": "id-ID",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "INFO UMKM",
+    "url": "https://info-umkm.my.id/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "INFO UMKM",
+    "url": "https://info-umkm.my.id/"
+  }
+}
+</script>
+
+<!-- Structured Data: Breadcrumb -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Beranda",
+      "item": "https://info-umkm.my.id/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Direktori UMKM",
+      "item": "https://info-umkm.my.id/umkm/"
+    }
+  ]
+}
+</script>
+
+</head>
+
+<body>
+
+<header>
+<div class="container nav">
+<a class="brand" href="../index.html">
+<img src="../assets/img/logo.svg" alt="INFO UMKM">
+<span class="brand-text">
+<strong>INFO UMKM</strong>
+<small>Bersama UMKM Kuat, Ekonomi Lokal Hebat.</small>
+</span>
+</a>
+
+<nav class="navlinks">
+<a href="../index.html">Beranda</a>
+<a href="../umkm/index.html">UMKM</a>
+<a href="../kategori.html">Kategori</a>
+<a href="../peta.html">Peta</a>
+<a href="../berita.html">Berita</a>
+<a href="../artikel.html">Artikel</a>
+<a href="../tentang.html">Tentang Kami</a>
+<a href="../kontak.html">Kontak</a>
+<a class="btn btn-primary" href="../daftar.html">Daftarkan UMKM</a>
+</nav>
+
+<span class="mobile">☰</span>
+
+</div>
+</header>
+
+<section class="pagehead">
+<div class="container">
+<div class="crumb">Beranda / UMKM</div>
+
+<h1>Direktori UMKM Indonesia</h1>
+
+<p class="muted">
+Temukan UMKM berdasarkan wilayah, kategori, produk, dan lokasi.
+</p>
+</div>
+</section>
+
+<section class="section">
+<div class="container directory">
+
+<aside class="filters">
+
+<b>Filter UMKM</b>
+
+<label>Cari</label> <input id="filterSearch" type="search" placeholder="Nama UMKM / produk">
+
+<label>Provinsi</label> <select id="filterProvince">
+
+<option value="">Semua Provinsi</option>
+</select>
+
+<label>Kabupaten/Kota</label> <select id="filterRegency" disabled>
+
+<option value="">Semua Kabupaten/Kota</option>
+</select>
+
+<label>Kecamatan</label> <select id="filterDistrict" disabled>
+
+<option value="">Semua Kecamatan</option>
+</select>
+
+<label>Kategori</label> <select id="filterCategory">
+
+<option>Semua Kategori</option>
+<option>Kuliner</option>
+<option>Fashion</option>
+<option>Pertanian</option>
+<option>Perkebunan</option>
+<option>Kerajinan</option>
+<option>Jasa</option>
+</select>
+
+<button class="btn btn-primary" style="width:100%;margin-top:18px" data-demo-alert>
+Terapkan Filter
+</button>
+
+</aside>
+
+<main>
+
+<div class="resultsbar">
+<b>12.580 UMKM ditemukan</b>
+
+<select style="padding:8px;border:1px solid #d6e2ee;border-radius:9px">
+<option>Terpopuler</option>
+<option>Terbaru</option>
+</select>
+</div>
+
+<div class="cards" id="listId"></div>
+
+</main>
+
+</div>
+</section>
+
+<!-- SEO CONTENT -->
+
+<section class="section">
+<div class="container">
+
+<div class="panel" style="padding:38px">
+
+<div class="eyebrow">Tentang Direktori</div>
+
+<h2>Temukan UMKM Lokal di Seluruh Indonesia</h2>
+
+<p class="muted">
+INFO UMKM adalah direktori UMKM Indonesia yang membantu masyarakat menemukan
+berbagai usaha lokal dari seluruh wilayah Indonesia. Jelajahi UMKM berdasarkan
+provinsi, kabupaten/kota, kecamatan, kategori usaha, produk, dan lokasi.
+</p>
+
+<p class="muted">
+Melalui direktori ini, Anda dapat menemukan berbagai jenis usaha seperti
+kuliner, fashion, pertanian, perkebunan, kerajinan, jasa, dan berbagai usaha
+lokal lainnya. Gunakan fitur pencarian dan filter wilayah untuk menemukan
+UMKM yang sesuai dengan kebutuhan Anda.
+</p>
+
+<p class="muted">
+Dengan mengenal dan mendukung UMKM lokal, masyarakat dapat membantu memperluas
+jangkauan usaha dan memperkuat ekosistem ekonomi daerah. Temukan usaha lokal
+di sekitar Anda dan kenali produk serta layanan dari pelaku UMKM Indonesia.
+</p>
+
+</div>
+
+</div>
+</section>
+
+<footer id="kontak">
+
+<div class="container">
+
+<div class="footer-grid">
+
+<div>
+
+<div class="footer-brand">
+<img src="../assets/img/logo.svg" alt="INFO UMKM">
+<div>
+<strong>INFO UMKM</strong>
+<small>Bersama UMKM Kuat, Ekonomi Lokal Hebat.</small>
+</div>
+</div>
+
+<p>
+Direktori UMKM Indonesia untuk menemukan, mengenal, dan mendukung usaha lokal
+dari seluruh wilayah Indonesia.
+</p>
+
+</div>
+
+<div>
+
+<h4>Direktori</h4>
+<a href="index.html">Semua UMKM</a>
+<a href="index.html">Provinsi</a>
+<a href="index.html">Kabupaten/Kota</a>
+<a href="../kategori.html">Kategori</a>
+
+</div>
+
+<div>
+
+<h4>Informasi</h4>
+<a href="../berita.html">Berita</a>
+<a href="../artikel.html">Artikel</a>
+<a href="../tentang.html">Tentang Kami</a>
+<a href="../kontak.html">Kontak</a>
+
+</div>
+
+<div>
+
+<h4>Kontak</h4>
+<p>📍 Indonesia</p>
+<p>📞 +62 878-6723-6774</p>
+<p>✉️ info@info-umkm.my.id</p>
+
+</div>
+
+</div>
+
+<div class="copyright">
+© <span id="year"></span> INFO UMKM. Platform Direktori UMKM Indonesia.
+</div>
+
+</div>
+
+</footer>
+
+<script src="../assets/js/app.js"></script>
+
+<script src="../assets/js/regions.js"></script>
+
+</body>
+</html>
