@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Area administrasi tidak perlu diindeks mesin pencari
+Disallow: /admin/
+Disallow: /superadmin/
+
+# Sumber sitemap untuk Google Search dan mesin pencari lainnya
+Sitemap: https://info-umkm.my.id/sitemap.xml
