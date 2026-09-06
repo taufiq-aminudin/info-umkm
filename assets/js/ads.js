@@ -4,6 +4,8 @@
  */
 (function(){
   'use strict';
+  if(window.__INFO_UMKM_ADS_LOADED__) return;
+  window.__INFO_UMKM_ADS_LOADED__=true;
 
   const SELF_ADS_KEY = 'infoUmkmAds';
 
@@ -15,6 +17,10 @@
   }
 
   function rootPath(){
+    const script=document.querySelector("script[src*='/assets/js/ads.js']");
+    if(script){
+      try{return new URL('../../',new URL(script.src,location.href)).pathname;}catch(e){}
+    }
     return location.pathname.indexOf('/umkm/') !== -1 ? '../' : '';
   }
 
@@ -177,6 +183,33 @@
     insertBeforeFooter(wrap);
   }
 
+  function injectStyles(){
+    if(document.getElementById('info-umkm-ads-style')) return;
+    const s=document.createElement('style');
+    s.id='info-umkm-ads-style';
+    s.textContent=`
+      .info-ads-global{margin:18px auto;position:relative;z-index:1}
+      .info-ads-slot{min-height:90px;display:flex;align-items:center;justify-content:center;border:1px dashed #cbd9e8;background:#f8fbff;border-radius:12px;overflow:hidden}
+      .info-ads-label{font-size:11px;font-weight:800;letter-spacing:.08em;color:#8da0b4}
+      .info-self-ads-wrap{margin-top:10px}
+      .info-self-ad{display:block;text-decoration:none;background:#fff;border:1px solid #dfe8f0;border-radius:12px;overflow:hidden;color:#17324d;box-shadow:0 4px 14px rgba(30,70,110,.06)}
+      .info-self-ad img{display:block;width:100%;height:auto;max-height:250px;object-fit:cover}
+      .info-self-ad-placeholder{min-height:120px;display:flex;align-items:center;justify-content:center;background:#f4f8fc;color:#9aaabd;font-size:11px;text-align:center}
+      .info-self-ad-body{padding:9px 11px;display:flex;flex-direction:column;gap:3px}
+      .info-self-ad-label,.info-side-ad-label{font-size:9px;font-weight:900;letter-spacing:.08em;color:#7890a8}
+      .info-self-ad-title{font-size:12px;font-weight:800}
+      .info-ads-sidebar{display:flex;flex-direction:column;gap:10px}
+      .info-side-ads{position:fixed;right:18px;top:110px;width:300px;z-index:20}
+      .info-side-ad{display:block;background:#fff;border:1px solid #dfe8f0;border-radius:12px;overflow:hidden;text-decoration:none;color:#17324d;box-shadow:0 8px 24px rgba(30,70,110,.12);margin-bottom:10px}
+      .info-side-ad img{display:block;width:300px;height:250px;object-fit:cover}
+      .info-side-ad-placeholder{width:300px;height:250px;display:flex;align-items:center;justify-content:center;text-align:center;background:#f8fbff;color:#8da0b4;font-size:11px}
+      .info-side-ad-label{padding:7px 10px;background:#fff}
+      @media(max-width:1200px){.info-side-ads{position:static;width:min(300px,100%);margin:18px auto}.info-side-ad img,.info-side-ad-placeholder{max-width:100%;width:100%}}
+      @media(max-width:600px){.info-side-ads{margin:12px auto}.info-ads-global{margin:12px auto}}
+    `;
+    document.head.appendChild(s);
+  }
+
   function loadAdsense(){
     const client=window.INFO_UMKM_ADSENSE_CLIENT||'';
     if(!client || document.querySelector('script[data-info-umkm-adsense]')) return;
@@ -193,6 +226,7 @@
     /* Never inject into admin pages. */
     if(document.body && (document.body.dataset.admin==='1' || document.querySelector('.admin-shell'))) return;
 
+    injectStyles();
     addGlobalTop();
     addMiddle();
     addSidebar();

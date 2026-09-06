@@ -93,3 +93,18 @@ document.addEventListener("DOMContentLoaded",initUMKMApp);
 window.addEventListener("storage",function(e){
  if(["infoUmkmAdminData","infoUmkmRecords"].includes(e.key)) renderCards("listId");
 });
+
+
+(function loadInfoUmkmAds(){
+  if(document.body && (document.body.dataset.admin==='1' || document.querySelector('.admin-shell'))) return;
+  function load(src){
+    if(document.querySelector('script[data-info-ads-loader="'+src+'"]')) return;
+    const s=document.createElement('script');
+    s.src=src;
+    s.dataset.infoAdsLoader=src;
+    document.head.appendChild(s);
+  }
+  const base=location.pathname.indexOf('/umkm/')!==-1?'../':'';
+  load(base+'assets/js/ads.js');
+  load(base+'assets/js/side-ads.js');
+})();
