@@ -2,6 +2,7 @@ INFO UMKM — PATCH ADMIN IKLAN
 
 Fungsi:
 - Iklan publik tampil di seluruh halaman publik website; area /admin tidak menampilkan iklan.
+- Script iklan dimuat otomatis oleh app.js dan dipasang eksplisit pada halaman publik utama yang tersedia.
 - Admin dapat membuat, mengedit, menghapus, menjeda, dan menerbitkan iklan.
 - Posisi: TOP, MIDDLE, SIDEBAR 300x250, BOTTOM.
 - Data iklan menggunakan localStorage key: infoUmkmAds.
