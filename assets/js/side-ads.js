@@ -62,6 +62,11 @@
       '</a>';
   }
 
+  function isHomePage(){
+    const p=location.pathname.replace(/\\/g,'/');
+    return p==='/' || /\/index\.html$/i.test(p);
+  }
+
   function init(){
     if(document.querySelector('.admin-shell') || (document.body&&document.body.dataset.admin==='1'))return;
     if(document.querySelector('[data-info-side-ads]'))return;

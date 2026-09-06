@@ -188,7 +188,14 @@
     document.head.appendChild(s);
   }
 
+  function isHomePage(){
+    const p=location.pathname.replace(/\\/g,'/');
+    return p==='/' || /\/index\.html$/i.test(p);
+  }
+
   function init(){
+    /* Iklan hanya tampil di halaman depan. */
+    if(!isHomePage()) return;
     /* Never inject into admin pages. */
     if(document.body && (document.body.dataset.admin==='1' || document.querySelector('.admin-shell'))) return;
 
