@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manajemen Iklan | INFO UMKM</title>
+<link rel="icon" href="../assets/img/favicon.svg">
+<link rel="stylesheet" href="../assets/css/admin-ads.css">
+</head>
+<body class="ads-admin-page">
+<div class="ads-admin-shell">
+<aside class="ads-admin-side">
+  <div class="ads-admin-brand">INFO UMKM<small>SUPERADMIN • IKLAN</small></div>
+  <nav class="ads-admin-nav">
+    <a href="index.html">▦ Dashboard</a>
+    <a href="umkm.html">◉ Semua UMKM</a>
+    <a href="pending.html">⏳ Menunggu Approval</a>
+    <a class="active" href="iklan.html">▣ Manajemen Iklan</a>
+    <br><a href="../index.html">↗ Website Publik</a>
+  </nav>
+</aside>
+<main class="ads-admin-main">
+  <div class="ads-admin-top"><div><div class="ads-muted">Superadmin / Monetisasi</div><h1>Manajemen Iklan</h1><div class="ads-muted">Atur, edit, jeda, dan terbitkan iklan yang tampil di halaman depan INFO UMKM.</div></div><a class="ads-btn ads-btn-primary" href="../index.html">Lihat Halaman Depan</a></div>
+  <div class="ads-kpis"><div class="ads-kpi"><small>Total Iklan</small><b id="totalAds">0</b></div><div class="ads-kpi"><small>Aktif / Terbit</small><b id="activeAds">0</b></div><div class="ads-kpi"><small>Draft</small><b id="draftAds">0</b></div><div class="ads-kpi"><small>Dijeda</small><b id="pausedAds">0</b></div></div>
+  <div class="ads-admin-grid">
+    <section class="ads-panel">
+      <h2 id="formTitle">Buat Iklan Baru</h2>
+      <form id="adForm">
+        <div class="ads-form-grid">
+          <div class="ads-field full"><label>Nama / Judul Iklan *</label><input id="adTitle" required placeholder="Contoh: Pisang Coklat Leleh 10K"></div>
+          <div class="ads-field full"><label>URL Gambar Banner</label><input id="adImage" type="url" placeholder="https://.../banner.jpg"><div class="ads-muted">Gunakan gambar yang sudah tersedia online. Ukuran sidebar ideal 300 × 250.</div></div>
+          <div class="ads-field full"><label>Link Tujuan Iklan</label><input id="adLink" type="text" placeholder="https://wa.me/... atau kontak.html"></div>
+          <div class="ads-field full"><label>Posisi Tampil</label><div class="ads-checks"><label class="ads-check"><input type="checkbox" name="positions" value="top"> Atas / TOP</label><label class="ads-check"><input type="checkbox" name="positions" value="middle"> Tengah / MIDDLE</label><label class="ads-check"><input type="checkbox" name="positions" value="sidebar"> Samping / SIDEBAR</label><label class="ads-check"><input type="checkbox" name="positions" value="bottom"> Bawah / BOTTOM</label></div></div>
+          <div class="ads-field"><label>Status</label><select id="adStatus"><option value="draft">Draft</option><option value="active">Aktif / Terbitkan</option><option value="paused">Dijeda</option></select></div>
+          <div class="ads-field"><label>Catatan Internal</label><input id="adNote" placeholder="Opsional"></div>
+        </div>
+        <div class="ads-actions"><button type="button" id="cancelBtn" class="ads-btn ads-btn-light">Batal</button><button id="saveBtn" class="ads-btn ads-btn-primary">Simpan Draft</button></div>
+      </form>
+      <div class="ads-preview-grid"><div class="ads-preview"><strong>PREVIEW SIDEBAR 300 × 250</strong><div id="previewSide" class="ads-preview-box">SPACE IKLAN 300 × 250</div></div><div class="ads-preview"><strong>PREVIEW MIDDLE</strong><div id="previewMiddle" class="ads-preview-box">SPACE ADS — MIDDLE</div></div></div>
+      <div class="ads-note">Iklan yang berstatus <b>Aktif / Terbitkan</b> langsung dibaca oleh halaman depan. Halaman UMKM, detail, pendaftaran, dan admin tidak menampilkan iklan publik.</div>
+    </section>
+    <section class="ads-panel"><h2>Daftar Iklan</h2><div class="ads-table-wrap"><table class="ads-table"><thead><tr><th>Gambar</th><th>Iklan</th><th>Posisi</th><th>Status</th><th>Diubah</th><th>Aksi</th></tr></thead><tbody id="adsTable"></tbody></table></div></section>
+  </div>
+</main></div>
+<script src="../assets/js/admin-ads.js"></script>
+</body></html>
