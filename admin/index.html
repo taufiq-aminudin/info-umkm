@@ -1,12 +1,4 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Superadmin Dashboard | INFO UMKM</title><link rel="icon" href="../assets/img/favicon.svg"><link rel="stylesheet" href="../assets/css/style.css"></head><body><header><div class="container nav">
-      <a class="brand" href="../index.html"><img src="../assets/img/logo.svg" alt="INFO UMKM"></a>
-      <nav class="navlinks">
-        <a href="../index.html">Beranda</a><a href="index.html">UMKM</a><a href="index.html#kategori">Kategori</a>
-        <a href="index.html#peta">Peta</a><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a>
-        <a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a>
-        <a class="btn btn-primary" href="../daftar.html">Daftarkan UMKM</a>
-      </nav><span class="mobile">☰</span>
-    </div></header>
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Superadmin Dashboard | INFO UMKM</title><link rel="icon" href="../assets/img/favicon.svg"><link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="../assets/css/admin-ads.css"></head><body>
 <div class="admin-shell"><aside class="sidebar"><div class="admin-brand">INFO UMKM <small style="display:block;font-weight:500;opacity:.7">SUPERADMIN</small></div><nav class="side">
 <a class="active" href="index.html">▦ Dashboard</a><a href="#">◉ Semua UMKM</a><a href="#">⏳ Menunggu Approval</a><a href="#">✓ Terverifikasi</a><a href="#">✕ Ditolak</a><a href="tambah.html">＋ Tambah UMKM</a><br><a href="#">⌖ Wilayah</a><a href="#">▣ Kategori</a><a href="#">✎ Postingan</a><a href="iklan.html">▣ Iklan</a><a href="#">▤ Media</a><a href="#">♙ Users</a><a href="#">◴ Laporan</a><a href="#">⚙ Settings</a><a href="#">◌ Activity Log</a></nav></aside>
 <main class="admin-main"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px"><div><div class="muted">Superadmin / Dashboard</div><h1 style="margin:4px 0">Dashboard</h1></div><a class="btn btn-primary" href="tambah.html">+ Tambah UMKM</a></div>
@@ -18,10 +10,23 @@
 <tr><td><b>Tani Makmur</b></td><td>Agus Purwanto</td><td>Bandung</td><td>Pertanian</td><td><span class="status approved">Approved</span></td><td><button class="btn btn-outline" style="padding:6px 10px">Detail</button></td></tr>
 <tr><td><b>Kerajinan Rotan</b></td><td>Rina Lestari</td><td>Denpasar</td><td>Kerajinan</td><td><span class="status pending">Pending</span></td><td><button class="btn btn-outline" style="padding:6px 10px">Review</button></td></tr>
 </tbody></table></div></div></section>
+
+<section class="ads-admin-grid" style="margin:0 30px 30px;max-width:1400px;">
+  <section class="ads-panel">
+    <h2 id="formTitle">Buat Iklan Baru</h2>
+    <form id="adForm">
+      <div class="ads-form-grid">
+        <div class="ads-field full"><label>Nama / Judul Iklan *</label><input id="adTitle" required placeholder="Contoh: Pisang Coklat Leleh 10K"></div>
+        <div class="ads-field full"><label>URL Gambar Banner</label><input id="adImage" type="url" placeholder="https://.../banner.jpg"><div class="ads-muted">Gunakan gambar yang sudah tersedia online.</div></div>
+        <div class="ads-field full"><label>Link Tujuan Iklan</label><input id="adLink" type="text" placeholder="https://wa.me/... atau kontak.html"></div>
+        <div class="ads-field full"><label>Posisi Tampil</label><div class="ads-checks"><label class="ads-check"><input type="checkbox" name="positions" value="top"> Atas / TOP</label><label class="ads-check"><input type="checkbox" name="positions" value="middle"> Tengah / MIDDLE</label><label class="ads-check"><input type="checkbox" name="positions" value="sidebar"> Samping / SIDEBAR</label><label class="ads-check"><input type="checkbox" name="positions" value="bottom"> Bawah / BOTTOM</label></div></div>
+        <div class="ads-field"><label>Status</label><select id="adStatus"><option value="draft">Draft</option><option value="active">Aktif / Terbitkan</option><option value="paused">Dijeda</option></select></div>
+        <div class="ads-field"><label>Catatan Internal</label><input id="adNote" placeholder="Opsional"></div>
+      </div>
+      <div class="ads-actions"><button type="button" id="cancelBtn" class="ads-btn ads-btn-light">Batal</button><button id="saveBtn" class="ads-btn ads-btn-primary">Simpan Draft</button></div>
+    </form>
+  </section>
+  <section class="ads-panel"><h2>Daftar Iklan</h2><div class="ads-table-wrap"><table class="ads-table"><thead><tr><th>Gambar</th><th>Iklan</th><th>Posisi</th><th>Status</th><th>Diubah</th><th>Aksi</th></tr></thead><tbody id="adsTable"></tbody></table></div></section>
+</section>
 </main></div>
-<footer><div class="container"><div class="footer-grid">
-      <div><img src="../assets/img/logo.svg" style="width:190px;background:#fff;border-radius:8px;padding:5px"><p>Direktori UMKM Indonesia untuk menemukan, mengenal, dan mendukung usaha lokal dari seluruh wilayah Indonesia.</p></div>
-      <div><h4>Direktori</h4><a href="index.html">Semua UMKM</a><a href="index.html">Provinsi</a><a href="index.html">Kabupaten/Kota</a><a href="index.html">Kategori</a></div>
-      <div><h4>Informasi</h4><a href="../index.html#berita">Berita</a><a href="../index.html#artikel">Artikel</a><a href="../index.html#tentang">Tentang Kami</a><a href="../index.html#kontak">Kontak</a></div>
-      <div><h4>Kontak</h4><p>📍 Indonesia</p><p>📞 +62 878-6723-6774</p><p>✉️ info@info-umkm.my.id</p></div>
-    </div><div class="copyright">© <span id="year"></span> INFO UMKM. Platform Direktori UMKM Indonesia.</div></div></footer><script src="../assets/js/app.js"></script></body></html>
+<script src="../assets/js/app.js"></script><script src="../assets/js/admin-ads.js"></script></body></html>
