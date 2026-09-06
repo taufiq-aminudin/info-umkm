@@ -1,0 +1,22 @@
+INFO UMKM — PATCH ADMIN IKLAN
+
+Fungsi:
+- Iklan publik hanya tampil di halaman depan (index.html).
+- Admin dapat membuat, mengedit, menghapus, menjeda, dan menerbitkan iklan.
+- Posisi: TOP, MIDDLE, SIDEBAR 300x250, BOTTOM.
+- Data iklan menggunakan localStorage key: infoUmkmAds.
+
+File baru:
+- admin/iklan.html
+- assets/js/admin-ads.js
+- assets/css/admin-ads.css
+
+File yang dipatch:
+- assets/js/ads.js
+- assets/js/side-ads.js
+
+Akses admin iklan setelah upload:
+/admin/iklan.html
+
+Catatan:
+Ini masih mekanisme static/localStorage. Untuk iklan yang dapat dikelola terpusat oleh admin dan terlihat oleh semua pengunjung dari perangkat berbeda, tahap produksi perlu backend/database atau CMS. Jangan gunakan localStorage untuk kredensial admin atau data sensitif.
