@@ -6,4 +6,4 @@ Disallow: /admin/
 Disallow: /superadmin/
 
 # Sumber sitemap untuk Google Search dan mesin pencari lainnya
-Sitemap: https://info-umkm.my.id/sitemap.xml
+Sitemap: https://www.info-umkm.my.id/sitemap.xml
