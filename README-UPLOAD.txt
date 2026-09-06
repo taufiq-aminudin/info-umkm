@@ -1,35 +1,42 @@
-INFO UMKM — ADS & IKLAN SENDIRI
-=================================
+INFO UMKM — ADS + IKLAN SENDIRI — COMPLETE UPLOAD
+====================================================
 
-ZIP ini adalah paket upload untuk menambahkan:
-1. SPACE ADS / Google AdSense di halaman publik.
-2. IKLAN SENDIRI yang dapat dikontrol melalui localStorage key "infoUmkmAds".
-3. Slot TOP, MIDDLE, BOTTOM dan self-ad SIDEBAR/MIDDLE/TOP/BOTTOM.
+ZIP ini sudah berisi integrasi HTML + CSS + JS.
 
-File yang diubah/ditambahkan:
-- index.html
-- daftar.html
-- umkm/index.html
-- umkm/detail.html
-- assets/css/style.css
-- assets/css/ads.css
-- assets/js/app.js
-- assets/js/ads.js
+Yang tersedia di halaman publik:
+- ADS TOP
+- ADS MIDDLE
+- ADS BOTTOM
+- IKLAN SENDIRI TOP
+- IKLAN SENDIRI MIDDLE
+- IKLAN SENDIRI SIDEBAR (pada layout yang memiliki sidebar)
+- IKLAN SENDIRI BOTTOM
 
-Google AdSense:
-Saat ini slot tampil sebagai "SPACE ADS" sampai publisher/client ID dan slot ID
-diatur. Jangan mengubah fungsi UMKM yang sudah ada.
+Jika belum ada AdSense ID, area ADS tetap tampil sebagai SPACE ADS.
+Untuk mengaktifkan Google AdSense:
+1. Buka assets/js/ads-config.js
+2. Isi window.INFO_UMKM_ADSENSE_CLIENT dengan ca-pub-...
+3. Isi slot top/middle/bottom dengan ad slot ID Anda.
+4. Upload kembali file tersebut.
 
-Contoh data IKLAN SENDIRI:
+Iklan sendiri dapat diisi melalui localStorage:
 localStorage.setItem('infoUmkmAds', JSON.stringify([{
   id:'AD-001',
-  title:'Promosi UMKM',
-  image:'assets/img/iklan.jpg',
+  title:'Nama Iklan',
+  image:'assets/img/banner.jpg',
   link:'https://contoh.com',
-  positions:['top','sidebar','middle','bottom'],
+  positions:['top','middle','sidebar','bottom'],
   status:'active'
 }]));
 
-Upload:
-Ekstrak isi ZIP ke ROOT WEBSITE dan pilih overwrite/replace untuk file yang sama.
-File lain yang tidak ada di ZIP tidak dihapus.
+Tanpa data iklan sendiri, slot tetap menampilkan "Pasang iklan di INFO UMKM"
+sebagai ruang komersial, sehingga ruang iklan tidak hilang.
+
+UPLOAD:
+Ekstrak isi ZIP ke ROOT website dan overwrite file yang sama.
+Jangan upload folder pembungkus ZIP; isi ZIP adalah root website.
+
+Catatan:
+Paket ini hanya menggunakan file sumber yang tersedia dalam pekerjaan ini:
+index.html, daftar.html, umkm/index.html, umkm/detail.html serta aset CSS/JS terkait.
+Halaman lain yang belum tersedia sebagai file sumber tidak direka ulang agar tidak merusak halaman existing.
