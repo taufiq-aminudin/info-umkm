@@ -1,0 +1,75 @@
+/* =========================================================
+   INFO UMKM — SIDE ADS ONLY
+   Additive patch: does not replace existing ads.
+   ========================================================= */
+
+.info-side-ads{
+  position:fixed;
+  top:88px;
+  right:14px;
+  width:300px;
+  z-index:15;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  pointer-events:none;
+}
+
+.info-side-ad{
+  pointer-events:auto;
+  display:block;
+  width:300px;
+  min-height:250px;
+  background:#fff;
+  border:1px solid #e4edf6;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(22,65,112,.12);
+}
+
+.info-side-ad img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+
+.info-side-ad-label{
+  padding:7px 10px 0;
+  color:#94a3b8;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.1em;
+}
+
+.info-side-ad-placeholder{
+  min-height:250px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:15px;
+  color:#94a3b8;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+}
+
+.info-side-ad-placeholder span{
+  display:block;
+}
+
+@media(max-width:1300px){
+  .info-side-ads{
+    right:8px;
+    width:250px;
+  }
+  .info-side-ad{
+    width:250px;
+  }
+}
+
+@media(max-width:1050px){
+  .info-side-ads{
+    display:none;
+  }
+}
