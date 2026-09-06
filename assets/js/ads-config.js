@@ -16,6 +16,5 @@ window.INFO_UMKM_ADSENSE_CLIENT = "";
 window.INFO_UMKM_ADSENSE_SLOTS = {
   top:"",
   middle:"",
-  bottom:"",
-  sidebar:""
+  bottom:""
 };
