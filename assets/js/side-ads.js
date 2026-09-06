@@ -68,6 +68,7 @@
   }
 
   function init(){
+    /* Iklan tampil di seluruh halaman publik, tetapi tidak pernah di area admin. */
     if(document.querySelector('.admin-shell') || (document.body&&document.body.dataset.admin==='1'))return;
     if(document.querySelector('[data-info-side-ads]'))return;
 
