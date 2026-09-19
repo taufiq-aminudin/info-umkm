@@ -1,0 +1,6 @@
+{
+  "name": "INFO UMKM",
+  "description": "Platform Direktori UMKM Indonesia untuk menemukan, mengenal, dan mendukung usaha lokal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
