@@ -1,4 +1,4 @@
-/* INFO UMKM — Filter Wilayah UI Patch */
+/* INFO UMKM — Filter Wilayah & Real-time Search UI Patch */
 .directory .filters {
   position: relative;
   z-index: 10;
@@ -14,3 +14,14 @@
   cursor: not-allowed;
   opacity: .72;
 }
+.directory .filters input[type="search"] {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.directory .filters input[type="search"]:focus {
+  border-color: #0b67c7;
+  box-shadow: 0 0 0 3px rgba(11, 103, 199, 0.12);
+}
+.empty-state {
+  transition: opacity 0.2s ease;
+}
+
