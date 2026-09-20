@@ -123,7 +123,7 @@
 <footer id="kontak"><div class="container"><div class="footer-grid"><div><div class="footer-brand"><img src="assets/img/logo.svg" alt="INFO UMKM"><div><strong>INFO UMKM</strong><small>Bersama UMKM Kuat, Ekonomi Lokal Hebat.</small></div></div><p>Direktori UMKM Indonesia untuk menemukan, mengenal, dan mendukung usaha lokal dari seluruh wilayah Indonesia.</p></div><div><h4>Direktori</h4><a href="umkm/index.html">Semua UMKM</a><a href="umkm/index.html">Provinsi</a><a href="umkm/index.html">Kabupaten/Kota</a><a href="kategori.html">Kategori</a></div><div><h4>Informasi</h4><a href="berita.html">Berita</a><a href="artikel.html">Artikel</a><a href="tentang.html">Tentang Kami</a><a href="kontak.html">Kontak</a></div><div><h4>Kontak</h4><p>📍 Indonesia</p><p>📞 +62 878-6723-6774</p><p>✉️ info@info-umkm.my.id</p></div></div><div class="copyright">© <span id="year"></span> INFO UMKM. Platform Direktori UMKM Indonesia.</div></div></footer>
 
 <script>
-const demoUMKM=[
+window.demoUMKM = window.demoUMKM || [
 {
 id:"DEMO-1",
 name:"Warung Makmur",
@@ -304,7 +304,7 @@ function renderHomeUMKM(){
    * sehingga UMKM baru lebih dahulu terlihat.
    */
   const items=
-    adminData.concat(demoUMKM);
+    adminData.concat(window.demoUMKM || []);
 
   el.setAttribute("aria-busy", "false");
   el.innerHTML=

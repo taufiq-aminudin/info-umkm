@@ -2,12 +2,14 @@
  * Patch kecil: tampilkan UMKM dari Admin + pendaftaran langsung.
  * Data publik hanya menampilkan record yang sudah Approved.
  */
-const demoUMKM=[
- {id:"DEMO-1",name:"Warung Makmur",cat:"Kuliner",loc:"Temanggung, Jawa Tengah",img:"https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80",rating:"4.9",createdAt:"2026-01-01"},
- {id:"DEMO-2",name:"Batik Nusantara",cat:"Fashion",loc:"Sleman, DI Yogyakarta",img:"https://images.unsplash.com/photo-1583743814966-8936f37f1eab?auto=format&fit=crop&w=900&q=80",rating:"4.8",createdAt:"2026-01-02"},
- {id:"DEMO-3",name:"Tani Sejahtera",cat:"Pertanian",loc:"Bandung, Jawa Barat",img:"https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=900&q=80",rating:"4.9",createdAt:"2026-01-03"},
- {id:"DEMO-4",name:"Kerajinan Bambu",cat:"Kerajinan",loc:"Gianyar, Bali",img:"https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&w=900&q=80",rating:"4.7",createdAt:"2026-01-04"}
-];
+if (!window.demoUMKM) {
+  window.demoUMKM = [
+    {id:"DEMO-1",name:"Warung Makmur",cat:"Kuliner",loc:"Temanggung, Jawa Tengah",img:"https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80",rating:"4.9",createdAt:"2026-01-01"},
+    {id:"DEMO-2",name:"Batik Nusantara",cat:"Fashion",loc:"Sleman, DI Yogyakarta",img:"https://images.unsplash.com/photo-1583743814966-8936f37f1eab?auto=format&fit=crop&w=900&q=80",rating:"4.8",createdAt:"2026-01-02"},
+    {id:"DEMO-3",name:"Tani Sejahtera",cat:"Pertanian",loc:"Bandung, Jawa Barat",img:"https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=900&q=80",rating:"4.9",createdAt:"2026-01-03"},
+    {id:"DEMO-4",name:"Kerajinan Bambu",cat:"Kerajinan",loc:"Gianyar, Bali",img:"https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&w=900&q=80",rating:"4.7",createdAt:"2026-01-04"}
+  ];
+}
 
 function readArray(key){
  try{
@@ -92,7 +94,7 @@ window.skeletonCardsHTML = skeletonCardsHTML;
 
 function getAllUMKM(){
  const actual = readApprovedUMKM();
- return actual.concat(demoUMKM);
+ return actual.concat(window.demoUMKM || []);
 }
 
 function applyDirectoryFilters(){
@@ -199,9 +201,15 @@ function applyDirectoryFilters(){
  const mapContainer = document.getElementById("directoryMapView");
  if(directoryViewMode === "map"){
    listEl.style.display = "none";
-   if(mapContainer) mapContainer.style.display = "flex";
+   if(mapContainer){
+     mapContainer.classList.add("active");
+     mapContainer.style.display = "flex";
+   }
  } else {
-   if(mapContainer) mapContainer.style.display = "none";
+   if(mapContainer){
+     mapContainer.classList.remove("active");
+     mapContainer.style.display = "none";
+   }
    listEl.style.display = "grid";
  }
 
@@ -352,6 +360,7 @@ function setDirectoryViewMode(mode){
 
       if(listEl) listEl.style.display = "none";
       if(mapContainer){
+        mapContainer.classList.add("active");
         mapContainer.style.display = "flex";
         renderDirectoryMapView(window.__lastFilteredUMKM || getAllUMKM(), getAllUMKM());
       }
@@ -361,7 +370,10 @@ function setDirectoryViewMode(mode){
       gridBtn.classList.add("active");
       gridBtn.setAttribute("aria-pressed", "true");
 
-      if(mapContainer) mapContainer.style.display = "none";
+      if(mapContainer){
+        mapContainer.classList.remove("active");
+        mapContainer.style.display = "none";
+      }
       if(listEl) listEl.style.display = "grid";
     }
   }
@@ -412,28 +424,170 @@ function renderDirectoryMapView(filtered, allItems){
     return;
   }
 
-  const catCounts = {};
-  filtered.forEach(function(u){
-    const meta = getCategoryMeta(u.cat);
-    catCounts[meta.label] = (catCounts[meta.label] || 0) + 1;
-  });
+  // Regional Sentra / Potensi Placeholder Hubs
+  const PLACEHOLDER_MAP_HUBS = [
+    {
+      id: "hub-sumut",
+      name: "Sentra Kopi & Tenun Deli",
+      shortName: "Hub Deli",
+      region: "Sumatera Utara",
+      icon: "☕",
+      x: 14.8,
+      y: 28.5,
+      highlight: "Pusat ekspor kopi arabika gayo-sidikalang & kerajinan tenun ulos khas Nusantara.",
+      targetProvince: "Sumatera Utara"
+    },
+    {
+      id: "hub-jabar",
+      name: "Klaster Tekstil & Kreatif Bandung",
+      shortName: "Hub Priangan",
+      region: "Jawa Barat",
+      icon: "👗",
+      x: 35.8,
+      y: 75.8,
+      highlight: "Sentra garmen rajut, fesyen modern berkelanjutan, dan aksesoris kreatif lokal.",
+      targetProvince: "Jawa Barat"
+    },
+    {
+      id: "hub-jogja",
+      name: "Sentra Kriya & Batik Budaya Jogja",
+      shortName: "Hub Mataram",
+      region: "DI Yogyakarta",
+      icon: "🎨",
+      x: 43.2,
+      y: 80.2,
+      highlight: "Klaster kerajinan perak Kotagede, gerabah Kasongan, dan batik tulis legendaris.",
+      targetProvince: "DI Yogyakarta"
+    },
+    {
+      id: "hub-bali",
+      name: "Klaster Kriya & Seni Budaya Ubud",
+      shortName: "Hub Gianyar",
+      region: "Bali",
+      icon: "🧺",
+      x: 55.4,
+      y: 81.6,
+      highlight: "Pusat ukiran kayu estetik, kriya bambu ramah lingkungan, dan komoditas vanili Bali.",
+      targetProvince: "Bali"
+    },
+    {
+      id: "hub-sulsel",
+      name: "Sentra Bahari & Tenun Sutera",
+      shortName: "Hub Sulawesi",
+      region: "Sulawesi Selatan",
+      icon: "🐟",
+      x: 58.4,
+      y: 61.8,
+      highlight: "Klaster produk olahan hasil laut, bumbu rempah tradisional, dan tenun sutera Wajo.",
+      targetProvince: "Sulawesi Selatan"
+    },
+    {
+      id: "hub-papua",
+      name: "Sentra Noken & Kakao Lestari",
+      shortName: "Hub Papua",
+      region: "Papua",
+      icon: "🌿",
+      x: 88.5,
+      y: 38.5,
+      highlight: "Klaster warisan anyaman noken Papua berstandar UNESCO dan perkebunan kakao alam.",
+      targetProvince: "Papua"
+    }
+  ];
 
-  const legendHTML = Object.entries(catCounts).map(function([catName, count]){
-    const meta = getCategoryMeta(catName);
-    return `<span class="map-legend-item"><span class="map-legend-dot" style="background:${meta.color}"></span>${meta.icon} ${esc(catName)} (${count})</span>`;
+  // Business Sector definitions for floating legend box
+  const SECTORS = [
+    { name: "Kuliner", icon: "🍜", color: "#ea580c" },
+    { name: "Fashion", icon: "👗", color: "#7c3aed" },
+    { name: "Pertanian", icon: "🌱", color: "#059669" },
+    { name: "Perkebunan", icon: "☕", color: "#d97706" },
+    { name: "Kerajinan", icon: "🧺", color: "#2563eb" },
+    { name: "Jasa", icon: "🛠️", color: "#0284c7" }
+  ];
+
+  // Detect active category filter to synchronize with floating legend
+  const catFilterSelect = document.getElementById("filterCategory");
+  const activeCatVal = (catFilterSelect ? catFilterSelect.value : "").trim();
+  const isFilteredBySector = activeCatVal && activeCatVal !== "Semua Kategori";
+
+  // Build sector items for floating legend box
+  const sectorItemsHTML = SECTORS.map(function(sec){
+    const count = filtered.filter(function(u){
+      const meta = getCategoryMeta(u.cat);
+      return meta.label.toLowerCase() === sec.name.toLowerCase();
+    }).length;
+    const isSelected = isFilteredBySector && activeCatVal.toLowerCase().includes(sec.name.toLowerCase());
+    return `
+      <button type="button" class="map-floating-legend-item ${isSelected ? 'active' : ''}" data-sector="${esc(sec.name)}" id="legend-sec-${esc(sec.name.toLowerCase())}" aria-pressed="${isSelected}">
+        <div class="map-floating-legend-left">
+          <span class="map-floating-legend-dot" style="background:${sec.color}"></span>
+          <span>${sec.icon} ${esc(sec.name)}</span>
+        </div>
+        <span class="map-floating-legend-count">${count}</span>
+      </button>
+    `;
   }).join("");
 
+  // Floating Legend Box categorizing map pins by UMKM business sector
+  const floatingLegendHTML = `
+    <div class="map-floating-legend-box" id="directoryMapFloatingLegend" role="region" aria-label="Legenda Sektor Bisnis UMKM">
+      <div class="map-floating-legend-header">
+        <div class="map-floating-legend-title">
+          <span>🏷️ Sektor Bisnis</span>
+        </div>
+        <button type="button" class="map-floating-legend-toggle" id="btnToggleMapLegend" aria-label="Sembunyikan atau tampilkan legenda sektor" title="Kecilkan/Besarkan">
+          <span id="legendToggleIcon">−</span>
+        </button>
+      </div>
+      <div class="map-floating-legend-body" id="mapFloatingLegendBody">
+        <button type="button" class="map-floating-legend-item ${!isFilteredBySector ? 'active' : ''}" data-sector="" id="legend-sec-all" aria-pressed="${!isFilteredBySector}">
+          <div class="map-floating-legend-left">
+            <span class="map-floating-legend-dot" style="background:var(--blue)"></span>
+            <span>Semua Sektor</span>
+          </div>
+          <span class="map-floating-legend-count">${filtered.length}</span>
+        </button>
+        ${sectorItemsHTML}
+      </div>
+    </div>
+  `;
+
+  // Map pins with hover tooltip preview cards containing business name and rating
   const pinsHTML = filtered.map(function(u){
     const coords = getUMKMCoordinates(u);
     const meta = getCategoryMeta(u.cat);
     return `
-      <div class="map-umkm-pin ${meta.cls}" id="pin-${esc(u.id)}" style="left:${coords.x.toFixed(1)}%; top:${coords.y.toFixed(1)}%;" tabindex="0" role="button" aria-label="${esc(u.name)} (${esc(u.cat)})" data-id="${esc(u.id)}" title="${esc(u.name)} - ${esc(u.loc)}">
+      <div class="map-umkm-pin ${meta.cls}" id="pin-${esc(u.id)}" style="left:${coords.x.toFixed(1)}%; top:${coords.y.toFixed(1)}%;" tabindex="0" role="button" aria-label="${esc(u.name)} (${esc(u.cat)})" data-id="${esc(u.id)}">
         <div class="map-pin-body">
           <div class="map-pin-head">
             <span class="map-pin-icon">${meta.icon}</span>
           </div>
           <div class="map-pin-pulse"></div>
         </div>
+        <!-- Hover Preview Tooltip Card -->
+        <div class="map-pin-tooltip" role="tooltip" aria-hidden="true">
+          <div class="map-tooltip-top">
+            <span class="map-tooltip-badge" style="background:${meta.color}18; color:${meta.color}">${meta.icon} ${esc(meta.label)}</span>
+            <span class="map-tooltip-rating">★ ${esc(u.rating || "5.0")}</span>
+          </div>
+          <div class="map-tooltip-name">${esc(u.name)}</div>
+          <div class="map-tooltip-loc">📍 ${esc(u.loc)}</div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  // Interactive placeholder map markers that animate when the map container is active
+  const placeholdersHTML = PLACEHOLDER_MAP_HUBS.map(function(hub){
+    return `
+      <div class="map-placeholder-marker" id="marker-${hub.id}" data-hub-id="${hub.id}" style="left:${hub.x}%; top:${hub.y}%;" tabindex="0" role="button" aria-label="Sentra Potensi: ${esc(hub.name)} (${esc(hub.region)})" title="Sentra Potensi: ${esc(hub.name)}">
+        <div class="map-placeholder-radar-wrapper">
+          <div class="map-placeholder-radar"></div>
+          <div class="map-placeholder-radar"></div>
+          <div class="map-placeholder-core">
+            <span>${hub.icon}</span>
+          </div>
+        </div>
+        <span class="map-placeholder-tag">${esc(hub.shortName)}</span>
       </div>
     `;
   }).join("");
@@ -457,13 +611,12 @@ function renderDirectoryMapView(filtered, allItems){
     <div class="directory-map-header">
       <div>
         <h3>🗺️ Peta Sebaran UMKM Terpilih</h3>
-        <p>Menampilkan ${filtered.length} titik usaha lokal terverifikasi di seluruh wilayah.</p>
-      </div>
-      <div class="directory-map-legend">
-        ${legendHTML}
+        <p>Menampilkan ${filtered.length} titik usaha lokal terverifikasi di seluruh wilayah nusantara. Arahkan kursor ke pin untuk melihat cuplikan usaha.</p>
       </div>
     </div>
     <div class="directory-map-stage" id="directoryMapStage">
+      <!-- Floating Legend Box Categorizing Pins by Sector -->
+      ${floatingLegendHTML}
       <svg class="directory-map-svg" viewBox="0 0 1000 480" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <defs>
           <linearGradient id="indonesiaLandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -527,6 +680,11 @@ function renderDirectoryMapView(filtered, allItems){
       <div class="directory-map-compass" title="Orientasi Peta: Utara">U ↑</div>
       <div class="directory-map-watermark">Peta Sebaran Wilayah Indonesia • INFO UMKM</div>
 
+      <!-- Animated Interactive Placeholder Markers -->
+      <div class="directory-map-placeholders" id="directoryMapPlaceholders">
+        ${placeholdersHTML}
+      </div>
+
       <div class="directory-map-pins" id="directoryMapPins">
         ${pinsHTML}
       </div>
@@ -547,6 +705,49 @@ function renderDirectoryMapView(filtered, allItems){
 
   const stage = document.getElementById("directoryMapStage");
   const popupContainer = document.getElementById("mapPopupContainer");
+
+  // Toggle Collapse on Floating Legend Box
+  const btnToggleLegend = document.getElementById("btnToggleMapLegend");
+  const legendBox = document.getElementById("directoryMapFloatingLegend");
+  const legendIcon = document.getElementById("legendToggleIcon");
+  if(btnToggleLegend && legendBox){
+    btnToggleLegend.addEventListener("click", function(e){
+      e.stopPropagation();
+      legendBox.classList.toggle("collapsed");
+      if(legendIcon){
+        legendIcon.textContent = legendBox.classList.contains("collapsed") ? "+" : "−";
+      }
+    });
+  }
+
+  // Handle Sector Filter Click from Floating Legend Box
+  if(stage){
+    stage.querySelectorAll(".map-floating-legend-item").forEach(function(btn){
+      btn.addEventListener("click", function(e){
+        e.stopPropagation();
+        const sector = btn.getAttribute("data-sector") || "";
+        const catSelect = document.getElementById("filterCategory");
+        if(catSelect){
+          if(!sector){
+            catSelect.selectedIndex = 0;
+          } else {
+            let matched = false;
+            for(let i = 0; i < catSelect.options.length; i++){
+              if(catSelect.options[i].text.toLowerCase().includes(sector.toLowerCase())){
+                catSelect.selectedIndex = i;
+                matched = true;
+                break;
+              }
+            }
+            if(!matched){
+              catSelect.value = sector;
+            }
+          }
+          applyDirectoryFilters();
+        }
+      });
+    });
+  }
 
   function openPopupForUMKM(umkmId){
     const u = filtered.find(item => String(item.id) === String(umkmId));
@@ -607,6 +808,84 @@ function renderDirectoryMapView(filtered, allItems){
     mapContainer.querySelectorAll(".map-location-card").forEach(c => c.classList.remove("active"));
   }
 
+  // Interactive placeholder markers click handler
+  stage.querySelectorAll(".map-placeholder-marker").forEach(function(marker){
+    marker.addEventListener("click", function(e){
+      e.stopPropagation();
+      const hubId = marker.getAttribute("data-hub-id");
+      const hub = PLACEHOLDER_MAP_HUBS.find(h => h.id === hubId);
+      if(!hub || !popupContainer) return;
+
+      stage.querySelectorAll(".map-umkm-pin").forEach(p => p.classList.remove("focused"));
+      mapContainer.querySelectorAll(".map-location-card").forEach(c => c.classList.remove("active"));
+
+      const popX = Math.max(16, Math.min(84, hub.x));
+      const popY = Math.max(24, hub.y);
+
+      popupContainer.innerHTML = `
+        <div class="map-pin-popup" id="activeMapPopup" style="left:${popX}%; top:${popY - 14}%; bottom:auto;" role="dialog" aria-modal="false">
+          <div class="map-popup-header">
+            <span class="map-popup-badge" style="background:#e0f2fe; color:#0284c7;">✨ Sentra Potensi UMKM</span>
+            <button type="button" class="map-popup-close" id="btnCloseMapPopup" aria-label="Tutup info">✕</button>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px">
+            <div style="width:40px;height:40px;border-radius:10px;background:#e0f2fe;display:flex;align-items:center;justify-content:center;font-size:20px;border:1px solid #bae6fd;flex-shrink:0">
+              ${hub.icon}
+            </div>
+            <div style="min-width:0;flex:1">
+              <h4 class="map-popup-title">${esc(hub.name)}</h4>
+              <div class="muted" style="font-size:11px">📍 Wilayah: <strong>${esc(hub.region)}</strong></div>
+            </div>
+          </div>
+          <p style="font-size:12px;color:var(--ink);margin:4px 0 10px;line-height:1.4">${esc(hub.highlight)}</p>
+          <button type="button" class="btn btn-primary map-popup-btn" id="btnFilterByHub" data-prov="${esc(hub.targetProvince)}">
+            🔍 Cari UMKM di ${esc(hub.targetProvince)}
+          </button>
+        </div>
+      `;
+      popupContainer.style.display = "block";
+
+      const closeBtn = document.getElementById("btnCloseMapPopup");
+      if(closeBtn){
+        closeBtn.addEventListener("click", function(ev){
+          ev.stopPropagation();
+          closePopup();
+        });
+      }
+
+      const hubFilterBtn = document.getElementById("btnFilterByHub");
+      if(hubFilterBtn){
+        hubFilterBtn.addEventListener("click", function(ev){
+          ev.stopPropagation();
+          const prov = hubFilterBtn.getAttribute("data-prov");
+          const provSelect = document.getElementById("filterProvince");
+          if(provSelect){
+            let found = false;
+            for(let i = 0; i < provSelect.options.length; i++){
+              if(provSelect.options[i].text.toLowerCase().includes(prov.toLowerCase())){
+                provSelect.selectedIndex = i;
+                found = true;
+                break;
+              }
+            }
+            if(!found){
+              const searchInput = document.getElementById("filterSearch");
+              if(searchInput) searchInput.value = prov;
+            }
+          }
+          applyDirectoryFilters();
+        });
+      }
+    });
+
+    marker.addEventListener("keydown", function(e){
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        marker.click();
+      }
+    });
+  });
+
   stage.querySelectorAll(".map-umkm-pin").forEach(function(pin){
     pin.addEventListener("click", function(e){
       e.stopPropagation();
@@ -631,7 +910,7 @@ function renderDirectoryMapView(filtered, allItems){
   });
 
   stage.addEventListener("click", function(e){
-    if(!e.target.closest(".map-umkm-pin") && !e.target.closest("#activeMapPopup")){
+    if(!e.target.closest(".map-umkm-pin") && !e.target.closest(".map-placeholder-marker") && !e.target.closest("#activeMapPopup") && !e.target.closest("#directoryMapFloatingLegend")){
       closePopup();
     }
   });
