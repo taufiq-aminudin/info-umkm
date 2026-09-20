@@ -272,6 +272,91 @@ function initUMKMApp(){
  document.querySelectorAll("[data-demo-alert]").forEach(function(b){
    b.addEventListener("click",function(e){e.preventDefault();alert("Fitur ini tersedia pada tahap backend/production.");});
  });
+
+ // Dynamic UI: Header scroll elevation & Floating Scroll-To-Top
+ const header = document.querySelector("header");
+ let scrollTopBtn = document.getElementById("btnScrollTop");
+ if(!scrollTopBtn && !document.querySelector('.admin-shell')){
+   scrollTopBtn = document.createElement("button");
+   scrollTopBtn.id = "btnScrollTop";
+   scrollTopBtn.type = "button";
+   scrollTopBtn.setAttribute("aria-label", "Kembali ke atas");
+   scrollTopBtn.innerHTML = "↑";
+   document.body.appendChild(scrollTopBtn);
+   scrollTopBtn.addEventListener("click", function(){
+     window.scrollTo({ top: 0, behavior: "smooth" });
+   });
+ }
+
+ window.addEventListener("scroll", function(){
+   const top = window.scrollY || document.documentElement.scrollTop;
+   if(header){
+     if(top > 20){
+       header.classList.add("scrolled");
+     } else {
+       header.classList.remove("scrolled");
+     }
+   }
+   if(scrollTopBtn){
+     if(top > 320){
+       scrollTopBtn.classList.add("visible");
+     } else {
+       scrollTopBtn.classList.remove("visible");
+     }
+   }
+ }, { passive: true });
+
+ // Dynamic UI: Mobile Navigation Drawer
+ const mobileToggle = document.querySelector(".mobile");
+ if(mobileToggle && !document.getElementById("mobileNavDrawer")){
+   const navLinksContainer = document.querySelector(".navlinks");
+   const backdrop = document.createElement("div");
+   backdrop.id = "mobileNavBackdrop";
+   backdrop.className = "mobile-nav-backdrop";
+
+   const drawer = document.createElement("div");
+   drawer.id = "mobileNavDrawer";
+   drawer.className = "mobile-nav-drawer";
+   drawer.innerHTML = `
+     <div class="mobile-nav-header">
+       <strong>Menu Navigasi</strong>
+       <button type="button" class="mobile-nav-close" id="btnCloseMobileNav" aria-label="Tutup menu">✕</button>
+     </div>
+     <nav class="mobile-nav-links" id="mobileNavLinks"></nav>
+   `;
+
+   document.body.appendChild(backdrop);
+   document.body.appendChild(drawer);
+
+   const mobileLinks = drawer.querySelector("#mobileNavLinks");
+   if(navLinksContainer && mobileLinks){
+     Array.from(navLinksContainer.children).forEach(function(item){
+       const clone = item.cloneNode(true);
+       mobileLinks.appendChild(clone);
+     });
+   }
+
+   function openMobileMenu(){
+     backdrop.classList.add("open");
+     drawer.classList.add("open");
+     document.body.style.overflow = "hidden";
+   }
+
+   function closeMobileMenu(){
+     backdrop.classList.remove("open");
+     drawer.classList.remove("open");
+     document.body.style.overflow = "";
+   }
+
+   mobileToggle.addEventListener("click", openMobileMenu);
+   backdrop.addEventListener("click", closeMobileMenu);
+   const closeBtn = drawer.querySelector("#btnCloseMobileNav");
+   if(closeBtn) closeBtn.addEventListener("click", closeMobileMenu);
+
+   drawer.querySelectorAll("a").forEach(function(a){
+     a.addEventListener("click", closeMobileMenu);
+   });
+ }
 }
 
 document.addEventListener("DOMContentLoaded",initUMKMApp);
