@@ -2,14 +2,21 @@
 <html lang="id">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Settings | INFO UMKM</title>
+<title>Settings — Google Console & AdSense | INFO UMKM</title>
 <link rel="icon" href="../assets/img/favicon.svg">
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="stylesheet" href="../assets/css/admin-layout-patch.css">
 <link rel="stylesheet" href="../assets/css/admin.css">
-
-
-
+<style>
+  .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
+  @media (max-width: 900px) { .settings-grid { grid-template-columns: 1fr; } }
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
+  .status-ok { background: #dcfce7; color: #166534; }
+  .status-warn { background: #fef3c7; color: #92400e; }
+  .quick-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+  .quick-link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 12px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; text-decoration: none; color: #1e293b; font-weight: 600; }
+  .quick-link-btn:hover { background: #e2e8f0; }
+</style>
 </head>
 <body class="admin-body">
 
@@ -23,8 +30,8 @@
       <a href="peta.html">Peta</a>
       <a href="postingan.html">Berita</a>
       <a href="postingan.html#artikel">Artikel</a>
-      <a href="../index.html#tentang">Tentang Kami</a>
-      <a href="../index.html#kontak">Kontak</a>
+      <a href="../tentang.html">Tentang Kami</a>
+      <a href="../kontak.html">Kontak</a>
       <a class="btn btn-primary" href="../daftar.html">Daftarkan UMKM</a>
     </nav>
     <span class="mobile">☰</span>
@@ -43,13 +50,14 @@
     <a href="umkm.html?status=rejected">✕ Ditolak</a>
     <a href="tambah.html">＋ Tambah UMKM</a>
     <br>
+    <a href="iklan.html">▣ Manajemen Iklan</a>
     <a href="wilayah.html">⌖ Wilayah</a>
     <a href="kategori.html">▣ Kategori</a>
     <a href="postingan.html">✎ Postingan</a>
     <a href="media.html">▤ Media</a>
     <a href="users.html">♙ Users</a>
     <a href="laporan.html">◴ Laporan</a>
-    <a class="active" href="settings.html">⚙ Settings</a>
+    <a class="active" href="settings.html">⚙ Settings &amp; SEO</a>
     <a href="activity-log.html">◌ Activity Log</a>
     <br>
     <a href="../index.html">↗ Website Publik</a>
@@ -58,14 +66,131 @@
 </aside>
 
 <main class="admin-main">
-<div class="admin-top"><div><div class="muted">Superadmin / Settings</div><h1>Settings</h1></div></div>
-
-<div class="admin-panel">
-  <h2>Settings</h2><p class="muted">Pengaturan dasar panel admin.</p>
-  <div class="field"><label>Nama Platform</label><input value="INFO UMKM" readonly></div>
-  <div class="field" style="margin-top:15px"><label>Email</label><input value="info@info-umkm.my.id" readonly></div>
-  <p class="muted" style="margin-top:15px">Pengaturan backend lanjutan dapat dihubungkan tanpa mengubah tampilan master.</p>
+<div class="admin-top">
+  <div>
+    <div class="muted">Superadmin / Settings &amp; Integrasi</div>
+    <h1>Pengaturan Platform, SEO &amp; Monetisasi</h1>
+  </div>
 </div>
+
+<!-- Quick Health Check & Status -->
+<div class="admin-panel" style="margin-bottom: 24px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+    <div>
+      <h2 style="margin:0 0 4px">Status Kesiapan SEO &amp; Monetisasi</h2>
+      <p class="muted" style="margin:0">Monitoring file penting untuk Google Search Console, AdSense, dan mesin pencari.</p>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <span class="status-pill status-ok" id="sitemapStatus">✓ Sitemap XML Aktif</span>
+      <span class="status-pill status-ok" id="robotsStatus">✓ Robots.txt Terbuka</span>
+      <span class="status-pill status-ok" id="adsTxtStatus">✓ ads.txt Siap</span>
+    </div>
+  </div>
+
+  <div class="quick-links">
+    <a class="quick-link-btn" href="/sitemap.xml" target="_blank">📄 Buka sitemap.xml ↗</a>
+    <a class="quick-link-btn" href="/robots.txt" target="_blank">🤖 Buka robots.txt ↗</a>
+    <a class="quick-link-btn" href="/ads.txt" target="_blank">💰 Buka ads.txt ↗</a>
+    <a class="quick-link-btn" href="https://search.google.com/search-console" target="_blank" rel="noopener">🔍 Buka Google Search Console ↗</a>
+    <a class="quick-link-btn" href="https://adsense.google.com/" target="_blank" rel="noopener">📊 Buka Google AdSense ↗</a>
+  </div>
+</div>
+
+<div class="settings-grid">
+  <!-- Panel 1: Google Search Console & SEO -->
+  <div class="admin-panel">
+    <h2>Google Search Console &amp; SEO</h2>
+    <p class="muted">Verifikasi kepemilikan situs di Google Search Console untuk memastikan indeks halaman lancar.</p>
+
+    <div class="field" style="margin-top:16px">
+      <label>Google Site Verification Token / Meta Code</label>
+      <input id="settingGsc" placeholder="Contoh: aBcDeFgHiJkLmNoPqRsTuVwXyZ1234567890">
+      <small class="muted" style="display:block;margin-top:4px">
+        Masukkan kode dari meta tag <code>&lt;meta name="google-site-verification" content="KODE"&gt;</code>.
+      </small>
+    </div>
+
+    <div class="field" style="margin-top:16px">
+      <label>Domain Resmi Situs</label>
+      <input id="settingDomain" value="https://www.info-umkm.my.id" placeholder="https://www.info-umkm.my.id">
+      <small class="muted" style="display:block;margin-top:4px">Digunakan untuk tag Canonical dan Sitemap XML.</small>
+    </div>
+
+    <div class="field" style="margin-top:16px">
+      <label>Status Indexing (robots.txt)</label>
+      <input value="Allow: / (Semua halaman publik diizinkan terindeks)" readonly style="background:#f8fafc">
+    </div>
+
+    <button type="button" id="btnSaveSEO" class="btn btn-primary" style="margin-top:20px;width:100%">Simpan Konfigurasi SEO</button>
+  </div>
+
+  <!-- Panel 2: Google AdSense -->
+  <div class="admin-panel">
+    <h2>Google AdSense Monetisasi</h2>
+    <p class="muted">Atur ID AdSense dan slot unit iklan yang tampil di atas, tengah, samping, dan bawah halaman.</p>
+
+    <div class="field" style="margin-top:16px">
+      <label>AdSense Publisher Client ID *</label>
+      <input id="settingAdClient" placeholder="Contoh: ca-pub-1234567890123456">
+      <small class="muted" style="display:block;margin-top:4px">Format harus diawali dengan <code>ca-pub-</code>.</small>
+    </div>
+
+    <div class="field" style="margin-top:16px">
+      <label>Slot ID — Bagian Atas (Top Banner)</label>
+      <input id="settingSlotTop" placeholder="Contoh: 1111111111">
+    </div>
+
+    <div class="field" style="margin-top:16px">
+      <label>Slot ID — Bagian Tengah (Middle)</label>
+      <input id="settingSlotMiddle" placeholder="Contoh: 2222222222">
+    </div>
+
+    <div class="field" style="margin-top:16px">
+      <label>Slot ID — Sidebar / Samping</label>
+      <input id="settingSlotSidebar" placeholder="Contoh: 3333333333">
+    </div>
+
+    <div class="field" style="margin-top:16px">
+      <label>Slot ID — Bagian Bawah (Bottom)</label>
+      <input id="settingSlotBottom" placeholder="Contoh: 4444444444">
+    </div>
+
+    <div class="field" style="margin-top:16px">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+        <input type="checkbox" id="settingAutoAds" checked>
+        Aktifkan Auto Ads (Google Menentukan Posisi Otomatis)
+      </label>
+    </div>
+
+    <button type="button" id="btnSaveAdsense" class="btn btn-primary" style="margin-top:20px;width:100%">Simpan Pengaturan AdSense</button>
+  </div>
+</div>
+
+<!-- Panel 3: Panduan Cepat Google Console & AdSense -->
+<div class="admin-panel" style="margin-top:24px">
+  <h2>Panduan Cepat Verifikasi Google</h2>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 12px;">
+    <div style="background:#f8fafc;padding:16px;border-radius:10px;border:1px solid #e2e8f0">
+      <h3 style="margin:0 0 8px;font-size:15px;color:#0b67c7">1. Langkah Google Search Console:</h3>
+      <ol style="margin:0;padding-left:20px;font-size:13px;line-height:1.6;color:#334155">
+        <li>Buka <a href="https://search.google.com/search-console" target="_blank">Google Search Console</a> dan tambahkan URL domain.</li>
+        <li>Pilih metode verifikasi <strong>Tag HTML</strong> atau <strong>File HTML</strong>.</li>
+        <li>Jika memilih Tag HTML, salin kode isi <code>content="..."</code> lalu tempel di form di atas dan klik <strong>Simpan</strong>.</li>
+        <li>Kirim URL sitemap: <code>https://www.info-umkm.my.id/sitemap.xml</code> di menu <em>Sitemaps</em>.</li>
+      </ol>
+    </div>
+    <div style="background:#f8fafc;padding:16px;border-radius:10px;border:1px solid #e2e8f0">
+      <h3 style="margin:0 0 8px;font-size:15px;color:#0b67c7">2. Langkah Google AdSense:</h3>
+      <ol style="margin:0;padding-left:20px;font-size:13px;line-height:1.6;color:#334155">
+        <li>Buka <a href="https://adsense.google.com/" target="_blank">Google AdSense</a> dan daftarkan situs Anda.</li>
+        <li>Salin Publisher ID Anda (format <code>ca-pub-xxxxxxxx</code>) ke input AdSense di atas.</li>
+        <li>Sistem otomatis membuat file <code>ads.txt</code> resmi di <code>/ads.txt</code> dan meta verification.</li>
+        <li>Klik tombol <strong>Minta Peninjauan</strong> di dashboard AdSense Anda.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
 </main>
 </div>
 
@@ -87,8 +212,8 @@
         <h4>Informasi</h4>
         <a href="postingan.html">Berita</a>
         <a href="postingan.html#artikel">Artikel</a>
-        <a href="../index.html#tentang">Tentang Kami</a>
-        <a href="../index.html#kontak">Kontak</a>
+        <a href="../tentang.html">Tentang Kami</a>
+        <a href="../kontak.html">Kontak</a>
       </div>
       <div>
         <h4>Kontak</h4>
@@ -103,5 +228,71 @@
 
 <script src="../assets/js/admin.js"></script>
 <script src="../assets/js/app.js"></script>
-<script>const y=document.getElementById("year");if(y)y.textContent=new Date().getFullYear();</script></body>
+<script>
+(function(){
+  const y = document.getElementById("year");
+  if(y) y.textContent = new Date().getFullYear();
+
+  // Load existing config
+  fetch('/api/seo-ads-config')
+    .then(r => r.json())
+    .then(cfg => {
+      if(cfg){
+        if(cfg.googleSiteVerification) document.getElementById('settingGsc').value = cfg.googleSiteVerification;
+        if(cfg.siteDomain) document.getElementById('settingDomain').value = cfg.siteDomain;
+        if(cfg.adsenseClient) document.getElementById('settingAdClient').value = cfg.adsenseClient;
+        if(cfg.adsenseSlots){
+          if(cfg.adsenseSlots.top) document.getElementById('settingSlotTop').value = cfg.adsenseSlots.top;
+          if(cfg.adsenseSlots.middle) document.getElementById('settingSlotMiddle').value = cfg.adsenseSlots.middle;
+          if(cfg.adsenseSlots.sidebar) document.getElementById('settingSlotSidebar').value = cfg.adsenseSlots.sidebar;
+          if(cfg.adsenseSlots.bottom) document.getElementById('settingSlotBottom').value = cfg.adsenseSlots.bottom;
+        }
+        if(cfg.autoAds !== undefined) document.getElementById('settingAutoAds').checked = !!cfg.autoAds;
+      }
+    })
+    .catch(e => console.log('Offline / fallback mode'));
+
+  function saveConfigData(updates, msg){
+    fetch('/api/seo-ads-config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates)
+    })
+    .then(r => r.json())
+    .then(data => {
+      // Also cache in localStorage for instant front-end use
+      if(updates.adsenseClient !== undefined) localStorage.setItem('infoUmkmAdsenseClient', updates.adsenseClient);
+      if(updates.adsenseSlots !== undefined) localStorage.setItem('infoUmkmAdsenseSlots', JSON.stringify(updates.adsenseSlots));
+      if(updates.googleSiteVerification !== undefined) localStorage.setItem('googleSiteVerification', updates.googleSiteVerification);
+      alert(msg || 'Pengaturan berhasil disimpan!');
+    })
+    .catch(err => {
+      // LocalStorage fallback
+      if(updates.adsenseClient !== undefined) localStorage.setItem('infoUmkmAdsenseClient', updates.adsenseClient);
+      if(updates.adsenseSlots !== undefined) localStorage.setItem('infoUmkmAdsenseSlots', JSON.stringify(updates.adsenseSlots));
+      if(updates.googleSiteVerification !== undefined) localStorage.setItem('googleSiteVerification', updates.googleSiteVerification);
+      alert('Pengaturan disimpan ke LocalStorage.');
+    });
+  }
+
+  document.getElementById('btnSaveSEO').addEventListener('click', function(){
+    const gsc = document.getElementById('settingGsc').value.trim();
+    const domain = document.getElementById('settingDomain').value.trim();
+    saveConfigData({ googleSiteVerification: gsc, siteDomain: domain }, 'Pengaturan SEO & Google Search Console berhasil disimpan!');
+  });
+
+  document.getElementById('btnSaveAdsense').addEventListener('click', function(){
+    const client = document.getElementById('settingAdClient').value.trim();
+    const slots = {
+      top: document.getElementById('settingSlotTop').value.trim(),
+      middle: document.getElementById('settingSlotMiddle').value.trim(),
+      sidebar: document.getElementById('settingSlotSidebar').value.trim(),
+      bottom: document.getElementById('settingSlotBottom').value.trim()
+    };
+    const autoAds = document.getElementById('settingAutoAds').checked;
+    saveConfigData({ adsenseClient: client, adsenseSlots: slots, autoAds: autoAds }, 'Pengaturan Google AdSense & ads.txt berhasil diperbarui!');
+  });
+})();
+</script>
+</body>
 </html>

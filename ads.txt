@@ -1,0 +1,4 @@
+# Google AdSense ads.txt — INFO UMKM
+# Format resmi: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+# Ganti pub-XXXXXXXXXXXXXXXX dengan ID AdSense Anda (tersedia juga di menu Superadmin Settings)
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

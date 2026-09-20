@@ -1,9 +1,14 @@
 User-agent: *
 Allow: /
 
-# Area administrasi tidak perlu diindeks mesin pencari
+# Cegah indexing area administrasi internal & API
 Disallow: /admin/
 Disallow: /superadmin/
+Disallow: /api/
 
-# Sumber sitemap untuk Google Search dan mesin pencari lainnya
+# Mesin pencari dapat mengindeks direktori dan aset publik
+Allow: /assets/
+Allow: /umkm/
+
+# Sumber peta situs resmi (Google Search Console & Bing Webmaster)
 Sitemap: https://www.info-umkm.my.id/sitemap.xml
