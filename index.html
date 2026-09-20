@@ -71,7 +71,48 @@
 
 <section class="section" id="kategori"><div class="container"><div class="section-head"><div><div class="eyebrow">Eksplorasi</div><h2>Kategori UMKM</h2><p class="muted">Temukan usaha berdasarkan bidangnya.</p></div><a href="umkm/index.html" class="btn btn-outline">Lihat Semua →</a></div><div class="categories"><div class="cat"><div class="icon">🍜</div><b>Kuliner</b><span class="muted">2.480</span></div><div class="cat"><div class="icon">👗</div><b>Fashion</b><span class="muted">1.720</span></div><div class="cat"><div class="icon">🌱</div><b>Pertanian</b><span class="muted">1.280</span></div><div class="cat"><div class="icon">🌴</div><b>Perkebunan</b><span class="muted">840</span></div><div class="cat"><div class="icon">🧺</div><b>Kerajinan</b><span class="muted">1.120</span></div><div class="cat"><div class="icon">🛠️</div><b>Jasa</b><span class="muted">1.050</span></div></div></div></section>
 
-<section class="section" style="padding-top:0"><div class="container"><div class="section-head"><div><div class="eyebrow">Pilihan Lokal</div><h2>UMKM Terbaru & Terverifikasi</h2></div><a href="umkm/index.html" class="btn btn-outline">Lihat Semua →</a></div><div class="cards" id="listId"></div></div></section>
+<section class="section" style="padding-top:0"><div class="container"><div class="section-head"><div><div class="eyebrow">Pilihan Lokal</div><h2>UMKM Terbaru & Terverifikasi</h2></div><a href="umkm/index.html" class="btn btn-outline">Lihat Semua →</a></div><div class="cards" id="listId" aria-busy="true" aria-live="polite">
+  <article class="card-skeleton" aria-hidden="true">
+    <div class="skeleton-img skeleton-shimmer"></div>
+    <div class="card-body">
+      <div class="skeleton-title skeleton-shimmer"></div>
+      <div class="skeleton-badge skeleton-shimmer"></div>
+      <div class="skeleton-location skeleton-shimmer"></div>
+      <div class="skeleton-rating skeleton-shimmer"></div>
+      <div class="skeleton-btn skeleton-shimmer"></div>
+    </div>
+  </article>
+  <article class="card-skeleton" aria-hidden="true">
+    <div class="skeleton-img skeleton-shimmer"></div>
+    <div class="card-body">
+      <div class="skeleton-title skeleton-shimmer"></div>
+      <div class="skeleton-badge skeleton-shimmer"></div>
+      <div class="skeleton-location skeleton-shimmer"></div>
+      <div class="skeleton-rating skeleton-shimmer"></div>
+      <div class="skeleton-btn skeleton-shimmer"></div>
+    </div>
+  </article>
+  <article class="card-skeleton" aria-hidden="true">
+    <div class="skeleton-img skeleton-shimmer"></div>
+    <div class="card-body">
+      <div class="skeleton-title skeleton-shimmer"></div>
+      <div class="skeleton-badge skeleton-shimmer"></div>
+      <div class="skeleton-location skeleton-shimmer"></div>
+      <div class="skeleton-rating skeleton-shimmer"></div>
+      <div class="skeleton-btn skeleton-shimmer"></div>
+    </div>
+  </article>
+  <article class="card-skeleton" aria-hidden="true">
+    <div class="skeleton-img skeleton-shimmer"></div>
+    <div class="card-body">
+      <div class="skeleton-title skeleton-shimmer"></div>
+      <div class="skeleton-badge skeleton-shimmer"></div>
+      <div class="skeleton-location skeleton-shimmer"></div>
+      <div class="skeleton-rating skeleton-shimmer"></div>
+      <div class="skeleton-btn skeleton-shimmer"></div>
+    </div>
+  </article>
+</div></div></section>
 
 <section class="section" id="peta"><div class="container"><div class="feature"><div class="feature-grid"><div><div class="eyebrow" style="color:#9fd5ff">Peta UMKM Indonesia</div><h2>Temukan usaha di sekitar Anda.</h2><p>Eksplorasi lokasi UMKM berdasarkan provinsi, kabupaten/kota, dan kecamatan. Fitur peta siap dihubungkan ke Google Maps/OpenStreetMap pada tahap backend.</p><a class="btn btn-orange" href="umkm/index.html">Jelajahi Direktori</a></div><div class="map" style="height:260px;background-color:#e8f6ff"><span class="pin"></span><span class="pin"></span><span class="pin"></span><span class="pin"></span></div></div></div></div></section>
 
@@ -265,6 +306,7 @@ function renderHomeUMKM(){
   const items=
     adminData.concat(demoUMKM);
 
+  el.setAttribute("aria-busy", "false");
   el.innerHTML=
     items.map(function(u){
 

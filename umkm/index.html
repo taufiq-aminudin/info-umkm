@@ -127,13 +127,54 @@
 
     <main>
       <div class="resultsbar" id="directoryResultsBar">
-        <b id="resultsCounter">Memuat direktori UMKM...</b>
+        <b id="resultsCounter"><span class="skeleton-shimmer skeleton-counter" aria-label="Memuat jumlah direktori UMKM..."></span></b>
         <select id="filterSort" aria-label="Urutkan UMKM" style="padding:8px;border:1px solid #d6e2ee;border-radius:9px">
           <option value="populer">Terpopuler</option>
           <option value="terbaru">Terbaru</option>
         </select>
       </div>
-      <div class="cards" id="listId"></div>
+      <div class="cards" id="listId" aria-busy="true" aria-live="polite">
+        <article class="card-skeleton" aria-hidden="true">
+          <div class="skeleton-img skeleton-shimmer"></div>
+          <div class="card-body">
+            <div class="skeleton-title skeleton-shimmer"></div>
+            <div class="skeleton-badge skeleton-shimmer"></div>
+            <div class="skeleton-location skeleton-shimmer"></div>
+            <div class="skeleton-rating skeleton-shimmer"></div>
+            <div class="skeleton-btn skeleton-shimmer"></div>
+          </div>
+        </article>
+        <article class="card-skeleton" aria-hidden="true">
+          <div class="skeleton-img skeleton-shimmer"></div>
+          <div class="card-body">
+            <div class="skeleton-title skeleton-shimmer"></div>
+            <div class="skeleton-badge skeleton-shimmer"></div>
+            <div class="skeleton-location skeleton-shimmer"></div>
+            <div class="skeleton-rating skeleton-shimmer"></div>
+            <div class="skeleton-btn skeleton-shimmer"></div>
+          </div>
+        </article>
+        <article class="card-skeleton" aria-hidden="true">
+          <div class="skeleton-img skeleton-shimmer"></div>
+          <div class="card-body">
+            <div class="skeleton-title skeleton-shimmer"></div>
+            <div class="skeleton-badge skeleton-shimmer"></div>
+            <div class="skeleton-location skeleton-shimmer"></div>
+            <div class="skeleton-rating skeleton-shimmer"></div>
+            <div class="skeleton-btn skeleton-shimmer"></div>
+          </div>
+        </article>
+        <article class="card-skeleton" aria-hidden="true">
+          <div class="skeleton-img skeleton-shimmer"></div>
+          <div class="card-body">
+            <div class="skeleton-title skeleton-shimmer"></div>
+            <div class="skeleton-badge skeleton-shimmer"></div>
+            <div class="skeleton-location skeleton-shimmer"></div>
+            <div class="skeleton-rating skeleton-shimmer"></div>
+            <div class="skeleton-btn skeleton-shimmer"></div>
+          </div>
+        </article>
+      </div>
     </main>
   </div>
 </section>

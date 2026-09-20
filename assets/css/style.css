@@ -1098,3 +1098,85 @@ footer .footer-grid > div:first-child p{
   .footer-brand img{width:54px !important;height:54px !important}
   .footer-brand strong{font-size:18px}
 }
+
+/* ==========================================================================
+   Animated Skeleton Loading Screen for Directory Cards
+   ========================================================================== */
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite linear;
+  border-radius: 6px;
+}
+
+.card-skeleton {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(30,70,110,.05);
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+  user-select: none;
+}
+
+.card-skeleton .skeleton-img {
+  height: 170px;
+  width: 100%;
+  border-radius: 0;
+}
+
+.card-skeleton .card-body {
+  padding: 17px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-skeleton .skeleton-title {
+  height: 20px;
+  width: 70%;
+  margin-bottom: 2px;
+}
+
+.card-skeleton .skeleton-badge {
+  height: 14px;
+  width: 45%;
+}
+
+.card-skeleton .skeleton-location {
+  height: 14px;
+  width: 85%;
+}
+
+.card-skeleton .skeleton-rating {
+  height: 14px;
+  width: 40%;
+  margin: 4px 0;
+}
+
+.card-skeleton .skeleton-btn {
+  height: 38px;
+  width: 100%;
+  border-radius: 9px;
+  margin-top: 5px;
+}
+
+.skeleton-counter {
+  display: inline-block;
+  height: 18px;
+  width: 150px;
+  vertical-align: middle;
+  border-radius: 4px;
+}
+

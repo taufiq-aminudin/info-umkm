@@ -73,6 +73,23 @@ function card(u){
  </article>`;
 }
 
+function skeletonCardsHTML(count = 4){
+  return Array.from({length: count}).map(function(){
+    return `<article class="card-skeleton" aria-hidden="true">
+      <div class="skeleton-img skeleton-shimmer"></div>
+      <div class="card-body">
+        <div class="skeleton-title skeleton-shimmer"></div>
+        <div class="skeleton-badge skeleton-shimmer"></div>
+        <div class="skeleton-location skeleton-shimmer"></div>
+        <div class="skeleton-rating skeleton-shimmer"></div>
+        <div class="skeleton-btn skeleton-shimmer"></div>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+window.skeletonCardsHTML = skeletonCardsHTML;
+
 function getAllUMKM(){
  const actual = readApprovedUMKM();
  return actual.concat(demoUMKM);
@@ -152,6 +169,7 @@ function applyDirectoryFilters(){
  }
 
  // Render Results
+ listEl.setAttribute("aria-busy", "false");
  if(filtered.length === 0){
    listEl.innerHTML = `
      <div id="noResultsState" class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 48px 24px; background: #ffffff; border: 1px dashed #cbd5e1; border-radius: 16px; margin: 12px 0;">
